@@ -14,6 +14,10 @@
       <td><%= highlight.title %></td>
       <td><%= highlight.text %></td>
       <td><%= link_to 'Show', highlight_path(highlight) %></td>
+      <td><%= link_to 'Edit', edit_highlight_path(highlight) %></td>
+      <td><%= link_to 'Destroy', highlight_path(highlight),
+              method: :delete,
+              data: { confirm: 'Are you sure?' } %></td>
     </tr>
   <% end %>
 </table>
