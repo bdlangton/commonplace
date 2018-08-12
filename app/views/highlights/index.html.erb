@@ -1,0 +1,19 @@
+<h1>Listing highlights</h1>
+ 
+<%= link_to 'New highlight', new_highlight_path %>
+
+<table>
+  <tr>
+    <th>Title</th>
+    <th>Text</th>
+    <th></th>
+  </tr>
+ 
+  <% @highlights.each do |highlight| %>
+    <tr>
+      <td><%= highlight.title %></td>
+      <td><%= highlight.text %></td>
+      <td><%= link_to 'Show', highlight_path(highlight) %></td>
+    </tr>
+  <% end %>
+</table>
