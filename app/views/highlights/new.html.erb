@@ -1,6 +1,6 @@
 <h1>New Highlight</h1>
 
-<%= form_with scope: :article, local: true do |form| %>
+<%= form_with scope: :highlight, url: highlights_path, local: true do |form| %>
   <p>
     <%= form.label :title %><br>
     <%= form.text_field :title %>
@@ -15,3 +15,5 @@
     <%= form.submit %>
   </p>
 <% end %>
+
+<%= link_to 'Back', highlights_path %>
