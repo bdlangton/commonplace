@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180813223716) do
+ActiveRecord::Schema.define(version: 20180814010249) do
 
   create_table "highlights", force: :cascade do |t|
     t.text "highlight"
@@ -19,6 +19,7 @@ ActiveRecord::Schema.define(version: 20180813223716) do
     t.integer "source_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "location"
     t.index ["source_id"], name: "index_highlights_on_source_id"
     t.index ["user_id"], name: "index_highlights_on_user_id"
   end
@@ -30,6 +31,7 @@ ActiveRecord::Schema.define(version: 20180813223716) do
     t.integer "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "asin"
     t.index ["user_id"], name: "index_sources_on_user_id"
   end
 

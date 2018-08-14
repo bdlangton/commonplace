@@ -15,15 +15,20 @@
   <% end %>
  
   <p>
-    <%= form.label :title %><br>
-    <%= form.text_field :title %>
+    <%= form.label :highlight %><br>
+    <%= form.text_area :highlight, size: "80x8" %>
   </p>
- 
+
   <p>
-    <%= form.label :text %><br>
-    <%= form.text_area :text %>
+    <%= form.label :note %><br>
+    <%= form.text_area :note, size: "80x8" %>
   </p>
- 
+
+  <p>
+    <%= form.label :location %><br>
+    <%= form.text_field :location %>
+  </p>
+
   <p>
     <%= form.submit %>
   </p>

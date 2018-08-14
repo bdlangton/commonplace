@@ -1,21 +1,23 @@
 <h1>Listing highlights</h1>
- 
+<%= debug @books %> 
 <%= link_to 'New highlight', new_highlight_path %>
 
 <table>
   <tr>
-    <th>Title</th>
-    <th>Text</th>
-    <th></th>
+    <th>Highlight</th>
+    <th>Note</th>
+    <th>Location</th>
+    <th>Operations</th>
   </tr>
  
   <% @highlights.each do |highlight| %>
     <tr>
-      <td><%= highlight.title %></td>
-      <td><%= highlight.text %></td>
-      <td><%= link_to 'Show', highlight_path(highlight) %></td>
-      <td><%= link_to 'Edit', edit_highlight_path(highlight) %></td>
-      <td><%= link_to 'Destroy', highlight_path(highlight),
+      <td><%= highlight.highlight %></td>
+      <td><%= highlight.note %></td>
+      <td><%= highlight.location %></td>
+      <td><%= link_to 'Show', highlight_path(highlight) %>
+        <%= link_to 'Edit', edit_highlight_path(highlight) %>
+        <%= link_to 'Destroy', highlight_path(highlight),
               method: :delete,
               data: { confirm: 'Are you sure?' } %></td>
     </tr>

@@ -1,11 +1,16 @@
 <p>
-  <strong>Title:</strong>
-  <%= @highlight.title %>
+  <strong>Highlight:</strong>
+  <%= @highlight.highlight %>
 </p>
  
 <p>
-  <strong>Text:</strong>
-  <%= @highlight.text %>
+  <strong>Note:</strong>
+  <%= @highlight.note %>
+</p>
+
+<p>
+  <strong>Location:</strong>
+  <%= @highlight.location %>
 </p>
 
 <%= link_to 'Edit', edit_highlight_path(@highlight) %> |
