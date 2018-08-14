@@ -1,0 +1,25 @@
+<h1>Listing sources</h1>
+<%= debug @books %> 
+<%= link_to 'New source', new_source_path %>
+
+<table>
+  <tr>
+    <th>Title</th>
+    <th>Author</th>
+    <th>Source Type</th>
+    <th>Operations</th>
+  </tr>
+ 
+  <% @sources.each do |source| %>
+    <tr>
+      <td><%= source.title %></td>
+      <td><%= source.author %></td>
+      <td><%= source.source_type %></td>
+      <td><%= link_to 'Show', source_path(source) %>
+        <%= link_to 'Edit', edit_source_path(source) %>
+        <%= link_to 'Destroy', source_path(source),
+              method: :delete,
+              data: { confirm: 'Are you sure?' } %></td>
+    </tr>
+  <% end %>
+</table>

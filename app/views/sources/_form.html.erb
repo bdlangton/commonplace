@@ -1,0 +1,41 @@
+<%= form_with model: @source, local: true do |form| %>
+ 
+  <% if @source.errors.any? %>
+    <div id="error_explanation">
+      <h2>
+        <%= pluralize(@source.errors.count, "error") %> prohibited
+        this source from being saved:
+      </h2>
+      <ul>
+        <% @source.errors.full_messages.each do |msg| %>
+          <li><%= msg %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+ 
+  <p>
+    <%= form.label :title %><br>
+    <%= form.text_field :title %>
+  </p>
+
+  <p>
+    <%= form.label :author %><br>
+    <%= form.text_field :author %>
+  </p>
+
+  <p>
+    <%= form.label :source_type %><br>
+    <%= form.text_field :source_type %>
+  </p>
+
+  <p>
+    <%= form.label :user %><br>
+    <%= form.collection_select :user_id, User.order(:username),:id,:username, include_blank: false %>
+  </p>
+
+  <p>
+    <%= form.submit %>
+  </p>
+ 
+<% end %>
