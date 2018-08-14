@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180814010249) do
+ActiveRecord::Schema.define(version: 20180814132556) do
 
   create_table "highlights", force: :cascade do |t|
     t.text "highlight"
@@ -22,6 +22,11 @@ ActiveRecord::Schema.define(version: 20180814010249) do
     t.integer "location"
     t.index ["source_id"], name: "index_highlights_on_source_id"
     t.index ["user_id"], name: "index_highlights_on_user_id"
+  end
+
+  create_table "highlights_tags", id: false, force: :cascade do |t|
+    t.integer "highlight_id", null: false
+    t.integer "tag_id", null: false
   end
 
   create_table "sources", force: :cascade do |t|
