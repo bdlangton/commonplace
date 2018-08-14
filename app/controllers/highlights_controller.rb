@@ -1,3 +1,5 @@
+require '/usr/local/lib/ruby/gems/2.5.0/gems/kindle-highlights-2.0.1/lib/kindle_highlights.rb'
+
 class HighlightsController < ApplicationController
   def new
     @highlight = Highlight.new
@@ -44,6 +46,6 @@ class HighlightsController < ApplicationController
 
   private
     def highlight_params
-      params.require(:highlight).permit(:title, :text)
+      # params.require(:highlight).permit(:highlight)
     end
 end

@@ -1,4 +1,5 @@
 class Highlight < ApplicationRecord
-  validates :title, presence: true,
-                    length: { minimum: 3 }
+  belongs_to :user
+  belongs_to :source
+  has_and_belongs_to_many :tag
 end

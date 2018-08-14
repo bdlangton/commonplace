@@ -1,13 +1,13 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
-  highlight: MyText
-  note: MyText
+  title: MyString
+  author: MyString
+  source_type: 
   user: one
-  source: one
 
 two:
-  highlight: MyText
-  note: MyText
+  title: MyString
+  author: MyString
+  source_type: 
   user: two
-  source: two

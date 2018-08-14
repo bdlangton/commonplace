@@ -10,11 +10,40 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180812020316) do
+ActiveRecord::Schema.define(version: 20180813223716) do
 
   create_table "highlights", force: :cascade do |t|
+    t.text "highlight"
+    t.text "note"
+    t.integer "user_id"
+    t.integer "source_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["source_id"], name: "index_highlights_on_source_id"
+    t.index ["user_id"], name: "index_highlights_on_user_id"
+  end
+
+  create_table "sources", force: :cascade do |t|
     t.string "title"
-    t.text "text"
+    t.string "author"
+    t.string "source_type"
+    t.integer "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_sources_on_user_id"
+  end
+
+  create_table "tags", force: :cascade do |t|
+    t.string "title"
+    t.integer "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_tags_on_user_id"
+  end
+
+  create_table "users", force: :cascade do |t|
+    t.string "username"
+    t.string "password"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
