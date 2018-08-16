@@ -24,7 +24,7 @@ class HighlightsController < ApplicationController
     @tags = Tag.all
 
     params[:highlight][:tags].each do |k,v|
-      @highlight.tags << Tag.find(k) if v.to_i > 0
+      @highlight.tags << Tag.find(k) if v.to_i > 0 && !@highlight.tags.find(k)
     end
 
     if @highlight.update(highlight_params)
@@ -38,7 +38,7 @@ class HighlightsController < ApplicationController
     @highlight = Highlight.new(highlight_params)
 
     params[:highlight][:tags].each do |k,v|
-      @highlight.tags << Tag.find(k) if v.to_i > 0
+      @highlight.tags << Tag.find(k) if v.to_i > 0 && !@highlight.tags.find(k)
     end
 
     if @highlight.save
