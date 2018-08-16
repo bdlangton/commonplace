@@ -3,6 +3,7 @@ require '/usr/local/lib/ruby/gems/2.5.0/gems/kindle-highlights-2.0.1/lib/kindle_
 class HighlightsController < ApplicationController
   def new
     @highlight = Highlight.new
+    @tags = Tag.all
   end
 
   def index
@@ -15,10 +16,16 @@ class HighlightsController < ApplicationController
 
   def edit
     @highlight = Highlight.find(params[:id])
+    @tags = Tag.all
   end
 
   def update
     @highlight = Highlight.find(params[:id])
+    @tags = Tag.all
+
+    params[:highlight][:tags].each do |k,v|
+      @highlight.tags << Tag.find(k) if v.to_i > 0
+    end
 
     if @highlight.update(highlight_params)
       redirect_to @highlight
@@ -29,6 +36,10 @@ class HighlightsController < ApplicationController
 
   def create
     @highlight = Highlight.new(highlight_params)
+
+    params[:highlight][:tags].each do |k,v|
+      @highlight.tags << Tag.find(k) if v.to_i > 0
+    end
 
     if @highlight.save
       redirect_to @highlight

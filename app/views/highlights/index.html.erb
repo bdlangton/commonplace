@@ -7,6 +7,7 @@
     <th>Highlight</th>
     <th>Note</th>
     <th>Location</th>
+    <th>Tags</th>
     <th>Operations</th>
   </tr>
  
@@ -15,6 +16,9 @@
       <td><%= highlight.highlight %></td>
       <td><%= highlight.note %></td>
       <td><%= highlight.location %></td>
+      <td><% highlight.tags.each do |t| %>
+        <%= t.title %>
+      <% end %></td>
       <td><%= link_to 'Show', highlight_path(highlight) %>
         <%= link_to 'Edit', edit_highlight_path(highlight) %>
         <%= link_to 'Destroy', highlight_path(highlight),

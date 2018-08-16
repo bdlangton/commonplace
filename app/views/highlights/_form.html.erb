@@ -30,6 +30,13 @@
   </p>
 
   <p>
+    <% @tags.each do |t| %>
+      <%= form.label t.title %>
+      <%= form.check_box "tags[#{t.id}]", :checked => @highlight.tags.exists?(:id => t.id) %>
+    <% end %>
+  </p>
+
+  <p>
     <%= form.label :user %><br>
     <%= form.collection_select :user_id, User.order(:username),:id,:username, include_blank: false %>
   </p>
