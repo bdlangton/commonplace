@@ -3,5 +3,12 @@
   <%= @tag.title %>
 </p>
  
+<p>
+  <strong>Highlights:</strong>
+  <% @tag.highlights.each do |h| %>
+    <p><%= h.highlight %></p>
+  <% end %>
+</p>
+
 <%= link_to 'Edit', edit_tag_path(@tag) %> |
 <%= link_to 'Back', tags_path %>

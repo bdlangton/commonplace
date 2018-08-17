@@ -14,6 +14,11 @@
 </p>
 
 <p>
+  <strong>Source:</strong>
+  <%= link_to @highlight.source.title, source_path(@highlight.source) %>
+</p>
+
+<p>
   <strong>Tags:</strong>
   <% @highlight.tags.each do |t| %>
     <%= t.title %>

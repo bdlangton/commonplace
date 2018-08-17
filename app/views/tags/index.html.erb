@@ -10,8 +10,8 @@
  
   <% @tags.each do |tag| %>
     <tr>
-      <td><%= tag.title %></td>
-      <td><%= link_to 'Show', tag_path(tag) %>
+      <td><%= link_to tag.title, tag_path(tag) %></td>
+      <td>
         <%= link_to 'Edit', edit_tag_path(tag) %>
         <%= link_to 'Destroy', tag_path(tag),
               method: :delete,

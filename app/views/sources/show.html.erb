@@ -13,5 +13,12 @@
   <%= @source.source_type %>
 </p>
 
+<p>
+  <strong>Highlights:</strong>
+  <% @source.highlights.each do |h| %>
+    <p><%= h.highlight %></p>
+  <% end %>
+</p>
+
 <%= link_to 'Edit', edit_source_path(@source) %> |
 <%= link_to 'Back', sources_path %>

@@ -12,10 +12,10 @@
  
   <% @sources.each do |source| %>
     <tr>
-      <td><%= source.title %></td>
+      <td><%= link_to source.title, source_path(source) %></td>
       <td><%= source.author %></td>
       <td><%= source.source_type %></td>
-      <td><%= link_to 'Show', source_path(source) %>
+      <td>
         <%= link_to 'Edit', edit_source_path(source) %>
         <%= link_to 'Destroy', source_path(source),
               method: :delete,

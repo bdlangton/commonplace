@@ -19,7 +19,7 @@
       <td><% highlight.tags.each do |t| %>
         <%= t.title %>
       <% end %></td>
-      <td><%= link_to 'Show', highlight_path(highlight) %>
+      <td>
         <%= link_to 'Edit', edit_highlight_path(highlight) %>
         <%= link_to 'Destroy', highlight_path(highlight),
               method: :delete,
