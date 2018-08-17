@@ -7,21 +7,27 @@ class ImportController < ApplicationController
     )
     @user = User.find(1)
     @books = kindle.books
-    @books.each do |book|
-      if Source.where(asin: book.asin).empty?
-        puts 'creating book'
-        @bk = Source.new(title: book.title, author: book.author, source_type: 'Book', asin: book.asin, user: @user)
-        @bk.save!
+    @books.each do |bk|
+      # Create or load the book.
+      if Source.where(asin: book.asin, user: @user).empty?
+        @book = Source.new(title: bk.title, author: bk.author, source_type: 'Book', asin: bk.asin, user: @user)
+        @book.save!
       else
-        puts 'loading book'
-        @bk = Source.where(asin: book.asin).first
+        @book = Source.where(asin: bk.asin).first
       end
-      hls = kindle.highlights_for(book.asin)
-      hls.each do |hl|
-        @hlo = Highlight.new(highlight: hl.text, location: hl.location, user: @user, source: @bk)
-        @hlo.save!
+
+      # Get all highlights from the book.
+      @highlights = kindle.highlights_for(bk.asin)
+      @highlights.each do |hl|
+        # Create the highlight if it doesn't already exist.
+        if Highlight.where(highlight: hl.text, location: hl.location, user: @user, source: @bk).empty?
+          @highlight = Highlight.new(highlight: hl.text, location: hl.location, user: @user, source: @bk)
+          @highlight.save!
+        end
       end
     end
-    # redirect_to highlights_path
+
+    # Redirect to the user's highlights.
+    redirect_to highlights_path
   end
 end
