@@ -31,6 +31,11 @@ gem 'jbuilder', '~> 2.5'
 # gem 'bcrypt', '~> 3.1.7'
 gem 'mechanize'
 gem 'kindle-highlights'
+gem 'bundler'
+gem 'fileutils'
+gem 'json'
+gem 'mail'
+gem 'htmlentities'
 
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
