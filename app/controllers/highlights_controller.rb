@@ -48,6 +48,20 @@ class HighlightsController < ApplicationController
     end
   end
 
+  def favorite
+    @highlight = Highlight.find(params[:id])
+    @highlight.favorite = true
+    @highlight.save
+    render json: @highlight
+  end
+
+  def unfavorite
+    @highlight = Highlight.find(params[:id])
+    @highlight.favorite = false
+    @highlight.save
+    render json: @highlight
+  end
+
   def destroy
     @highlight = Highlight.find(params[:id])
     @highlight.destroy
