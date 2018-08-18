@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180814132556) do
+ActiveRecord::Schema.define(version: 20180818204921) do
 
   create_table "highlights", force: :cascade do |t|
     t.text "highlight"
@@ -20,6 +20,7 @@ ActiveRecord::Schema.define(version: 20180814132556) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "location"
+    t.boolean "favorite"
     t.index ["source_id"], name: "index_highlights_on_source_id"
     t.index ["user_id"], name: "index_highlights_on_user_id"
   end
