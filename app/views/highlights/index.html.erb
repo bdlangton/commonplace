@@ -1,35 +1,5 @@
-<h1>Listing highlights</h1>
-<%= link_to 'New highlight', new_highlight_path %>
+<h1>Highlights</h1>
+<%= link_to 'New highlight', new_highlight_path %> |
 <%= link_to 'Home', welcome_index_path %>
 
-<table>
-  <tr>
-    <th>Highlight</th>
-    <th>Note</th>
-    <th>Location</th>
-    <th>Tags</th>
-    <th>Operations</th>
-  </tr>
- 
-  <% @highlights.each do |highlight| %>
-    <tr>
-      <td><%= highlight.highlight %></td>
-      <td><%= highlight.note %></td>
-      <td><%= highlight.location %></td>
-      <td><% highlight.tags.each do |t| %>
-        <%= t.title %>
-      <% end %></td>
-      <td>
-        <% id = highlight.id.to_s %>
-        <% if highlight.favorite %>
-          <%= link_to 'Unfavorite', '/highlights/' + id + '/unfavorite', id: 'favorite-' + id, class: 'favorite', remote: true %>
-        <% else %>
-          <%= link_to 'Favorite', '/highlights/' + id + '/favorite', id: 'favorite-' + id, class: 'favorite', remote: true %>
-        <% end %>
-        <%= link_to 'Edit', edit_highlight_path(highlight) %>
-        <%= link_to 'Destroy', highlight_path(highlight),
-              method: :delete,
-              data: { confirm: 'Are you sure?' } %></td>
-    </tr>
-  <% end %>
-</table>
+<%= render partial: 'highlights', locals: { highlights: @highlights } %>

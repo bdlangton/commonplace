@@ -1,14 +1,6 @@
-<p>
-  <strong>Tag:</strong>
-  <%= @tag.title %>
-</p>
+<h1><%= @tag.title %></h1>
  
-<p>
-  <strong>Highlights:</strong>
-  <% @tag.highlights.each do |h| %>
-    <p><%= h.highlight %></p>
-  <% end %>
-</p>
+<%= render partial: 'highlights/highlights', locals: { highlights: @tag.highlights } %>
 
 <%= link_to 'Edit', edit_tag_path(@tag) %> |
 <%= link_to 'Back', tags_path %>

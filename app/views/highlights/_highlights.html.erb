@@ -1,0 +1,33 @@
+<table>
+  <tr>
+    <th>Source</th>
+    <th>Highlight</th>
+    <th>Note</th>
+    <th>Location</th>
+    <th>Tags</th>
+    <th>Operations</th>
+  </tr>
+ 
+  <% highlights.each do |highlight| %>
+    <tr>
+      <td><%= link_to highlight.source.title, source_path(highlight.source) %></td>
+      <td><%= highlight.highlight %></td>
+      <td><%= highlight.note %></td>
+      <td><%= highlight.location %></td>
+      <td><% highlight.tags.each do |t| %>
+        <%= t.title %>
+      <% end %></td>
+      <td>
+        <% id = highlight.id.to_s %>
+        <% if highlight.favorite %>
+          <%= link_to 'Unfavorite', '/highlights/' + id + '/unfavorite', id: 'favorite-' + id, class: 'favorite', remote: true %>
+        <% else %>
+          <%= link_to 'Favorite', '/highlights/' + id + '/favorite', id: 'favorite-' + id, class: 'favorite', remote: true %>
+        <% end %>
+        <%= link_to 'Edit', edit_highlight_path(highlight) %>
+        <%= link_to 'Destroy', highlight_path(highlight),
+              method: :delete,
+              data: { confirm: 'Are you sure?' } %></td>
+    </tr>
+  <% end %>
+</table>

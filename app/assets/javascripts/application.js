@@ -15,9 +15,11 @@
 //= require_tree .
 
 document.addEventListener("DOMContentLoaded", function(event) {
+  // TODO: Move this JS to only show on pages that it needs to be on.
   $('a.favorite').bind('ajax:success', favoriteHighlight);
 
   function favoriteHighlight(event, data) {
+    // TODO: Why is data null?
     if (event.detail[0].favorite) {
       $('#favorite-' + event.detail[0].id).text('Unfavorite');
       $('#favorite-' + event.detail[0].id).attr('href', '/highlights/' + event.detail[0].id + '/unfavorite');

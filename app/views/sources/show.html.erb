@@ -1,7 +1,4 @@
-<p>
-  <strong>Title:</strong>
-  <%= @source.title %>
-</p>
+<h1><%= @source.title %></h1>
  
 <p>
   <strong>Author:</strong>
@@ -13,12 +10,7 @@
   <%= @source.source_type %>
 </p>
 
-<p>
-  <strong>Highlights:</strong>
-  <% @source.highlights.each do |h| %>
-    <p><%= h.highlight %></p>
-  <% end %>
-</p>
+<%= render partial: 'highlights/highlights', locals: { highlights: @source.highlights } %>
 
 <%= link_to 'Edit', edit_source_path(@source) %> |
 <%= link_to 'Back', sources_path %>
