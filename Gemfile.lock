@@ -69,6 +69,9 @@ GEM
     execjs (2.7.0)
     ffi (1.9.25)
     fileutils (1.1.0)
+    foundation-rails (5.4.5.0)
+      railties (>= 3.1.0)
+      sass (>= 3.2.0)
     globalid (0.4.1)
       activesupport (>= 4.2.0)
     htmlentities (4.3.4)
@@ -213,6 +216,7 @@ DEPENDENCIES
   capybara (~> 2.13)
   coffee-rails (~> 4.2)
   fileutils
+  foundation-rails
   htmlentities
   jbuilder (~> 2.5)
   jquery-rails

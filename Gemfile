@@ -36,6 +36,7 @@ gem 'mail'
 gem 'htmlentities'
 gem 'jquery-rails'
 gem 'mysql2', '< 0.5'
+gem 'foundation-rails'
 
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
