@@ -10,9 +10,9 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180818204921) do
+ActiveRecord::Schema.define(version: 20180821011754) do
 
-  create_table "highlights", force: :cascade do |t|
+  create_table "highlights", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.text "highlight"
     t.text "note"
     t.integer "user_id"
@@ -25,12 +25,12 @@ ActiveRecord::Schema.define(version: 20180818204921) do
     t.index ["user_id"], name: "index_highlights_on_user_id"
   end
 
-  create_table "highlights_tags", id: false, force: :cascade do |t|
+  create_table "highlights_tags", id: false, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.integer "highlight_id", null: false
     t.integer "tag_id", null: false
   end
 
-  create_table "sources", force: :cascade do |t|
+  create_table "sources", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string "title"
     t.string "author"
     t.string "source_type"
@@ -41,7 +41,16 @@ ActiveRecord::Schema.define(version: 20180818204921) do
     t.index ["user_id"], name: "index_sources_on_user_id"
   end
 
-  create_table "tags", force: :cascade do |t|
+  create_table "taggings", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.bigint "Highlight_id"
+    t.bigint "Tag_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["Highlight_id"], name: "index_taggings_on_Highlight_id"
+    t.index ["Tag_id"], name: "index_taggings_on_Tag_id"
+  end
+
+  create_table "tags", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string "title"
     t.integer "user_id"
     t.datetime "created_at", null: false
@@ -49,11 +58,13 @@ ActiveRecord::Schema.define(version: 20180818204921) do
     t.index ["user_id"], name: "index_tags_on_user_id"
   end
 
-  create_table "users", force: :cascade do |t|
+  create_table "users", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string "username"
     t.string "password"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
+  add_foreign_key "taggings", "Highlights"
+  add_foreign_key "taggings", "Tags"
 end

@@ -7,7 +7,11 @@ class HighlightsController < ApplicationController
   end
 
   def index
-    @highlights = Highlight.all
+    if params[:tag]
+      @highlights = Highlight.tagged_with(params[:tag])
+    else
+      @highlights = Highlight.all
+    end
   end
 
   def show
@@ -23,10 +27,6 @@ class HighlightsController < ApplicationController
     @highlight = Highlight.find(params[:id])
     @tags = Tag.all
 
-    params[:highlight][:tags].each do |k,v|
-      @highlight.tags << Tag.find(k) if v.to_i > 0 && !@highlight.tags.find(k)
-    end
-
     if @highlight.update(highlight_params)
       redirect_to @highlight
     else
@@ -36,10 +36,6 @@ class HighlightsController < ApplicationController
 
   def create
     @highlight = Highlight.new(highlight_params)
-
-    params[:highlight][:tags].each do |k,v|
-      @highlight.tags << Tag.find(k) if v.to_i > 0 && !@highlight.tags.find(k)
-    end
 
     if @highlight.save
       redirect_to @highlight
@@ -71,6 +67,6 @@ class HighlightsController < ApplicationController
 
   private
     def highlight_params
-      params.require(:highlight).permit(:highlight, :note, :location, :user_id, :source_id)
+      params.require(:highlight).permit(:highlight, :note, :location, :all_tags, :user_id, :source_id)
     end
 end

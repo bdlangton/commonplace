@@ -20,9 +20,7 @@
 
 <p>
   <strong>Tags:</strong>
-  <% @highlight.tags.each do |t| %>
-    <%= t.title %>
-  <% end %>
+  <%= raw tag_links(@highlight.all_tags) %>
 </p>
 
 <%= link_to 'Edit', edit_highlight_path(@highlight) %> |

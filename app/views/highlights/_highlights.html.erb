@@ -14,9 +14,7 @@
       <td><%= highlight.highlight %></td>
       <td><%= highlight.note %></td>
       <td><%= highlight.location %></td>
-      <td><% highlight.tags.each do |t| %>
-        <%= t.title %>
-      <% end %></td>
+      <td><%= raw tag_links(highlight.all_tags) %></td>
       <td>
         <% id = highlight.id.to_s %>
         <% if highlight.favorite %>
