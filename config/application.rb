@@ -1,5 +1,6 @@
 require_relative 'boot'
 
+require 'rubygems'
 require 'rails/all'
 require 'kindle_highlights'
 require 'bundler'

@@ -21,3 +21,6 @@ test:
 production:
   <<: *default
   database: commonplace
+  username: barrett
+  password: <%= ENV['MYSQL_PASSWORD'] %>
+  socket: /var/run/mysqld/mysqld.sock

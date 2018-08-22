@@ -42,12 +42,12 @@ ActiveRecord::Schema.define(version: 20180821011754) do
   end
 
   create_table "taggings", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
-    t.bigint "Highlight_id"
-    t.bigint "Tag_id"
+    t.bigint "highlight_id"
+    t.bigint "tag_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["Highlight_id"], name: "index_taggings_on_Highlight_id"
-    t.index ["Tag_id"], name: "index_taggings_on_Tag_id"
+    t.index ["highlight_id"], name: "index_taggings_on_Highlight_id"
+    t.index ["tag_id"], name: "index_taggings_on_Tag_id"
   end
 
   create_table "tags", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
@@ -65,6 +65,6 @@ ActiveRecord::Schema.define(version: 20180821011754) do
     t.datetime "updated_at", null: false
   end
 
-  add_foreign_key "taggings", "Highlights"
-  add_foreign_key "taggings", "Tags"
+  add_foreign_key "taggings", "Highlights", column: "highlight_id"
+  add_foreign_key "taggings", "Tags", column: "tag_id"
 end
