@@ -8,7 +8,7 @@ class HighlightsController < ApplicationController
     if params[:tag]
       @highlights = Highlight.tagged_with(params[:tag])
     else
-      @highlights = Highlight.all
+      @highlights = Highlight.paginate(:page => params[:page], :per_page => 20)
     end
   end
 
