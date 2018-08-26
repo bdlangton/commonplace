@@ -1,5 +1,8 @@
 module HighlightsHelper
   def tag_links(tags)
-    tags.split(",").map{|tag| link_to tag.strip, tag_path(tag.strip) }.join(", ")
+    tags.split(",").map{|tag|
+      @tag = Tag.find_by(title: tag.strip, user: 1)
+      link_to @tag.title, tag_path(@tag.id) if @tag
+    }.join(", ")
   end
 end
