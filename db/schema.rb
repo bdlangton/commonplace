@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180821011754) do
+ActiveRecord::Schema.define(version: 20180826151336) do
 
   create_table "highlights", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.text "highlight"
@@ -23,11 +23,6 @@ ActiveRecord::Schema.define(version: 20180821011754) do
     t.boolean "favorite"
     t.index ["source_id"], name: "index_highlights_on_source_id"
     t.index ["user_id"], name: "index_highlights_on_user_id"
-  end
-
-  create_table "highlights_tags", id: false, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
-    t.integer "highlight_id", null: false
-    t.integer "tag_id", null: false
   end
 
   create_table "sources", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
