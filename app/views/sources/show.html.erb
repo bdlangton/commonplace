@@ -10,7 +10,7 @@
   <%= @source.source_type %>
 </p>
 
-<%= render partial: 'highlights/highlights', locals: { highlights: @source.highlights } %>
+<%= render partial: 'highlights/highlights', locals: { highlights: @source.highlights, hide: ['source'] } %>
 
 <%= link_to 'Edit', edit_source_path(@source) %> |
 <%= link_to 'Back', sources_path %>

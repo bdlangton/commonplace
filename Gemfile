@@ -38,6 +38,7 @@ gem 'jquery-rails'
 gem 'mysql2', '< 0.5'
 gem 'foundation-rails'
 gem 'autoprefixer-rails'
+gem 'will_paginate'
 
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development

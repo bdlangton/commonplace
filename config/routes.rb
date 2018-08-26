@@ -4,12 +4,10 @@ Rails.application.routes.draw do
 
   resources :highlights
   resources :sources
-  resources :tags, except: :show
+  resources :tags
 
   get 'highlights/:id/favorite', to: 'highlights#favorite'
   get 'highlights/:id/unfavorite', to: 'highlights#unfavorite'
-
-  # get 'tags/:tag', to: 'highlights#index', as: "tag"
 
   root 'welcome#index'
 end
