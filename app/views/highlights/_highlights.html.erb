@@ -1,6 +1,8 @@
 <table>
   <tr>
-    <th>Source</th>
+    <% if !defined?(hide) || !hide.include?('source') %>
+      <th>Source</th>
+    <% end %>
     <th>Highlight</th>
     <th>Note</th>
     <th>Location</th>
@@ -10,7 +12,9 @@
  
   <% highlights.each do |highlight| %>
     <tr>
-      <td><%= link_to highlight.source.title, source_path(highlight.source) %></td>
+      <% if !defined?(hide) || !hide.include?('source') %>
+        <td><%= link_to highlight.source.title, source_path(highlight.source) %></td>
+      <% end %>
       <td><%= highlight.highlight %></td>
       <td><%= highlight.note %></td>
       <td><%= highlight.location %></td>
