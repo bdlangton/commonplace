@@ -41,7 +41,7 @@
 
   <p>
     <%= form.label :source %><br>
-    <%= form.collection_select :source_id, Source.order(:title),:id,:title, include_blank: false %>
+    <%= form.collection_select :source_id, Source.order(:title), :id, :title, {selected: @source, include_blank: false} %>
   </p>
 
   <p>

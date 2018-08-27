@@ -2,6 +2,10 @@ class HighlightsController < ApplicationController
   def new
     @highlight = Highlight.new
     @tags = Tag.all
+    @source = nil
+    if params[:source]
+      @source = params[:source]
+    end
   end
 
   def index
