@@ -4,7 +4,7 @@ class TagsController < ApplicationController
   end
 
   def index
-    @tags = Tag.all
+    @tags = Tag.all.sort_by &:title
   end
 
   def show

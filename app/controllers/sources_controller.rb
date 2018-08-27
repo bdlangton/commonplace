@@ -4,7 +4,7 @@ class SourcesController < ApplicationController
   end
 
   def index
-    @sources = Source.all
+    @sources = Source.all.sort_by &:title
   end
 
   def show
