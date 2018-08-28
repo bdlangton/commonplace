@@ -37,6 +37,7 @@ gem 'htmlentities'
 gem 'jquery-rails'
 gem 'mysql2', '< 0.5'
 gem 'foundation-rails'
+gem 'autoprefixer-rails'
 gem 'will_paginate'
 gem 'compass'
 
