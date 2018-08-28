@@ -22,11 +22,13 @@ class HighlightsController < ApplicationController
 
   def edit
     @highlight = Highlight.find(params[:id])
+    @source = @highlight.source_id
     @tags = Tag.all
   end
 
   def update
     @highlight = Highlight.find(params[:id])
+    @source = @highlight.source_id
     @tags = Tag.all
 
     if @highlight.update(highlight_params)
