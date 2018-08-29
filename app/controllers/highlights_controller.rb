@@ -16,10 +16,6 @@ class HighlightsController < ApplicationController
     end
   end
 
-  def show
-    @highlight = Highlight.find(params[:id])
-  end
-
   def edit
     @highlight = Highlight.find(params[:id])
     @source = @highlight.source_id

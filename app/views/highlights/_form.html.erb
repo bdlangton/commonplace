@@ -16,22 +16,22 @@
  
   <p>
     <%= form.label :highlight %><br>
-    <%= form.text_area :highlight, size: "80x8" %>
+    <%= form.text_area :highlight, size: "80x5" %>
   </p>
 
   <p>
     <%= form.label :note %><br>
-    <%= form.text_area :note, size: "80x8" %>
+    <%= form.text_area :note, size: "80x3" %>
   </p>
 
   <p>
     <%= form.label :location %><br>
-    <%= form.text_field :location %>
+    <%= form.text_field :location, :size => '10', :maxlength => '10' %>
   </p>
 
   <p>
     <%= form.label 'Tags' %><br/>
-    <%= form.text_field :all_tags, placeholder: "Tags separated with comma" %>
+    <%= form.text_field :all_tags, :size => '80', :maxlength => '255', placeholder: "Tags separated with comma" %>
   </p>
 
   <p>
