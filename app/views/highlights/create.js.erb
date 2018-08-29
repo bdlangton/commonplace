@@ -1,0 +1,4 @@
+var new_highlight = $("<%= escape_javascript(render(partial: @highlight))%>").hide();
+$('#highlights').prepend(new_highlight);
+$('#highlight_<%= @highlight.id %>').fadeIn('slow');
+$('#new_highlight')[0].reset();

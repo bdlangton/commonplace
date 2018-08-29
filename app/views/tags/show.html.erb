@@ -1,3 +1,4 @@
+<%= content_for(:title, 'Tag: ' + @tag.title) %>
 <h1><%= @tag.title %></h1>
  
 <%= render partial: 'highlights/highlights', locals: { highlights: @tag.highlights } %>

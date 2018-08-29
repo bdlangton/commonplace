@@ -2,7 +2,7 @@ Rails.application.routes.draw do
   get 'welcome/index'
   get 'import/import'
 
-  resources :highlights
+  resources :highlights, except: :show
   resources :sources
   resources :tags
 
