@@ -12,6 +12,12 @@
   </head>
 
   <body>
+    <ul class="nav navbar-nav">
+      <li><%= link_to 'Home', welcome_index_path %></li>
+      <li><%= link_to 'Highlights', highlights_path %></li>
+      <li><%= link_to 'Tags', tags_path %></li>
+      <li><%= link_to 'Sources', sources_path %></li>
+    </ul>
     <%= yield %>
     <%= javascript_include_tag "application" %>
   </body>

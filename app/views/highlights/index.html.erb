@@ -1,8 +1,7 @@
 <%= content_for(:title, 'Highlights') %>
 <h1>Highlights</h1>
 
-<%= link_to 'New highlight', new_highlight_path %> |
-<%= link_to 'Home', welcome_index_path %>
+<%= link_to 'New highlight', new_highlight_path %>
 
 <%= render partial: 'highlights', locals: { highlights: @highlights } %>
 <%= will_paginate @highlights %>
