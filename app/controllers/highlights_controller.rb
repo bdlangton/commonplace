@@ -17,6 +17,14 @@ class HighlightsController < ApplicationController
     end
   end
 
+  def favorites
+    if params[:tag]
+      @highlights = Highlight.tagged_with(params[:tag]).paginate(:page => params[:page], :per_page => 20)
+    else
+      @highlights = Highlight.where('favorite = true').paginate(:page => params[:page], :per_page => 20)
+    end
+  end
+
   def edit
     @highlight = Highlight.find(params[:id])
     @source = @highlight.source_id
