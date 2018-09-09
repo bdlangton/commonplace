@@ -3,6 +3,7 @@ class HighlightsController < ApplicationController
     @highlight = Highlight.new
     @tags = Tag.all
     @source = nil
+    session[:return_to] ||= request.referer
     if params[:source]
       @source = params[:source]
     end
@@ -20,6 +21,7 @@ class HighlightsController < ApplicationController
     @highlight = Highlight.find(params[:id])
     @source = @highlight.source_id
     @tags = Tag.all
+    session[:return_to] ||= request.referer
   end
 
   def update
@@ -28,7 +30,7 @@ class HighlightsController < ApplicationController
     @tags = Tag.all
 
     if @highlight.update(highlight_params)
-      redirect_to @highlight
+      redirect_to session[:return_to]
     else
       render 'edit'
     end
@@ -38,7 +40,7 @@ class HighlightsController < ApplicationController
     @highlight = Highlight.new(highlight_params)
 
     if @highlight.save
-      redirect_to @highlight
+      redirect_to session[:return_to]
     else
       render 'new'
     end
