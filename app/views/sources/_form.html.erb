@@ -16,26 +16,26 @@
  
   <p>
     <%= form.label :title %><br>
-    <%= form.text_field :title %>
+    <%= form.text_field :title, class: 'form-control' %>
   </p>
 
   <p>
     <%= form.label :author %><br>
-    <%= form.text_field :author, :size => '20', :maxlength => '20' %>
+    <%= form.text_field :author, :size => '20', :maxlength => '20', class: 'form-control' %>
   </p>
 
   <p>
     <%= form.label 'Type' %><br>
-    <%= form.text_field :source_type, :size => '20', :maxlength => '20' %>
+    <%= form.text_field :source_type, :size => '20', :maxlength => '20', class: 'form-control' %>
   </p>
 
   <p>
     <%= form.label :user %><br>
-    <%= form.collection_select :user_id, User.order(:username),:id,:username, include_blank: false %>
+    <%= form.collection_select :user_id, User.order(:username),:id,:username, {include_blank: false}, {class: 'form-control'} %>
   </p>
 
   <p>
-    <%= form.submit %>
+    <%= form.submit 'Save Source', {class: ['btn', 'btn-primary']} %>
   </p>
  
 <% end %>

@@ -14,38 +14,38 @@
     </div>
   <% end %>
  
-  <p>
+  <div class="form-group">
     <%= form.label :highlight %><br>
-    <%= form.text_area :highlight, size: "80x5" %>
-  </p>
+    <%= form.text_area :highlight, size: "80x5", class: 'form-control' %>
+  </div>
 
-  <p>
+  <div class="form-group">
     <%= form.label :note %><br>
-    <%= form.text_area :note, size: "80x3" %>
-  </p>
+    <%= form.text_area :note, size: "80x3", class: 'form-control' %>
+  </div>
 
-  <p>
+  <div class="form-group">
     <%= form.label :location %><br>
-    <%= form.text_field :location, :size => '10', :maxlength => '10' %>
-  </p>
+    <%= form.text_field :location, :size => '10', :maxlength => '10', class: 'form-control' %>
+  </div>
 
-  <p>
+  <div class="form-group">
     <%= form.label 'Tags' %><br/>
-    <%= form.text_field :all_tags, :size => '80', :maxlength => '255', placeholder: "Tags separated with comma" %>
-  </p>
+    <%= form.text_field :all_tags, :size => '80', :maxlength => '255', placeholder: "Tags separated with comma", class: 'form-control' %>
+  </div>
 
-  <p>
+  <div class="form-group">
     <%= form.label :user %><br>
-    <%= form.collection_select :user_id, User.order(:username),:id,:username, include_blank: false %>
-  </p>
+    <%= form.collection_select :user_id, User.order(:username),:id,:username, {include_blank: false}, {class: 'form-control'} %>
+  </div>
 
-  <p>
+  <div class="form-group">
     <%= form.label :source %><br>
-    <%= form.collection_select :source_id, Source.order(:title), :id, :title, {selected: @source, include_blank: false} %>
-  </p>
+    <%= form.collection_select :source_id, Source.order(:title), :id, :title, {selected: @source, include_blank: false}, {class: 'form-control'} %>
+  </div>
 
-  <p>
-    <%= form.submit %>
-  </p>
+  <div class="form-group">
+    <%= form.submit 'Save Highlight', {class: ['btn', 'btn-primary']} %>
+  </div>
  
 <% end %>

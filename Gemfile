@@ -40,6 +40,7 @@ gem 'autoprefixer-rails'
 gem 'will_paginate'
 gem 'font-awesome-rails'
 gem 'bootstrap'
+gem 'will_paginate-bootstrap4'
 
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development

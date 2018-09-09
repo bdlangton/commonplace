@@ -1,7 +1,5 @@
 Rails.application.routes.draw do
-  get 'welcome/index'
-  get 'import/import'
-
+  # Resources.
   resources :highlights, except: :show
   resources :sources
   resources :tags
@@ -11,5 +9,9 @@ Rails.application.routes.draw do
   get 'highlights/:id/unfavorite', to: 'highlights#unfavorite'
   get 'favorites', to: 'highlights#favorites'
 
-  root 'welcome#index'
+  # Import.
+  get 'import/import'
+
+  # Root page.
+  root 'highlights#index'
 end

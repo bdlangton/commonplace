@@ -22,14 +22,15 @@
       <td>
         <% id = highlight.id.to_s %>
         <% if highlight.favorite %>
-          <%= link_to 'Unfavorite', '/highlights/' + id + '/unfavorite', id: 'favorite-' + id, class: 'favorite', remote: true %>
+          <%= link_to 'Unfavorite', '/highlights/' + id + '/unfavorite', id: 'favorite-' + id, class: ['favorite', 'badge', 'badge-pill', 'badge-dark'], remote: true %>
         <% else %>
-          <%= link_to 'Favorite', '/highlights/' + id + '/favorite', id: 'favorite-' + id, class: 'favorite', remote: true %>
+          <%= link_to 'Favorite', '/highlights/' + id + '/favorite', id: 'favorite-' + id, class: ['favorite', 'badge', 'badge-pill', 'badge-secondary'], remote: true %>
         <% end %>
-        <%= link_to 'Edit', edit_highlight_path(highlight) %>
+        <%= link_to 'Edit', edit_highlight_path(highlight), class: ['badge', 'badge-pill', 'badge-light'] %>
         <%= link_to 'Destroy', highlight_path(highlight),
               method: :delete,
-              data: { confirm: 'Are you sure?' } %></td>
+              data: { confirm: 'Are you sure?' },
+              class: ['badge', 'badge-pill', 'badge-danger'] %></td>
     </tr>
   <% end %>
 </table>

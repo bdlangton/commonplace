@@ -16,16 +16,16 @@
  
   <p>
     <%= form.label :title %><br>
-    <%= form.text_field :title %>
+    <%= form.text_field :title, class: 'form-control' %>
   </p>
 
   <p>
     <%= form.label :user %><br>
-    <%= form.collection_select :user_id, User.order(:username),:id,:username, include_blank: false %>
+    <%= form.collection_select :user_id, User.order(:username),:id,:username, {include_blank: false}, {class: 'form-control'} %>
   </p>
 
   <p>
-    <%= form.submit %>
+    <%= form.submit 'Save Tag', {class: ['btn', 'btn-primary']} %>
   </p>
  
 <% end %>
