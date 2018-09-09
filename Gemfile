@@ -36,10 +36,10 @@ gem 'mail'
 gem 'htmlentities'
 gem 'jquery-rails'
 gem 'mysql2', '< 0.5'
-gem 'foundation-rails'
 gem 'autoprefixer-rails'
 gem 'will_paginate'
 gem 'font-awesome-rails'
+gem 'bootstrap'
 
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development

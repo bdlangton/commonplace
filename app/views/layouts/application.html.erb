@@ -7,18 +7,24 @@
     <title>Commonplace Book: <%= yield(:title) %></title>
 
     <%= stylesheet_link_tag    "application" %>
-    <%= javascript_include_tag "vendor/modernizr" %>
     <%= csrf_meta_tags %>
   </head>
 
   <body>
-    <ul class="nav navbar-nav">
-      <li><%= link_to 'Home', welcome_index_path %></li>
-      <li><%= link_to 'Highlights', highlights_path %></li>
-      <li><%= link_to 'Favorites', 'favorites' %></li>
-      <li><%= link_to 'Tags', tags_path %></li>
-      <li><%= link_to 'Sources', sources_path %></li>
-    </ul>
+    <nav class="navbar navbar-default">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <a class="navbar-brand" href="#">Commonplace Book</a>
+        </div>
+        <ul class="nav navbar-nav">
+          <li><%= link_to 'Home', welcome_index_path %></li>
+          <li><%= link_to 'Highlights', highlights_path %></li>
+          <li><%= link_to 'Favorites', 'favorites' %></li>
+          <li><%= link_to 'Tags', tags_path %></li>
+          <li><%= link_to 'Sources', sources_path %></li>
+        </ul>
+      </div>
+    </nav>
     <%= yield %>
     <%= javascript_include_tag "application" %>
   </body>
