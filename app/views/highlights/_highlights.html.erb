@@ -15,7 +15,7 @@
       <% if !defined?(hide) || !hide.include?('source') %>
         <td><%= link_to highlight.source.title, source_path(highlight.source) %></td>
       <% end %>
-      <td><%= highlight.highlight %></td>
+      <td><% if highlight.favorite %><%= fa_icon 'heart', class: 'red' %><% end %><%= highlight.highlight %></td>
       <td><%= highlight.note %></td>
       <td><%= highlight.location %></td>
       <td><%= raw tag_links(highlight.all_tags) %></td>
