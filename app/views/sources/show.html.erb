@@ -11,7 +11,7 @@
   <%= @source.source_type %>
 </p>
 
+<%= link_to 'Edit Source', edit_source_path(@source) %> |
 <%= link_to 'Add highlight', new_highlight_path(:source => @source.id) %>
 <%= render partial: 'highlights/highlights', locals: { highlights: @source.highlights.sort_by(&:location), hide: ['source'] } %>
 
-<%= link_to 'Edit', edit_source_path(@source) %> |
