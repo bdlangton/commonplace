@@ -10,7 +10,7 @@ Rails.application.routes.draw do
   get 'favorites', to: 'highlights#favorites'
 
   # Import.
-  get 'import/import'
+  get 'import', to: 'import#import'
 
   # Root page.
   root 'highlights#index'
