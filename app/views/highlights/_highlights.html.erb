@@ -15,16 +15,16 @@
       <% if !defined?(hide) || !hide.include?('source') %>
         <td><%= link_to highlight.source.title, source_path(highlight.source) %></td>
       <% end %>
-      <td><% if highlight.favorite %><%= fa_icon 'heart', class: 'red' %><% end %><%= highlight.highlight %></td>
+      <td><%= highlight.highlight %></td>
       <td><%= highlight.note %></td>
       <td><%= highlight.location %></td>
       <td><%= raw tag_links(highlight.all_tags) %></td>
       <td>
         <% id = highlight.id.to_s %>
         <% if highlight.favorite %>
-          <%= link_to 'Unfavorite', '/highlights/' + id + '/unfavorite', id: 'favorite-' + id, class: ['favorite', 'badge', 'badge-pill', 'badge-dark'], remote: true %>
+          <%= link_to fa_icon('heart'), '/highlights/' + id + '/unfavorite', id: 'favorite-' + id, class: ['favorite', 'red'], remote: true %>
         <% else %>
-          <%= link_to 'Favorite', '/highlights/' + id + '/favorite', id: 'favorite-' + id, class: ['favorite', 'badge', 'badge-pill', 'badge-secondary'], remote: true %>
+          <%= link_to fa_icon('heart'), '/highlights/' + id + '/favorite', id: 'favorite-' + id, class: ['favorite', 'gray'], remote: true %>
         <% end %>
         <%= link_to 'Edit', edit_highlight_path(highlight), class: ['badge', 'badge-pill', 'badge-light'] %>
         <%= link_to 'Destroy', highlight_path(highlight),

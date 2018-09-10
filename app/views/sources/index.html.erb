@@ -1,7 +1,7 @@
 <%= content_for(:title, 'Sources') %>
 <h1>Sources</h1>
 
-<%= link_to 'New source', new_source_path %>
+<%= link_to 'New source', new_source_path, class: ['badge', 'badge-pill', 'badge-primary'] %>
 
 <table>
   <tr>
@@ -17,10 +17,11 @@
       <td><%= source.author %></td>
       <td><%= source.source_type %></td>
       <td>
-        <%= link_to 'Edit', edit_source_path(source) %>
+        <%= link_to 'Edit', edit_source_path(source), class: ['badge', 'badge-pill', 'badge-light'] %>
         <%= link_to 'Destroy', source_path(source),
               method: :delete,
-              data: { confirm: 'Are you sure?' } %></td>
+              data: { confirm: 'Are you sure?' },
+              class: ['badge', 'badge-pill', 'badge-danger'] %></td>
     </tr>
   <% end %>
 </table>

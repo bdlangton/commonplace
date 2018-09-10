@@ -1,7 +1,7 @@
 <%= content_for(:title, 'Tags') %>
 <h1>Tags</h1>
 
-<%= link_to 'New tag', new_tag_path %>
+<%= link_to 'New tag', new_tag_path, class: ['badge', 'badge-pill', 'badge-primary'] %>
 
 <table>
   <tr>
@@ -13,10 +13,11 @@
     <tr>
       <td><%= link_to tag.title, tag_path(tag) %></td>
       <td>
-        <%= link_to 'Edit', edit_tag_path(tag) %>
+        <%= link_to 'Edit', edit_tag_path(tag), class: ['badge', 'badge-pill', 'badge-light'] %>
         <%= link_to 'Destroy', tag_path(tag),
               method: :delete,
-              data: { confirm: 'Are you sure?' } %></td>
+              data: { confirm: 'Are you sure?' },
+              class: ['badge', 'badge-pill', 'badge-danger'] %></td>
     </tr>
   <% end %>
 </table>

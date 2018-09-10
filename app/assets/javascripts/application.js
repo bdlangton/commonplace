@@ -23,11 +23,11 @@ document.addEventListener("DOMContentLoaded", function(event) {
   function favoriteHighlight(event, data) {
     // TODO: Why is data null?
     if (event.detail[0].favorite) {
-      $('#favorite-' + event.detail[0].id).text('Unfavorite');
+      $('#favorite-' + event.detail[0].id).removeClass('gray').addClass('red');
       $('#favorite-' + event.detail[0].id).attr('href', '/highlights/' + event.detail[0].id + '/unfavorite');
     }
     else {
-      $('#favorite-' + event.detail[0].id).text('Favorite');
+      $('#favorite-' + event.detail[0].id).removeClass('red').addClass('gray');
       $('#favorite-' + event.detail[0].id).attr('href', '/highlights/' + event.detail[0].id + '/favorite');
     }
   }
