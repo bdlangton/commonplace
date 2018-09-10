@@ -19,24 +19,32 @@ Mail.defaults do
 end
 
 class Kindle
-  def random_highlight
-    offset = rand(Highlight.count)
-    random = Highlight.offset(offset).first
+  def random_highlights
+    random = Set[]
+    3.times do
+      offset = rand(Highlight.count)
+      random.add(Highlight.offset(offset).first)
+    end
+    return random
   end
 end
 
 task :email => :environment do
   data = Kindle.new
-  highlight = data.random_highlight
+  highlights = data.random_highlights
 
   mail = Mail.new do
     from 'Kindle Highlights <bdlangton@gmail.com>'
     to ENV['TO']
-    subject "#{Time.now.strftime("%b %d")}: #{highlight.source.title}"
+    subject "Your daily highlights for #{Time.now.strftime("%b %-d")}"
     html_part do
       content_type 'text/html; charset=UTF-8'
 
-      body "<p>#{highlight.highlight}</p><p>&mdash; #{highlight.source.title}</p>"
+      text = ''
+      highlights.each do |highlight|
+        text << "<p><b>#{highlight.source.title}</b></p><p>#{highlight.highlight}</p>"
+      end
+      body text
     end
   end
 
