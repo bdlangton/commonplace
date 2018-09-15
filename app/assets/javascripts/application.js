@@ -31,6 +31,9 @@ document.addEventListener("DOMContentLoaded", function(event) {
       $('#favorite-' + event.detail[0].id).attr('href', '/highlights/' + event.detail[0].id + '/favorite');
     }
   }
+
+  // Hide flash notices after a few seconds.
+  $('.flash').fadeOut(3000);
 });
 
 $(function(){ $(document).foundation(); });
