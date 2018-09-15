@@ -4,7 +4,10 @@ class TagsController < ApplicationController
   end
 
   def index
-    @tags = Tag.all.sort_by &:title
+    @tags = Tag.select('tags.*', 'count(*) as count')
+      .left_joins(:taggings)
+      .group("tags.id")
+      .order("count(taggings.highlight_id) DESC")
   end
 
   def show

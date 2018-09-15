@@ -11,7 +11,15 @@
  
   <% @tags.each do |tag| %>
     <tr>
-      <td><%= link_to tag.title, tag_path(tag) %></td>
+      <td>
+        <%=
+          link_to(
+            raw(tag.title + ' ' + content_tag(:span, tag.count, class: ['badge', 'badge-pill', 'badge-light'])),
+            tag_path(tag),
+            class: ['badge', 'badge-pill', 'badge-success']
+          )
+        %>
+      </td>
       <td>
         <%= link_to 'Edit', edit_tag_path(tag), class: ['badge', 'badge-pill', 'badge-light'] %>
         <%= link_to 'Destroy', tag_path(tag),
