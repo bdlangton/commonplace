@@ -19,11 +19,14 @@
 
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
-          <li class="nav-item"><%= link_to 'Highlights', highlights_path, class: 'nav-link' %></li>
-          <li class="nav-item"><%= link_to 'Favorites', '/favorites', class: 'nav-link' %></li>
-          <li class="nav-item"><%= link_to 'Tags', tags_path, class: 'nav-link' %></li>
-          <li class="nav-item"><%= link_to 'Sources', sources_path, class: 'nav-link' %></li>
-          <li class="nav-item"><%= link_to 'Import', '/import', class: 'nav-link' %></li>
+          <% if user_signed_in? %>
+            <li class="nav-item"><%= link_to 'Highlights', highlights_path, class: 'nav-link' %></li>
+            <li class="nav-item"><%= link_to 'Favorites', '/favorites', class: 'nav-link' %></li>
+            <li class="nav-item"><%= link_to 'Tags', tags_path, class: 'nav-link' %></li>
+            <li class="nav-item"><%= link_to 'Sources', sources_path, class: 'nav-link' %></li>
+            <li class="nav-item"><%= link_to 'Import', '/import', class: 'nav-link' %></li>
+            <li class="nav-item"><%= link_to 'Logout', '/users/sign_out', method: :delete, class: 'nav-link' %></li>
+          <% end %>
         </ul>
       </div>
     </nav>
