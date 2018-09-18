@@ -11,17 +11,17 @@ class HighlightsController < ApplicationController
 
   def index
     if params[:tag]
-      @highlights = Highlight.tagged_with(params[:tag]).paginate(:page => params[:page], :per_page => 20)
+      @highlights = Highlight.tagged_with(params[:tag]).by_user(current_user).paginate(:page => params[:page], :per_page => 20)
     else
-      @highlights = Highlight.paginate(:page => params[:page], :per_page => 20)
+      @highlights = Highlight.by_user(current_user).paginate(:page => params[:page], :per_page => 20)
     end
   end
 
   def favorites
     if params[:tag]
-      @highlights = Highlight.tagged_with(params[:tag]).where('favorite = true').paginate(:page => params[:page], :per_page => 20)
+      @highlights = Highlight.tagged_with(params[:tag]).by_user(current_user).where('favorite = true').paginate(:page => params[:page], :per_page => 20)
     else
-      @highlights = Highlight.where('favorite = true').paginate(:page => params[:page], :per_page => 20)
+      @highlights = Highlight.by_user(current_user).where('favorite = true').paginate(:page => params[:page], :per_page => 20)
     end
   end
 

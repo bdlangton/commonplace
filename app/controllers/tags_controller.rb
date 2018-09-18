@@ -4,7 +4,7 @@ class TagsController < ApplicationController
   end
 
   def index
-    @tags = Tag.select('tags.*', 'count(*) as count')
+    @tags = Tag.by_user(current_user).select('tags.*', 'count(*) as count')
       .left_joins(:taggings)
       .group("tags.id")
       .order("count(taggings.highlight_id) DESC")

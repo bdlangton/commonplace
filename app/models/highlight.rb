@@ -4,6 +4,9 @@ class Highlight < ApplicationRecord
   has_many :taggings, :dependent => :delete_all
   has_many :tags, through: :taggings
 
+  # Scope to filter by user ID.
+  scope :by_user, ->(id) { where(user_id: id) }
+
   def all_tags=(titles)
     self.tags = titles.split(",").map do |title|
       Tag.where(title: title.strip, user: 1).first_or_create!

@@ -4,7 +4,7 @@ class SourcesController < ApplicationController
   end
 
   def index
-    @sources = Source.all.sort_by &:title
+    @sources = Source.all.by_user(current_user).sort_by &:title
   end
 
   def show

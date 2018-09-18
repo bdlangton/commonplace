@@ -31,7 +31,7 @@
 
   <p>
     <%= form.label :user %><br>
-    <%= form.collection_select :user_id, User.order(:username),:id,:username, {include_blank: false}, {class: 'form-control'} %>
+    <%= form.collection_select :user_id, User.order(:email),:id,:email, {include_blank: false}, {class: 'form-control'} %>
   </p>
 
   <p>
