@@ -28,6 +28,9 @@
       </div>
     </nav>
     <div class="container">
+      <% if flash[:alert] %>
+        <div class="flash alert badge badge-warning"><%= flash[:alert] %></div>
+      <% end %>
       <% if flash[:notice] %>
         <div class="flash notice badge badge-info"><%= flash[:notice] %></div>
       <% end %>

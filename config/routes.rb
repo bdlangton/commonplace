@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  devise_for :users
   # Resources.
   resources :highlights, except: :show
   resources :sources
