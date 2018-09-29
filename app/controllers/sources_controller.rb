@@ -8,15 +8,15 @@ class SourcesController < ApplicationController
   end
 
   def show
-    @source = Source.find(params[:id])
+    @source = Source.by_user(current_user).find(params[:id])
   end
 
   def edit
-    @source = Source.find(params[:id])
+    @source = Source.by_user(current_user).find(params[:id])
   end
 
   def update
-    @source = Source.find(params[:id])
+    @source = Source.by_user(current_user).find(params[:id])
 
     if @source.update(source_params)
       redirect_to @source
@@ -36,7 +36,7 @@ class SourcesController < ApplicationController
   end
 
   def destroy
-    @source = Source.find(params[:id])
+    @source = Source.by_user(current_user).find(params[:id])
     @source.destroy
 
     redirect_to sources_path

@@ -26,14 +26,14 @@ class HighlightsController < ApplicationController
   end
 
   def edit
-    @highlight = Highlight.find(params[:id])
+    @highlight = Highlight.by_user(current_user).find(params[:id])
     @source = @highlight.source_id
     @tags = Tag.all
     session[:return_to] ||= request.referer
   end
 
   def update
-    @highlight = Highlight.find(params[:id])
+    @highlight = Highlight.by_user(current_user).find(params[:id])
     @source = @highlight.source_id
     @tags = Tag.all
 
@@ -55,21 +55,21 @@ class HighlightsController < ApplicationController
   end
 
   def favorite
-    @highlight = Highlight.find(params[:id])
+    @highlight = Highlight.by_user(current_user).find(params[:id])
     @highlight.favorite = true
     @highlight.save
     render json: @highlight
   end
 
   def unfavorite
-    @highlight = Highlight.find(params[:id])
+    @highlight = Highlight.by_user(current_user).find(params[:id])
     @highlight.favorite = false
     @highlight.save
     render json: @highlight
   end
 
   def destroy
-    @highlight = Highlight.find(params[:id])
+    @highlight = Highlight.by_user(current_user).find(params[:id])
     @highlight.destroy
 
     redirect_to highlights_path
