@@ -20,8 +20,7 @@
   </p>
 
   <p>
-    <%= form.label :user %><br>
-    <%= form.collection_select :user_id, User.order(:email),:id,:email, {include_blank: false}, {class: 'form-control'} %>
+    <%= form.hidden_field :user_id, :value => current_user.id %>
   </p>
 
   <p>
