@@ -3,7 +3,7 @@ class HighlightsController < ApplicationController
     @highlight = Highlight.new
     @tags = Tag.all
     @source = nil
-    session[:return_to] ||= request.referer
+    session[:return_to] = request.referer
     if params[:source]
       @source = params[:source]
     end
@@ -29,7 +29,7 @@ class HighlightsController < ApplicationController
     @highlight = Highlight.by_user(current_user).find(params[:id])
     @source = @highlight.source_id
     @tags = Tag.all
-    session[:return_to] ||= request.referer
+    session[:return_to] = request.referer
   end
 
   def update
