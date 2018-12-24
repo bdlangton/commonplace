@@ -5,7 +5,6 @@
     <% end %>
     <th>Highlight</th>
     <th>Note</th>
-    <th>Location</th>
     <th>Tags</th>
     <th>Operations</th>
   </tr>
@@ -17,7 +16,6 @@
       <% end %>
       <td><%= highlight.highlight %></td>
       <td><%= highlight.note %></td>
-      <td><%= highlight.location %></td>
       <td><%= raw tag_links(highlight.all_tags) %></td>
       <td>
         <%= link_to fa_icon('pencil'), edit_highlight_path(highlight), class: ['edit'] %>
