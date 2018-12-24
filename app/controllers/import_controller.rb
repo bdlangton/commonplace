@@ -26,7 +26,7 @@ class ImportController < ApplicationController
         # Create the highlight if it doesn't already exist.
         if Highlight.where(highlight: hl.text, location: hl.location, user: @user, source: @book).empty?
           highlights_count += 1
-          @highlight = Highlight.new(highlight: hl.text, location: hl.location, user: @user, source: @book)
+          @highlight = Highlight.new(highlight: hl.text, note: hl.note, location: hl.location, user: @user, source: @book)
           @highlight.save!
         end
       end

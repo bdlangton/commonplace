@@ -28,7 +28,9 @@ gem 'jbuilder', '~> 2.5'
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 gem 'mechanize'
-gem 'kindle-highlights'
+gem 'kindle-highlights',
+  :git => 'https://github.com/bdlangton/kindle-highlights.git',
+  :branch => 'add-notes'
 gem 'bundler'
 gem 'fileutils'
 gem 'json'
