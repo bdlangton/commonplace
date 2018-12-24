@@ -28,6 +28,15 @@ class ImportController < ApplicationController
           highlights_count += 1
           @highlight = Highlight.new(highlight: hl.text, note: hl.note, location: hl.location, user: @user, source: @book)
           @highlight.save!
+        elsif hl.note
+          # If there is a note in the highlight, but we don't have a note saved
+          # locally, then update the highlight.
+          @highlight = Highlight.find_by(highlight: hl.text, location: hl.location, user: @user, source: @book)
+          if @highlight.note.empty?
+            highlights_count += 1
+            @highlight.note = hl.note
+            @highlight.save!
+          end
         end
       end
     end
