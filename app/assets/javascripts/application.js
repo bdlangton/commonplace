@@ -19,6 +19,7 @@
 document.addEventListener("DOMContentLoaded", function(event) {
   // TODO: Move this JS to only show on pages that it needs to be on.
   $('a.favorite').bind('ajax:success', favoriteHighlight);
+  $('a.publish').bind('ajax:success', publishHighlight);
 
   function favoriteHighlight(event, data) {
     // TODO: Why is data null?
@@ -29,6 +30,18 @@ document.addEventListener("DOMContentLoaded", function(event) {
     else {
       $('#favorite-' + event.detail[0].id).removeClass('red').addClass('gray');
       $('#favorite-' + event.detail[0].id).attr('href', '/highlights/' + event.detail[0].id + '/favorite');
+    }
+  }
+
+  function publishHighlight(event, data) {
+    // TODO: Why is data null?
+    if (event.detail[0].published) {
+      $('#publish-' + event.detail[0].id).removeClass('red').addClass('gray');
+      $('#publish-' + event.detail[0].id).attr('href', '/highlights/' + event.detail[0].id + '/unpublish');
+    }
+    else {
+      $('#publish-' + event.detail[0].id).removeClass('gray').addClass('red');
+      $('#publish-' + event.detail[0].id).attr('href', '/highlights/' + event.detail[0].id + '/publish');
     }
   }
 

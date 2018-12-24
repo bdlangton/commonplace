@@ -11,17 +11,26 @@ class HighlightsController < ApplicationController
 
   def index
     if params[:tag]
-      @highlights = Highlight.tagged_with(params[:tag]).by_user(current_user).paginate(:page => params[:page], :per_page => 20)
+      @highlights = Highlight.tagged_with(params[:tag]).by_user(current_user).where(published: true).paginate(:page => params[:page], :per_page => 20)
     else
-      @highlights = Highlight.by_user(current_user).paginate(:page => params[:page], :per_page => 20)
+      @highlights = Highlight.by_user(current_user).where(published: true).paginate(:page => params[:page], :per_page => 20)
     end
   end
 
   def favorites
     if params[:tag]
-      @highlights = Highlight.tagged_with(params[:tag]).by_user(current_user).where('favorite = true').paginate(:page => params[:page], :per_page => 20)
+      @highlights = Highlight.tagged_with(params[:tag]).by_user(current_user).where(favorite: true, published: true).paginate(:page => params[:page], :per_page => 20)
     else
-      @highlights = Highlight.by_user(current_user).where('favorite = true').paginate(:page => params[:page], :per_page => 20)
+      @highlights = Highlight.by_user(current_user).where(favorite: true, published: true).paginate(:page => params[:page], :per_page => 20)
+    end
+  end
+
+  # Show a list of deleted (unpublished) highlights.
+  def deleted
+    if params[:tag]
+      @highlights = Highlight.tagged_with(params[:tag]).by_user(current_user).where(published: false).paginate(:page => params[:page], :per_page => 20)
+    else
+      @highlights = Highlight.by_user(current_user).where(published: false).paginate(:page => params[:page], :per_page => 20)
     end
   end
 
@@ -68,9 +77,26 @@ class HighlightsController < ApplicationController
     render json: @highlight
   end
 
+  # Publish a highlight with ajax call.
+  def publish
+    @highlight = Highlight.by_user(current_user).find(params[:id])
+    @highlight.published = true
+    @highlight.save
+    render json: @highlight
+  end
+
+  # Unpublish a highlight with ajax call.
+  def unpublish
+    @highlight = Highlight.by_user(current_user).find(params[:id])
+    @highlight.published = false
+    @highlight.save
+    render json: @highlight
+  end
+
   def destroy
     @highlight = Highlight.by_user(current_user).find(params[:id])
-    @highlight.destroy
+    @highlight.published = false
+    @highlight.save
 
     redirect_to highlights_path
   end

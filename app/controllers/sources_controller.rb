@@ -9,6 +9,7 @@ class SourcesController < ApplicationController
 
   def show
     @source = Source.by_user(current_user).find(params[:id])
+    @highlights = @source.highlights.where(published: true).sort_by(&:location)
   end
 
   def edit

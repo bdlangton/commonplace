@@ -2,6 +2,7 @@
 <h1>Highlights</h1>
 
 <%= link_to 'New highlight', new_highlight_path, class: ['badge', 'badge-pill', 'badge-primary'] %>
+<%= link_to 'See Deleted Highlights', highlights_deleted_path, class: ['badge', 'badge-pill', 'badge-secondary'] %>
 
 <%= render partial: 'highlights', locals: { highlights: @highlights } %>
 <%= will_paginate @highlights, renderer: WillPaginate::ActionView::BootstrapLinkRenderer %>

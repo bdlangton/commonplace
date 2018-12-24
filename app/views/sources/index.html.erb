@@ -18,7 +18,7 @@
       <td><%= source.source_type %></td>
       <td>
         <%= link_to 'Edit', edit_source_path(source), class: ['badge', 'badge-pill', 'badge-light'] %>
-        <%= link_to 'Destroy', source_path(source),
+        <%= link_to 'Delete', source_path(source),
               method: :delete,
               data: { confirm: 'Are you sure?' },
               class: ['badge', 'badge-pill', 'badge-danger'] %></td>

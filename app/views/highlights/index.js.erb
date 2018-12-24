@@ -1,5 +1,10 @@
 $('.favorite a').on('ajax:success', favoriteHighlight);
+$('.publish a').on('ajax:success', publishHighlight);
 
 function favoriteHighlight(event, data) {
+  $(‘body’).append(data.id);
+}
+
+function publishHighlight(event, data) {
   $(‘body’).append(data.id);
 }

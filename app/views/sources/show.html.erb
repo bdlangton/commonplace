@@ -13,5 +13,5 @@
 
 <%= link_to 'Edit Source', edit_source_path(@source), class: ['badge', 'badge-pill', 'badge-light'] %>
 <%= link_to 'Add highlight', new_highlight_path(:source => @source.id), class: ['badge', 'badge-pill', 'badge-primary'] %>
-<%= render partial: 'highlights/highlights', locals: { highlights: @source.highlights.sort_by(&:location), hide: ['source'] } %>
+<%= render partial: 'highlights/highlights', locals: { highlights: @highlights, hide: ['source'] } %>
 

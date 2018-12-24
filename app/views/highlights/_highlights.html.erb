@@ -20,17 +20,19 @@
       <td><%= highlight.location %></td>
       <td><%= raw tag_links(highlight.all_tags) %></td>
       <td>
+        <%= link_to fa_icon('pencil'), edit_highlight_path(highlight), class: ['edit'] %>
         <% id = highlight.id.to_s %>
         <% if highlight.favorite %>
           <%= link_to fa_icon('heart'), '/highlights/' + id + '/unfavorite', id: 'favorite-' + id, class: ['favorite', 'red'], remote: true %>
         <% else %>
           <%= link_to fa_icon('heart'), '/highlights/' + id + '/favorite', id: 'favorite-' + id, class: ['favorite', 'gray'], remote: true %>
         <% end %>
-        <%= link_to 'Edit', edit_highlight_path(highlight), class: ['badge', 'badge-pill', 'badge-light'] %>
-        <%= link_to 'Destroy', highlight_path(highlight),
-              method: :delete,
-              data: { confirm: 'Are you sure?' },
-              class: ['badge', 'badge-pill', 'badge-danger'] %></td>
+        <% if highlight.published %>
+          <%= link_to fa_icon('ban'), '/highlights/' + id + '/unpublish', id: 'publish-' + id, class: ['publish', 'gray'], remote: true %>
+        <% else %>
+          <%= link_to fa_icon('ban'), '/highlights/' + id + '/publish', id: 'publish-' + id, class: ['publish', 'red'], remote: true %>
+        <% end %>
+      </td>
     </tr>
   <% end %>
 </table>

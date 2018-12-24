@@ -12,6 +12,7 @@ class TagsController < ApplicationController
 
   def show
     @tag = Tag.by_user(current_user).find(params[:id])
+    @highlights = @tag.highlights.where(published: true)
   end
 
   def edit

@@ -1,0 +1,5 @@
+<%= content_for(:title, 'Deleted Highlights') %>
+<h1>Deleted Highlights</h1>
+
+<%= render partial: 'highlights', locals: { highlights: @highlights } %>
+<%= will_paginate @highlights, renderer: WillPaginate::ActionView::BootstrapLinkRenderer %>
