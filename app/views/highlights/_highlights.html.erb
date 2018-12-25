@@ -1,13 +1,19 @@
-<table class="table">
-  <tr>
-    <% if !defined?(hide) || !hide.include?('source') %>
-      <th>Source</th>
-    <% end %>
-    <th>Highlight</th>
-    <th>Note</th>
-    <th>Tags</th>
-    <th>Operations</th>
-  </tr>
+<% if !defined?(hide) || !hide.include?('source') %>
+  <table class="table">
+<% else %>
+  <table class="table no-source">
+<% end %>
+  <thead>
+    <tr>
+      <% if !defined?(hide) || !hide.include?('source') %>
+        <th>Source</th>
+      <% end %>
+      <th>Highlight</th>
+      <th>Note</th>
+      <th>Tags</th>
+      <th>Operations</th>
+    </tr>
+  </thead>
  
   <% highlights.each do |highlight| %>
     <tr>

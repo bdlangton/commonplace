@@ -26,3 +26,64 @@
 .gray {
   color: gray;
 }
+
+/* Zebra striping */
+tr:nth-of-type(even) {
+  background: #EEEEEE;
+}
+
+@media
+only screen and (max-width: 760px),
+(min-device-width: 768px) and (max-device-width: 1024px)  {
+
+  /* Force table to not be like tables anymore */
+  table, thead, tbody, th, td, tr {
+    display: block;
+  }
+
+  /* Hide table headers (but not display: none;, for accessibility) */
+  thead tr {
+    position: absolute;
+    top: -9999px;
+    left: -9999px;
+  }
+
+  tr { border: 1px solid #ccc; }
+
+  td {
+    /* Behave  like a "row" */
+    border: none;
+    border-bottom: 1px solid #eee;
+    min-height: 50px;
+    position: relative;
+    padding-left: 35% !important;
+  }
+
+  td:before {
+    /* Now like a table header */
+    position: absolute;
+    /* Top/left values mimic padding */
+    top: 6px;
+    left: 6px;
+    width: 30%;
+    font-weight: bold;
+    padding-right: 10px;
+    white-space: nowrap;
+  }
+
+  /* Label the table columns */
+  .table {
+    td:nth-of-type(1):before { content: "Source"; }
+    td:nth-of-type(2):before { content: "Highlight"; }
+    td:nth-of-type(3):before { content: "Note"; }
+    td:nth-of-type(4):before { content: "Tags"; }
+    td:nth-of-type(5):before { content: "Operations"; }
+  }
+  .table.no-source {
+    td:nth-of-type(1):before { content: "Highlight"; }
+    td:nth-of-type(2):before { content: "Note"; }
+    td:nth-of-type(3):before { content: "Tags"; }
+    td:nth-of-type(4):before { content: "Operations"; }
+  }
+
+}
