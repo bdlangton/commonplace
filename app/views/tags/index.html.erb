@@ -3,11 +3,13 @@
 
 <%= link_to 'New tag', new_tag_path, class: ['badge', 'badge-pill', 'badge-primary'] %>
 
-<table>
-  <tr>
-    <th>Title</th>
-    <th>Operations</th>
-  </tr>
+<table class="tags">
+  <thead>
+    <tr>
+      <th>Title</th>
+      <th>Operations</th>
+    </tr>
+  </thead>
  
   <% @tags.each do |tag| %>
     <tr>

@@ -3,13 +3,15 @@
 
 <%= link_to 'New source', new_source_path, class: ['badge', 'badge-pill', 'badge-primary'] %>
 
-<table>
-  <tr>
-    <th>Title</th>
-    <th>Author</th>
-    <th>Type</th>
-    <th>Operations</th>
-  </tr>
+<table class="sources">
+  <thead>
+    <tr>
+      <th>Title</th>
+      <th>Author</th>
+      <th>Type</th>
+      <th>Operations</th>
+    </tr>
+  </thead>
  
   <% @sources.each do |source| %>
     <tr>

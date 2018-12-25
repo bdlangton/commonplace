@@ -54,7 +54,7 @@ only screen and (max-width: 760px),
     /* Behave  like a "row" */
     border: none;
     border-bottom: 1px solid #eee;
-    min-height: 50px;
+    min-height: 40px;
     position: relative;
     padding-left: 35% !important;
   }
@@ -72,18 +72,28 @@ only screen and (max-width: 760px),
   }
 
   /* Label the table columns */
-  .table {
+  table.highlights {
     td:nth-of-type(1):before { content: "Source"; }
     td:nth-of-type(2):before { content: "Highlight"; }
     td:nth-of-type(3):before { content: "Note"; }
     td:nth-of-type(4):before { content: "Tags"; }
     td:nth-of-type(5):before { content: "Operations"; }
   }
-  .table.no-source {
+  table.highlights.no-source {
     td:nth-of-type(1):before { content: "Highlight"; }
     td:nth-of-type(2):before { content: "Note"; }
     td:nth-of-type(3):before { content: "Tags"; }
     td:nth-of-type(4):before { content: "Operations"; }
+  }
+  table.sources {
+    td:nth-of-type(1):before { content: "Title"; }
+    td:nth-of-type(2):before { content: "Author"; }
+    td:nth-of-type(3):before { content: "Type"; }
+    td:nth-of-type(4):before { content: "Operations"; }
+  }
+  table.tags {
+    td:nth-of-type(1):before { content: "Title"; }
+    td:nth-of-type(2):before { content: "Operations"; }
   }
 
 }
