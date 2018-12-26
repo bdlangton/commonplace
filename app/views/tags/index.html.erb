@@ -22,12 +22,12 @@
           )
         %>
       </td>
-      <td>
-        <%= link_to 'Edit', edit_tag_path(tag), class: ['badge', 'badge-pill', 'badge-light'] %>
-        <%= link_to 'Delete', tag_path(tag),
+      <td class="operations">
+        <%= link_to fa_icon('pencil'), edit_tag_path(tag), class: ['edit'] %>
+        <%= link_to fa_icon('ban'), tag_path(tag),
               method: :delete,
               data: { confirm: 'Are you sure?' },
-              class: ['badge', 'badge-pill', 'badge-danger'] %></td>
+              class: ['delete', 'gray'] %></td>
     </tr>
   <% end %>
 </table>

@@ -18,12 +18,12 @@
       <td><%= link_to source.title, source_path(source) %></td>
       <td><%= source.author %></td>
       <td><%= source.source_type %></td>
-      <td>
-        <%= link_to 'Edit', edit_source_path(source), class: ['badge', 'badge-pill', 'badge-light'] %>
-        <%= link_to 'Delete', source_path(source),
+      <td class="operations">
+        <%= link_to fa_icon('pencil'), edit_source_path(source), class: ['edit'] %>
+        <%= link_to fa_icon('ban'), source_path(source),
               method: :delete,
               data: { confirm: 'Are you sure?' },
-              class: ['badge', 'badge-pill', 'badge-danger'] %></td>
+              class: ['delete', 'gray'] %></td>
     </tr>
   <% end %>
 </table>

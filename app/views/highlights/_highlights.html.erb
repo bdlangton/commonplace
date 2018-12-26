@@ -23,7 +23,7 @@
       <td><%= highlight.highlight %></td>
       <td><%= highlight.note %></td>
       <td><%= raw tag_links(highlight.all_tags) %></td>
-      <td>
+      <td class="operations">
         <%= link_to fa_icon('pencil'), edit_highlight_path(highlight), class: ['edit'] %>
         <% id = highlight.id.to_s %>
         <% if highlight.favorite %>

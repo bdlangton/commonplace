@@ -17,7 +17,7 @@
 @import 'bootstrap';
 @import "font-awesome";
 
-// Font Awesome styles.
+// Colors.
 
 .red {
   color: red;
@@ -27,9 +27,40 @@
   color: gray;
 }
 
-/* Zebra striping */
+.edit {
+  color: gray;
+}
+
+.edit:hover {
+  color: blue;
+}
+
+.delete:hover {
+  color: red;
+}
+
+.publish.gray:hover,
+.favorite.gray:hover {
+  color: red;
+}
+
+.publish.red:hover,
+.favorite.red:hover {
+  color: gray;
+}
+
+// Tables.
+
 tr:nth-of-type(even) {
   background: #EEEEEE;
+}
+
+th, td {
+  padding: 10px;
+}
+
+td.operations {
+  text-align: center;
 }
 
 @media
