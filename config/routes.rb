@@ -6,6 +6,11 @@ Rails.application.routes.draw do
   resources :sources
   resources :tags
 
+  # Autocomplete.
+  resources :highlights do
+    get :autocomplete_tags_title, :on => :collection
+  end
+
   # Deleted/unpublished routes.
   get 'highlights/:id/publish', to: 'highlights#publish'
   get 'highlights/:id/unpublish', to: 'highlights#unpublish'

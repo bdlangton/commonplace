@@ -1,4 +1,6 @@
 class HighlightsController < ApplicationController
+  autocomplete :tags, :title
+
   def new
     @highlight = Highlight.new
     @tags = Tag.all
@@ -99,6 +101,13 @@ class HighlightsController < ApplicationController
     @highlight.save
 
     redirect_to highlights_path
+  end
+
+  # Autocomplete tags for the user.
+  def autocomplete_tags_title
+    term = params[:term]
+    tags = Tag.where('title LIKE ?', "%#{term}%").order(:title).all
+    render :json => tags.map { |tag| {:id => tag.id, :label => tag.title, :value => tag.title} }
   end
 
   private
