@@ -19,11 +19,26 @@ Mail.defaults do
 end
 
 class Kindle
-  def random_highlights
+  def random_highlights(favorites = 2, any = 1)
     random = Set[]
-    3.times do
-      offset = rand(Highlight.count)
-      random.add(Highlight.offset(offset).first)
+    count = 0
+
+    # Get just favorited highlights.
+    favorite_highlights = Highlight.where(favorite: true, published: true)
+    while count < favorites
+      offset = rand(favorite_highlights.count)
+      if random.add?(favorite_highlights.offset(offset).first)
+        count += 1
+      end
+    end
+
+    # Get any highlights.
+    highlights = Highlight.where(published: true)
+    while count < favorites + any
+      offset = rand(highlights.count)
+      if random.add?(highlights.offset(offset).first)
+        count += 1
+      end
     end
     return random
   end
@@ -31,7 +46,7 @@ end
 
 task :email => :environment do
   data = Kindle.new
-  highlights = data.random_highlights
+  highlights = data.random_highlights(2, 1)
 
   mail = Mail.new do
     from 'Kindle Highlights <bdlangton@gmail.com>'
