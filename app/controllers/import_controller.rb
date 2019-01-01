@@ -1,12 +1,18 @@
 class ImportController < ApplicationController
+  def form
+  end
+
   def import
     # Keep track of how many books and highlights are imported.
     books_count = 0
     highlights_count = 0
 
+    # Get the email and password to use and login.
+    @email = params[:email]
+    @password = params[:password]
     kindle = KindleHighlights::Client.new(
-      email_address: ENV['COMMONPLACE_KINDLE_EMAIL'],
-      password: ENV['COMMONPLACE_KINDLE_PW']
+      email_address: @email,
+      password: @password
     )
     @user = User.find(1)
     @books = kindle.books
