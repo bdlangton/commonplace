@@ -29,6 +29,13 @@ class ImportController < ApplicationController
       # Get all highlights from the book.
       @highlights = kindle.highlights_for(bk.asin)
       @highlights.each do |hl|
+        # If the highlight says that they are unable to display this kind of
+        # content, then skip it. This happens on non-text content such as
+        # graphs.
+        if hl.text == 'Sorry, we’re unable to display this type of content.'
+          next
+        end
+
         # Create the highlight if it doesn't already exist.
         if Highlight.where(highlight: hl.text, location: hl.location, user: @user, source: @book).empty?
           highlights_count += 1
