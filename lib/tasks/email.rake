@@ -42,7 +42,11 @@ task :email => :environment do
 
       text = ''
       highlights.each do |highlight|
-        text << "<p><b>#{highlight.source.title}</b></p><p>#{highlight.highlight}</p>"
+        tags = highlight.all_tags
+        unless tags.empty?
+          tags = "<p>Tags: #{tags}</p>"
+        end
+        text << "<p><b>#{highlight.source.title}</b></p><p>#{highlight.highlight}</p>#{tags}"
       end
       body text
     end
