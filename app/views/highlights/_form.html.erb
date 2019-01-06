@@ -31,7 +31,7 @@
 
   <div class="form-group">
     <%= form.label 'Tags' %><br/>
-    <%= form.autocomplete_field :all_tags, '/highlights/autocomplete_tags_title', 'data-delimiter' => ', ', class: 'form-control' %>
+    <%= form.autocomplete_field :all_tags, '/highlights/autocomplete_tags_title', 'data-delimiter' => ', ', 'data-auto-focus' => true, class: ['autocomplete', 'form-control'] %>
   </div>
 
   <div class="form-group">

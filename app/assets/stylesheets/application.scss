@@ -63,6 +63,22 @@ td.operations {
   text-align: center;
 }
 
+// Autocompletion.
+
+ul.ui-autocomplete {
+  background-color: #eee;
+  list-style: none;
+  padding: 5px;
+  width: 250px !important;
+
+  li div:focus,
+  li div:hover
+  {
+    background-color: #007bff;
+    color: #fff;
+  }
+}
+
 @media
 only screen and (max-width: 760px),
 (min-device-width: 768px) and (max-device-width: 1024px)  {
