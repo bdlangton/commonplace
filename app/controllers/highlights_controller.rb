@@ -112,6 +112,6 @@ class HighlightsController < ApplicationController
 
   private
     def highlight_params
-      params.require(:highlight).permit(:highlight, :note, :location, :all_tags, :user_id, :source_id)
+      params.require(:highlight).permit(:highlight, :note, :location, :all_tags, :favorite, :published, :user_id, :source_id)
     end
 end
