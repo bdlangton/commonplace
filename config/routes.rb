@@ -1,16 +1,6 @@
 Rails.application.routes.draw do
   devise_for :users
 
-  # Resources.
-  resources :highlights, except: :show
-  resources :sources
-  resources :tags
-
-  # Autocomplete.
-  resources :highlights do
-    get :autocomplete_tags_title, :on => :collection
-  end
-
   # Deleted/unpublished routes.
   get 'highlights/:id/publish', to: 'highlights#publish'
   get 'highlights/:id/unpublish', to: 'highlights#unpublish'
@@ -20,6 +10,16 @@ Rails.application.routes.draw do
   get 'highlights/:id/favorite', to: 'highlights#favorite'
   get 'highlights/:id/unfavorite', to: 'highlights#unfavorite'
   get 'favorites', to: 'highlights#favorites'
+
+  # Resources.
+  resources :highlights
+  resources :sources
+  resources :tags
+
+  # Autocomplete.
+  resources :highlights do
+    get :autocomplete_tags_title, :on => :collection
+  end
 
   # Import.
   get 'import', to: 'import#form'
