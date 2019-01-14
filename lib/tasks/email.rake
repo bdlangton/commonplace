@@ -61,7 +61,12 @@ task :email => :environment do
         unless tags.empty?
           tags = "<p>Tags: #{tags}</p>"
         end
-        text << "<p><b>#{highlight.source.title}</b></p><p>#{highlight.highlight}</p>#{tags}"
+        text << "<p><b>#{highlight.source.title}</b></p>"
+        text << "<p>#{highlight.highlight}</p>"
+        unless highlight.note.empty?
+          text << "<p>Note: #{highlight.note}</p>"
+        end
+        text << "#{tags}"
       end
       body text
     end
