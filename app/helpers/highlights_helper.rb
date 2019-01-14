@@ -1,4 +1,5 @@
 module HighlightsHelper
+  # Given a comma separated list of tags, generate links for each tag.
   def tag_links(tags)
     tags.split(",").map{|tag|
       @tag = Tag.find_by(title: tag.strip, user: current_user)

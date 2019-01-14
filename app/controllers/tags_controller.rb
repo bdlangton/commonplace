@@ -1,8 +1,10 @@
 class TagsController < ApplicationController
+  # Create a new tag.
   def new
     @tag = Tag.new
   end
 
+  # List tags by user.
   def index
     @tags = Tag.by_user(current_user).select('tags.*', 'count(*) as count')
       .left_joins(:taggings)
@@ -10,15 +12,18 @@ class TagsController < ApplicationController
       .order("count(taggings.highlight_id) DESC")
   end
 
+  # Show a tag.
   def show
     @tag = Tag.by_user(current_user).find(params[:id])
     @highlights = @tag.highlights.where(published: true)
   end
 
+  # Edit a tag.
   def edit
     @tag = Tag.by_user(current_user).find(params[:id])
   end
 
+  # Update a tag.
   def update
     @tag = Tag.by_user(current_user).find(params[:id])
 
@@ -29,6 +34,7 @@ class TagsController < ApplicationController
     end
   end
 
+  # Create a new tag.
   def create
     @tag = Tag.new(tag_params)
 
@@ -39,6 +45,7 @@ class TagsController < ApplicationController
     end
   end
 
+  # Delete a tag.
   def destroy
     @tag = Tag.by_user(current_user).find(params[:id])
     @tag.destroy
@@ -47,6 +54,7 @@ class TagsController < ApplicationController
   end
 
   private
+    # Define which tag fields are required and permitted.
     def tag_params
       params.require(:tag).permit(:title, :user_id)
     end

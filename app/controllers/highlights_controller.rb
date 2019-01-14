@@ -1,6 +1,7 @@
 class HighlightsController < ApplicationController
   autocomplete :tags, :title
 
+  # Create new highlight.
   def new
     @highlight = Highlight.new
     @tags = Tag.all
@@ -11,6 +12,7 @@ class HighlightsController < ApplicationController
     end
   end
 
+  # Show a list of highlights by the user.
   def index
     if params[:tag]
       @highlights = Highlight.tagged_with(params[:tag]).by_user(current_user).where(published: true).paginate(:page => params[:page], :per_page => 20)
@@ -19,6 +21,7 @@ class HighlightsController < ApplicationController
     end
   end
 
+  # Show favorite highlights by the user.
   def favorites
     if params[:tag]
       @highlights = Highlight.tagged_with(params[:tag]).by_user(current_user).where(favorite: true, published: true).paginate(:page => params[:page], :per_page => 20)
@@ -36,6 +39,7 @@ class HighlightsController < ApplicationController
     end
   end
 
+  # Edit an existing highlight.
   def edit
     @highlight = Highlight.by_user(current_user).find(params[:id])
     @source = @highlight.source_id
@@ -43,6 +47,7 @@ class HighlightsController < ApplicationController
     session[:return_to] = request.referer
   end
 
+  # Update an existing highlight.
   def update
     @highlight = Highlight.by_user(current_user).find(params[:id])
     @source = @highlight.source_id
@@ -55,6 +60,7 @@ class HighlightsController < ApplicationController
     end
   end
 
+  # Create a new highlight.
   def create
     @highlight = Highlight.new(highlight_params)
 
@@ -65,6 +71,7 @@ class HighlightsController < ApplicationController
     end
   end
 
+  # Favorite a highlight. Ajax callback.
   def favorite
     @highlight = Highlight.by_user(current_user).find(params[:id])
     @highlight.favorite = true
@@ -72,6 +79,7 @@ class HighlightsController < ApplicationController
     render json: @highlight
   end
 
+  # Unfavorite a highlight. Ajax callback.
   def unfavorite
     @highlight = Highlight.by_user(current_user).find(params[:id])
     @highlight.favorite = false
@@ -95,6 +103,7 @@ class HighlightsController < ApplicationController
     render json: @highlight
   end
 
+  # Unpublish a highlight (not actually delete).
   def destroy
     @highlight = Highlight.by_user(current_user).find(params[:id])
     @highlight.published = false
@@ -111,6 +120,7 @@ class HighlightsController < ApplicationController
   end
 
   private
+    # Define which highlight fields are required and permitted.
     def highlight_params
       params.require(:highlight).permit(:highlight, :note, :location, :all_tags, :favorite, :published, :user_id, :source_id)
     end

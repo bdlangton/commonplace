@@ -2,6 +2,7 @@ class ImportController < ApplicationController
   def form
   end
 
+  # Import highlights from the kindle website.
   def import
     # Keep track of how many books and highlights are imported.
     books_count = 0
