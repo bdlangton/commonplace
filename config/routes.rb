@@ -11,15 +11,15 @@ Rails.application.routes.draw do
   get 'highlights/:id/unfavorite', to: 'highlights#unfavorite'
   get 'favorites', to: 'highlights#favorites'
 
-  # Resources.
-  resources :highlights
-  resources :sources
-  resources :tags
-
   # Autocomplete.
   resources :highlights do
     get :autocomplete_tags_title, :on => :collection
   end
+
+  # Resources.
+  resources :highlights
+  resources :sources
+  resources :tags
 
   # Import.
   get 'import', to: 'import#form'
