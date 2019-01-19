@@ -15,7 +15,11 @@ class TagsController < ApplicationController
   # Show a tag.
   def show
     @tag = Tag.by_user(current_user).find(params[:id])
-    @highlights = @tag.highlights.where(published: true)
+    @highlights = @tag.highlights
+    if params[:favorite].present?
+      @highlights = @highlights.where(favorite: true)
+    end
+    @highlights = @highlights.by_user(current_user).where(published: true)
   end
 
   # Edit a tag.
