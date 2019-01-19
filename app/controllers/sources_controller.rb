@@ -6,7 +6,12 @@ class SourcesController < ApplicationController
 
   # List sources by user.
   def index
-    @sources = Source.all.by_user(current_user).sort_by &:title
+    @source_types = Source.by_user(current_user).select(:source_type).distinct.sort_by &:source_type
+    if params[:source_type]
+      @sources = Source.by_user(current_user).where(source_type: params[:source_type]).sort_by &:title
+    else
+      @sources = Source.by_user(current_user).sort_by &:title
+    end
   end
 
   # Show a source.
