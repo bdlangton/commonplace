@@ -10,7 +10,7 @@ class Highlight < ApplicationRecord
   # Find or create each of the tags from the comma separated list.
   def all_tags=(titles)
     self.tags = titles.split(",").map do |title|
-      Tag.where(title: title.strip, user: 1).first_or_create!
+      Tag.where(title: title.strip, user: current_user).first_or_create!
     end
   end
 
