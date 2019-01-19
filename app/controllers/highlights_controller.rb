@@ -122,6 +122,6 @@ class HighlightsController < ApplicationController
   private
     # Define which highlight fields are required and permitted.
     def highlight_params
-      params.require(:highlight).permit(:highlight, :note, :location, :all_tags, :favorite, :published, :user_id, :source_id)
+      params.require(:highlight).permit(:highlight, :note, :all_tags, :favorite, :published, :user_id, :source_id)
     end
 end
