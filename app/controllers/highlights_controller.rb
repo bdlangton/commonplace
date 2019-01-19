@@ -15,31 +15,34 @@ class HighlightsController < ApplicationController
   # Show a list of highlights by the user.
   def index
     @tags = Tag.by_user(current_user).joins(:highlights).where(highlights: {published: true}).order(:title)
-    if params[:tag]
-      @highlights = Highlight.tagged_with(params[:tag]).by_user(current_user).where(published: true).paginate(:page => params[:page], :per_page => 20)
-    else
-      @highlights = Highlight.by_user(current_user).where(published: true).paginate(:page => params[:page], :per_page => 20)
+    @highlights = Highlight
+    if params[:tag].present?
+      @highlights = @highlights.tagged_with(params[:tag])
     end
+    if params[:favorite].present?
+      @highlights = @highlights.where(favorite: true)
+    end
+    @highlights = @highlights.by_user(current_user).where(published: true).paginate(:page => params[:page], :per_page => 20)
   end
 
   # Show favorite highlights by the user.
   def favorites
     @tags = Tag.by_user(current_user).joins(:highlights).where(highlights: {favorite: true, published: true}).order(:title)
-    if params[:tag]
-      @highlights = Highlight.tagged_with(params[:tag]).by_user(current_user).where(favorite: true, published: true).paginate(:page => params[:page], :per_page => 20)
-    else
-      @highlights = Highlight.by_user(current_user).where(favorite: true, published: true).paginate(:page => params[:page], :per_page => 20)
+    @highlights = Highlight
+    if params[:tag].present?
+      @highlights = @highlights.tagged_with(params[:tag])
     end
+    @highlights = @highlights.by_user(current_user).where(favorite: true, published: true).paginate(:page => params[:page], :per_page => 20)
   end
 
   # Show a list of deleted (unpublished) highlights.
   def deleted
     @tags = Tag.by_user(current_user).joins(:highlights).where(highlights: {published: false}).order(:title)
-    if params[:tag]
-      @highlights = Highlight.tagged_with(params[:tag]).by_user(current_user).where(published: false).paginate(:page => params[:page], :per_page => 20)
-    else
-      @highlights = Highlight.by_user(current_user).where(published: false).paginate(:page => params[:page], :per_page => 20)
+    @highlights = Highlight
+    if params[:tag].present?
+      @highlights = @highlights.tagged_with(params[:tag])
     end
+    @highlights = @highlights.by_user(current_user).where(published: false).paginate(:page => params[:page], :per_page => 20)
   end
 
   # Edit an existing highlight.

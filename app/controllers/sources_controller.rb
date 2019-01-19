@@ -17,7 +17,15 @@ class SourcesController < ApplicationController
   # Show a source.
   def show
     @source = Source.by_user(current_user).find(params[:id])
-    @highlights = @source.highlights.where(published: true).sort_by(&:location)
+    @tags = Tag.by_user(current_user).by_source(params[:id]).order(:title)
+    @highlights = @source.highlights
+    if params[:tag].present?
+      @highlights = @highlights.tagged_with(params[:tag])
+    end
+    if params[:favorite].present?
+      @highlights = @highlights.where(favorite: true)
+    end
+    @highlights = @highlights.by_user(current_user).where(published: true).sort_by(&:location)
   end
 
   # Edit an existing source.

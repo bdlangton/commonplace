@@ -8,6 +8,8 @@
   <p>
     <%= label_tag :tag %><br>
     <%= select_tag :tag, options_from_collection_for_select(@tags, 'title', 'title', params[:tag]), include_blank: true %>
+    <%= label_tag :favorite %><br>
+    <%= check_box_tag :favorite, '1', params[:favorite] %>
     <%= submit_tag "Submit", :name => nil %>
   </p>
 <% end %>
