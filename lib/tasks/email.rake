@@ -63,7 +63,7 @@ task :email => :environment do
         end
         text << "<p><b>#{highlight.source.title}</b></p>"
         text << "<p>#{highlight.highlight}</p>"
-        unless highlight.note.empty?
+        if highlight.note.present?
           text << "<p>Note: #{highlight.note}</p>"
         end
         text << "#{tags}"
