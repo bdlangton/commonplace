@@ -13,6 +13,6 @@ class Tag < ApplicationRecord
 
   # Filter tags by sources that have highlights with that tag.
   def self.by_source(id)
-    self.joins("JOIN taggings ON taggings.tag_id = tags.id JOIN highlights ON highlights.id = taggings.highlight_id JOIN sources ON highlights.source_id = sources.id").where(highlights: {published: true}, sources: {id: id})
+    self.joins("JOIN taggings ON taggings.tag_id = tags.id JOIN highlights ON highlights.id = taggings.highlight_id JOIN sources ON highlights.source_id = sources.id").where(highlights: {published: true}, sources: {id: id}).distinct
   end
 end

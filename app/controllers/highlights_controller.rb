@@ -14,7 +14,7 @@ class HighlightsController < ApplicationController
 
   # Show a list of highlights by the user.
   def index
-    @tags = Tag.by_user(current_user).joins(:highlights).where(highlights: {published: true}).order(:title)
+    @tags = Tag.by_user(current_user).joins(:highlights).where(highlights: {published: true}).distinct.order(:title)
     @highlights = Highlight
     if params[:tag].present?
       @highlights = @highlights.tagged_with(params[:tag])
@@ -27,7 +27,7 @@ class HighlightsController < ApplicationController
 
   # Show favorite highlights by the user.
   def favorites
-    @tags = Tag.by_user(current_user).joins(:highlights).where(highlights: {favorite: true, published: true}).order(:title)
+    @tags = Tag.by_user(current_user).joins(:highlights).where(highlights: {favorite: true, published: true}).distinct.order(:title)
     @highlights = Highlight
     if params[:tag].present?
       @highlights = @highlights.tagged_with(params[:tag])
@@ -37,7 +37,7 @@ class HighlightsController < ApplicationController
 
   # Show a list of deleted (unpublished) highlights.
   def deleted
-    @tags = Tag.by_user(current_user).joins(:highlights).where(highlights: {published: false}).order(:title)
+    @tags = Tag.by_user(current_user).joins(:highlights).where(highlights: {published: false}).distinct.order(:title)
     @highlights = Highlight
     if params[:tag].present?
       @highlights = @highlights.tagged_with(params[:tag])
