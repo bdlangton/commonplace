@@ -1,5 +1,6 @@
 class HighlightsController < ApplicationController
   autocomplete :tags, :title
+  require 'will_paginate/array'
 
   # Create new highlight.
   def new
@@ -15,14 +16,16 @@ class HighlightsController < ApplicationController
   # Show a list of highlights by the user.
   def index
     @tags = Tag.by_user(current_user).joins(:highlights).where(highlights: {published: true}).distinct.order(:title)
-    @highlights = Highlight
+    @highlights = Highlight.by_user(current_user).where(published: true)
     if params[:tag].present?
       @highlights = @highlights.tagged_with(params[:tag])
     end
     if params[:favorite].present?
       @highlights = @highlights.where(favorite: true)
     end
-    @highlights = @highlights.by_user(current_user).where(published: true).paginate(:page => params[:page], :per_page => 20)
+
+    @highlights = @highlights.sort_by(&:created_at).reverse
+    @highlights = @highlights.paginate(:page => params[:page], :per_page => 20)
   end
 
   # Show favorite highlights by the user.
