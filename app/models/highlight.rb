@@ -9,7 +9,9 @@ class Highlight < ApplicationRecord
 
   # Find or create each of the tags from the comma separated list.
   def all_tags=(titles)
-    self.tags = titles.split(",").map do |title|
+    # Reject any 'blank' entries between commas.
+    titles = titles.split(",").reject(&:blank?)
+    self.tags = titles.map do |title|
       Tag.where(title: title.strip, user_id: user_id).first_or_create!
     end
   end
