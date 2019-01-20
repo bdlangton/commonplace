@@ -23,6 +23,20 @@ div.container {
   margin-top: 20px;
 }
 
+// Forms.
+
+.filter-form {
+  margin: 10px;
+}
+
+.form-checkbox {
+  input[type="checkbox"] {
+    float: left;
+    height: 1.5em;
+    width: 20px;
+  }
+}
+
 // Colors.
 
 .red {
