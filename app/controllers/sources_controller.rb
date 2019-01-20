@@ -7,10 +7,16 @@ class SourcesController < ApplicationController
   # List sources by user.
   def index
     @source_types = Source.by_user(current_user).select(:source_type).distinct.sort_by &:source_type
-    if params[:source_type]
-      @sources = Source.by_user(current_user).where(source_type: params[:source_type]).sort_by &:title
+    @sources = Source.by_user(current_user)
+    if params[:source_type].present?
+      @sources = @sources.where(source_type: params[:source_type])
+    end
+
+    # Sort.
+    if params[:sort] == 'newest'
+      @sources = @sources.sort_by(&:created_at).reverse
     else
-      @sources = Source.by_user(current_user).sort_by &:title
+      @sources = @sources.sort_by &:title
     end
   end
 

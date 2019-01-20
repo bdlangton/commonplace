@@ -6,6 +6,8 @@
 <%= form_tag({}, :method => 'get', :class => 'filter-form') do %>
   <%= label_tag :source_type %>
   <%= select_tag :source_type, options_from_collection_for_select(@source_types, 'source_type', 'source_type', params[:source_type]), include_blank: true %>
+  <%= label_tag 'Sort' %>
+  <%= select_tag 'sort', options_for_select([['Title', 'title'], ['Last Added', 'newest']], params[:sort]) %>
   <%= submit_tag "Filter", :name => nil %>
 <% end %>
 
