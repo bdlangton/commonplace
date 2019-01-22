@@ -17,11 +17,11 @@ class HighlightsController < ApplicationController
   def index
     @tags = Tag.by_user(current_user).joins(:highlights).where(highlights: {published: true}).distinct.order(:title)
     @highlights = Highlight.by_user(current_user).where(published: true)
-    if params[:tag].present?
-      @highlights = @highlights.tagged_with(params[:tag])
-    end
     if params[:favorite].present?
       @highlights = @highlights.where(favorite: true)
+    end
+    if params[:tag].present?
+      @highlights = @highlights.tagged_with(params[:tag])
     end
 
     @highlights = @highlights.sort_by(&:created_at).reverse
@@ -31,21 +31,21 @@ class HighlightsController < ApplicationController
   # Show favorite highlights by the user.
   def favorites
     @tags = Tag.by_user(current_user).joins(:highlights).where(highlights: {favorite: true, published: true}).distinct.order(:title)
-    @highlights = Highlight
+    @highlights = Highlight.by_user(current_user).where(favorite: true, published: true)
     if params[:tag].present?
       @highlights = @highlights.tagged_with(params[:tag])
     end
-    @highlights = @highlights.by_user(current_user).where(favorite: true, published: true).paginate(:page => params[:page], :per_page => 20)
+    @highlights = @highlights.paginate(:page => params[:page], :per_page => 20)
   end
 
   # Show a list of deleted (unpublished) highlights.
   def deleted
     @tags = Tag.by_user(current_user).joins(:highlights).where(highlights: {published: false}).distinct.order(:title)
-    @highlights = Highlight
+    @highlights = Highlight.by_user(current_user).where(published: false)
     if params[:tag].present?
       @highlights = @highlights.tagged_with(params[:tag])
     end
-    @highlights = @highlights.by_user(current_user).where(published: false).paginate(:page => params[:page], :per_page => 20)
+    @highlights = @highlights.paginate(:page => params[:page], :per_page => 20)
   end
 
   # Edit an existing highlight.

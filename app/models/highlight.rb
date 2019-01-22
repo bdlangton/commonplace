@@ -22,7 +22,18 @@ class Highlight < ApplicationRecord
   end
 
   # Find highlights tagged with the tag.
-  def self.tagged_with(title)
-    Tag.find_by_title!(title).highlights
+  def self.tagged_with(titles)
+    if titles.kind_of?(Array)
+      titles.each do |title|
+        if @highlights.nil?
+          @highlights = Tag.find_by_title!(title).highlights
+        else
+          @highlights += Tag.find_by_title!(title).highlights
+        end
+      end
+    else
+      @highlights = Tag.find_by_title!(titles).highlights.to_a
+    end
+    return @highlights.uniq
   end
 end

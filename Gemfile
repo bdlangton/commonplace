@@ -46,6 +46,7 @@ gem 'bootstrap'
 gem 'will_paginate-bootstrap4'
 gem 'devise'
 gem 'rails-jquery-autocomplete'
+gem 'chosen-rails'
 
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development

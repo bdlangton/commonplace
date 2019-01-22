@@ -14,6 +14,7 @@
 //= require rails-ujs
 //= require jquery-ui/widgets/autocomplete
 //= require autocomplete-rails
+//= require chosen-jquery
 //= require popper
 //= require bootstrap
 //= require_tree .

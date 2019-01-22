@@ -1,4 +1,6 @@
 class SourcesController < ApplicationController
+  require 'will_paginate/array'
+
   # Create a new source.
   def new
     @source = Source.new
@@ -24,14 +26,14 @@ class SourcesController < ApplicationController
   def show
     @source = Source.by_user(current_user).find(params[:id])
     @tags = Tag.by_user(current_user).by_source(params[:id]).order(:title)
-    @highlights = @source.highlights
-    if params[:tag].present?
-      @highlights = @highlights.tagged_with(params[:tag])
-    end
+    @highlights = @source.highlights.where(published: true)
     if params[:favorite].present?
       @highlights = @highlights.where(favorite: true)
     end
-    @highlights = @highlights.by_user(current_user).where(published: true).sort_by(&:location)
+    if params[:tag].present?
+      @highlights = @highlights.tagged_with(params[:tag])
+    end
+    @highlights = @highlights.sort_by(&:location)
   end
 
   # Edit an existing source.

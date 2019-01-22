@@ -6,7 +6,7 @@
 
 <%= form_tag({}, :method => 'get', :class => 'filter-form') do %>
   <%= label_tag :tag %>
-  <%= select_tag :tag, options_from_collection_for_select(@tags, 'title', 'title', params[:tag]), include_blank: true %>
+  <%= select_tag :tag, options_from_collection_for_select(@tags, 'title', 'title', params[:tag]), include_blank: true, class: 'chosen-select', multiple: true %>
   <%= label_tag :favorite %>
   <%= check_box_tag :favorite, '1', params[:favorite] %>
   <%= submit_tag "Filter", :name => nil %>
