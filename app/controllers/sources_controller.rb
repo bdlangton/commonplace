@@ -74,6 +74,6 @@ class SourcesController < ApplicationController
   private
     # Define which source fields are required and permitted.
     def source_params
-      params.require(:source).permit(:title, :author, :source_type, :user_id)
+      params.require(:source).permit(:title, :author, :source_type, :notes, :user_id)
     end
 end

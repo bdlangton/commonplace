@@ -30,6 +30,11 @@
   </p>
 
   <p>
+    <%= form.label 'Notes' %><br>
+    <%= form.text_area :notes, size: '80x3', class: 'form-control' %>
+  </p>
+
+  <p>
     <%= form.hidden_field :user_id, :value => current_user.id %>
   </p>
 

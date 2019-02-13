@@ -11,6 +11,13 @@
   <%= @source.source_type %>
 </p>
 
+<% if @source.notes %>
+  <p>
+    <strong>Notes:</strong>
+    <p><%= @source.notes %></p>
+  </p>
+<% end %>
+
 <%= link_to 'Edit Source', edit_source_path(@source), class: ['badge', 'badge-pill', 'badge-light'] %>
 <%= link_to 'Add highlight', new_highlight_path(:source => @source.id), class: ['badge', 'badge-pill', 'badge-primary'] %>
 
