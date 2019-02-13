@@ -15,13 +15,12 @@ class ImportController < ApplicationController
       email_address: @email,
       password: @password
     )
-    @user = User.find(1)
     @books = kindle.books
     @books.each do |bk|
       # Create or load the book.
-      if Source.where(asin: bk.asin, user: @user).empty?
+      if Source.where(asin: bk.asin, user: current_user).empty?
         books_count += 1
-        @book = Source.new(title: bk.title, author: bk.author, source_type: 'Book', asin: bk.asin, user: @user)
+        @book = Source.new(title: bk.title, author: bk.author, source_type: 'Book', asin: bk.asin, user: current_user)
         @book.save!
       else
         @book = Source.where(asin: bk.asin).first
@@ -38,14 +37,14 @@ class ImportController < ApplicationController
         end
 
         # Create the highlight if it doesn't already exist.
-        if Highlight.where(highlight: hl.text, location: hl.location, user: @user, source: @book).empty?
+        if Highlight.where(highlight: hl.text, location: hl.location, user: current_user, source: @book).empty?
           highlights_count += 1
-          @highlight = Highlight.new(highlight: hl.text, note: hl.note, location: hl.location, user: @user, source: @book)
+          @highlight = Highlight.new(highlight: hl.text, note: hl.note, location: hl.location, user: current_user, source: @book)
           @highlight.save!
         elsif hl.note
           # If there is a note in the highlight, but we don't have a note saved
           # locally, then update the highlight.
-          @highlight = Highlight.find_by(highlight: hl.text, location: hl.location, user: @user, source: @book)
+          @highlight = Highlight.find_by(highlight: hl.text, location: hl.location, user: current_user, source: @book)
           if @highlight.note.empty?
             highlights_count += 1
             @highlight.note = hl.note
