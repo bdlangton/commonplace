@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20181224215954) do
+ActiveRecord::Schema.define(version: 20190213014231) do
 
   create_table "highlights", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.text "highlight"
@@ -34,6 +34,7 @@ ActiveRecord::Schema.define(version: 20181224215954) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "asin"
+    t.text "notes"
     t.index ["user_id"], name: "index_sources_on_user_id"
   end
 
