@@ -124,7 +124,7 @@ class HighlightsController < ApplicationController
   # Autocomplete tags for the user.
   def autocomplete_tags_title
     term = params[:term]
-    tags = Tag.where('title LIKE ?', "%#{term}%").order(:title).all
+    tags = Tag.where('title LIKE ?', "#{term}%").order(:title).all | Tag.where('title LIKE ?', "%#{term}%").order(:title).all
     render :json => tags.map { |tag| {:id => tag.id, :label => tag.title, :value => tag.title} }
   end
 
