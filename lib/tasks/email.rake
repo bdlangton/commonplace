@@ -19,25 +19,38 @@ Mail.defaults do
 end
 
 class Kindle
-  def random_highlights(favorites = 2, any = 1)
+  def random_highlights(user, favorites = 2, any = 1)
     random = Set[]
     count = 0
+    loops = 0
 
     # Get just favorited highlights.
-    favorite_highlights = Highlight.where(favorite: true, published: true)
+    favorite_highlights = Highlight.by_user(user).where(favorite: true, published: true)
     while count < favorites
       offset = rand(favorite_highlights.count)
       if random.add?(favorite_highlights.offset(offset).first)
         count += 1
       end
+
+      # Break out if the loop is never finding enough highlights.
+      loops += 1
+      if loops > favorites * 2
+        return random
+      end
     end
 
     # Get any highlights.
-    highlights = Highlight.where(published: true)
+    highlights = Highlight.by_user(user).where(published: true)
     while count < favorites + any
       offset = rand(highlights.count)
       if random.add?(highlights.offset(offset).first)
         count += 1
+      end
+
+      # Break out if the loop is never finding enough highlights.
+      loops += 1
+      if loops > (favorites + any) * 2
+        return random
       end
     end
     return random
@@ -45,34 +58,48 @@ class Kindle
 end
 
 task :email => :environment do
-  data = Kindle.new
-  highlights = data.random_highlights(2, 1)
+  users = User.all
 
-  mail = Mail.new do
-    from 'Kindle Highlights <bdlangton@gmail.com>'
-    to ENV['TO']
-    subject "Your daily highlights for #{Time.now.strftime("%b %-d")}"
-    html_part do
-      content_type 'text/html; charset=UTF-8'
+  for user in users
+    data = Kindle.new
+    highlights = data.random_highlights(user, 2, 1)
 
-      text = ''
-      highlights.each do |highlight|
-        tags = highlight.all_tags
-        unless tags.empty?
-          tags = "<p>Tags: #{tags}</p>"
-        end
-        text << "<p><b>#{highlight.source.title}</b></p>"
-        text << "<p>#{highlight.highlight}</p>"
-        if highlight.note.present?
-          text << "<p>Note: #{highlight.note}</p>"
-        end
-        text << "#{tags}"
-      end
-      body text
+    # Skip this user if they have no highlights return.
+    if highlights.empty?
+      next
     end
-  end
 
-  mail.deliver
+    text = ''
+    mail = Mail.new do
+      from 'Commonplace Book <bdlangton@gmail.com>'
+
+      to user.email
+      subject "Your daily highlights for #{Time.now.strftime("%b %-d")}"
+      html_part do
+        content_type 'text/html; charset=UTF-8'
+
+        highlights.each do |highlight|
+          if highlight.blank?
+            next
+          end
+
+          tags = highlight.all_tags
+          unless tags.empty?
+            tags = "<p>Tags: #{tags}</p>"
+          end
+          text << "<p><b>#{highlight.source.title}</b></p>"
+          text << "<p>#{highlight.highlight}</p>"
+          if highlight.note.present?
+            text << "<p>Note: #{highlight.note}</p>"
+          end
+          text << "#{tags}"
+        end
+        body text
+      end
+    end
+
+    mail.deliver unless text.empty?
+  end
 end
 
 task default: [:email]
