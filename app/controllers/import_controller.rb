@@ -15,47 +15,55 @@ class ImportController < ApplicationController
       email_address: @email,
       password: @password
     )
-    @books = kindle.books
-    @books.each do |bk|
-      # Create or load the book.
-      if Source.where(asin: bk.asin, user: current_user).empty?
-        books_count += 1
-        @book = Source.new(title: bk.title, author: bk.author, source_type: 'Book', asin: bk.asin, user: current_user)
-        @book.save!
-      else
-        @book = Source.where(asin: bk.asin).first
-      end
 
-      # Get all highlights from the book.
-      @highlights = kindle.highlights_for(bk.asin)
-      @highlights.each do |hl|
-        # If the highlight says that they are unable to display this kind of
-        # content, then skip it. This happens on non-text content such as
-        # graphs.
-        if hl.text == 'Sorry, we’re unable to display this type of content.'
-          next
+    begin
+      @books = kindle.books
+
+      @books.each do |bk|
+        # Create or load the book.
+        if Source.where(asin: bk.asin, user: current_user).empty?
+          books_count += 1
+          @book = Source.new(title: bk.title, author: bk.author, source_type: 'Book', asin: bk.asin, user: current_user)
+          @book.save!
+        else
+          @book = Source.where(asin: bk.asin).first
         end
 
-        # Create the highlight if it doesn't already exist.
-        if Highlight.where(highlight: hl.text, location: hl.location, user: current_user, source: @book).empty?
-          highlights_count += 1
-          @highlight = Highlight.new(highlight: hl.text, note: hl.note, location: hl.location, user: current_user, source: @book)
-          @highlight.save!
-        elsif hl.note
-          # If there is a note in the highlight, but we don't have a note saved
-          # locally, then update the highlight.
-          @highlight = Highlight.find_by(highlight: hl.text, location: hl.location, user: current_user, source: @book)
-          if @highlight.note.empty?
+        # Get all highlights from the book.
+        @highlights = kindle.highlights_for(bk.asin)
+        @highlights.each do |hl|
+          # If the highlight says that they are unable to display this kind of
+          # content, then skip it. This happens on non-text content such as
+          # graphs.
+          if hl.text == 'Sorry, we’re unable to display this type of content.'
+            next
+          end
+
+          # Create the highlight if it doesn't already exist.
+          if Highlight.where(highlight: hl.text, location: hl.location, user: current_user, source: @book).empty?
             highlights_count += 1
-            @highlight.note = hl.note
+            @highlight = Highlight.new(highlight: hl.text, note: hl.note, location: hl.location, user: current_user, source: @book)
             @highlight.save!
+          elsif hl.note
+            # If there is a note in the highlight, but we don't have a note saved
+            # locally, then update the highlight.
+            @highlight = Highlight.find_by(highlight: hl.text, location: hl.location, user: current_user, source: @book)
+            if @highlight.note.empty?
+              highlights_count += 1
+              @highlight.note = hl.note
+              @highlight.save!
+            end
           end
         end
       end
-    end
 
-    # Redirect to the user's highlights.
-    flash[:notice] = "Import finished. #{books_count} books added and #{highlights_count} highlights added."
-    redirect_to highlights_path
+      # Redirect to the user's highlights.
+      flash[:notice] = "Import finished. #{books_count} books added and #{highlights_count} highlights added."
+      redirect_to highlights_path
+    rescue KindleHighlights::Client::CaptchaError => error
+      # Reload the page and display the captcha error.
+      flash[:alert] = error.message
+      redirect_to :action => 'form'
+    end
   end
 end

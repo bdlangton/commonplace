@@ -108,7 +108,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
   });
 
   // Hide flash notices after a few seconds.
-  $('.flash').fadeOut(3000);
+  $('.flash.notice').fadeOut(3000);
 
   // Don't show no matches on autocomplete.
   $.railsAutocomplete.options.showNoMatches = false;
