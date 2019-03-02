@@ -48,6 +48,13 @@ gem 'devise'
 gem 'rails-jquery-autocomplete'
 gem 'chosen-rails'
 
+# Development gems.
+group :development do
+  gem "better_errors"
+  gem "binding_of_caller"
+  gem 'pry-rails'
+end
+
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
 
