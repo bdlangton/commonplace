@@ -48,13 +48,6 @@ gem 'devise'
 gem 'rails-jquery-autocomplete'
 gem 'chosen-rails'
 
-# Development gems.
-group :development do
-  gem "better_errors"
-  gem "binding_of_caller"
-  gem 'pry-rails'
-end
-
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
 
@@ -64,6 +57,15 @@ group :development, :test do
   # Adds support for Capybara system testing and selenium driver
   gem 'capybara', '~> 2.13'
   gem 'selenium-webdriver'
+  gem "better_errors"
+  gem "binding_of_caller"
+  gem 'pry-rails'
+  gem "factory_bot_rails"
+  gem 'rspec-rails'
+  gem "activerecord"
+  gem "database_cleaner"
+  gem 'simplecov'
+  gem 'simplecov-console'
 end
 
 group :development do
