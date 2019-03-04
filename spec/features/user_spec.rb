@@ -1,0 +1,72 @@
+require 'rails_helper'
+require 'features/general'
+require 'features/sign_in'
+
+include Features
+
+feature "user" do
+  background do
+    @user = create(:user, email: 'user@example.com', password: '123456')
+    @source1 = create(:source, user: @user)
+    @user2 = create(:user)
+    @source2 = create(:source, user: @user2)
+    @highlight1 = create(:highlight, user: @user, source: @source1)
+    @highlight2 = create(:highlight, user: @user, source: @source1)
+  end
+
+  scenario "is anonymous" do
+    visit root_path
+
+    expect(page).to have_css 'h2', text: 'Log in'
+    expect(page).to have_css '.flash.alert', text: 'You need to sign in or sign up before continuing.'
+  end
+
+  scenario "logs in" do
+    sign_in_as('user@example.com')
+    has_main_menu
+  end
+
+  scenario "invalid log in" do
+    sign_in_as('user2@example.com')
+
+    expect(page).to have_content 'Invalid Email or password.'
+  end
+
+  scenario "signs up" do
+    sign_up_as('new-user@example.com')
+    # has_main_menu
+  end
+
+  scenario "checks highlights" do
+    sign_in_as('user@example.com')
+    visit highlights_path
+
+    expect(page).to have_css '.badge-primary', text: 'New highlight'
+    expect(page).to have_css '.badge-secondary', text: 'See Deleted Highlights'
+    expect(page).to have_css 'table.highlights > tr', count: 2
+  end
+
+  scenario "checks favorites" do
+    sign_in_as('user@example.com')
+    visit favorites_path
+
+    expect(page).to have_css '.badge-primary', text: 'New highlight'
+    expect(page).to have_css 'table.highlights > tr', count: 0
+  end
+
+  scenario "checks tags" do
+    sign_in_as('user@example.com')
+    visit tags_path
+
+    expect(page).to have_css '.badge-primary', text: 'New tag'
+    expect(page).to have_css 'table.tags > tr', count: 0
+  end
+
+  scenario "checks sources" do
+    sign_in_as('user@example.com')
+    visit sources_path
+
+    expect(page).to have_css '.badge-primary', text: 'New source'
+    expect(page).to have_css 'table.sources > tr', count: 1
+  end
+end
