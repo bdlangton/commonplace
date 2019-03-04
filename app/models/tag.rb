@@ -2,6 +2,7 @@ class Tag < ApplicationRecord
   belongs_to :user
   has_many :taggings, :dependent => :delete_all
   has_many :highlights, through: :taggings
+  validates :user_id, numericality: { only_integer: true }
 
   # Scope to filter by user ID.
   scope :by_user, ->(id) { where(user_id: id) }

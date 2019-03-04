@@ -1,6 +1,6 @@
-require "active_record"
-require "database_cleaner"
-require "factory_bot"
+require 'active_record'
+require 'database_cleaner'
+require 'factory_bot'
 require 'rspec-rails'
 
 RSpec.configure do |config|
