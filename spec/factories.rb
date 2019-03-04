@@ -9,6 +9,7 @@ FactoryBot.define do
     note { "This is the note" }
     favorite { false }
     published { true }
+    all_tags { "" }
     user
     source
   end

@@ -3,6 +3,7 @@ class Highlight < ApplicationRecord
   belongs_to :source
   has_many :taggings, :dependent => :delete_all
   has_many :tags, through: :taggings
+  validates_numericality_of :user_id, :equal_to => Proc.new { |highlight| highlight.source.user_id }
 
   # Scope to filter by user ID.
   scope :by_user, ->(id) { where(user_id: id) }
@@ -36,4 +37,5 @@ class Highlight < ApplicationRecord
     end
     return @highlights.uniq
   end
+
 end
