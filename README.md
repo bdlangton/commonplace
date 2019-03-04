@@ -1,24 +1,12 @@
-# README
+# commonplace
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+Commonplace app built with Ruby on Rails.
 
-Things you may want to cover:
+# about
 
-* Ruby version
-
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+Commonplace lets you import your Amazon kindle highlights into the app. Once in
+the appp, you can favorite and tag highlights to organize them. You can also add
+notes. In addition to importing book highlights, you can create your own
+highlights (or tidbits worth noting) by adding your own "sources". Sources from
+kindle highlights are Books, but you can add podcasts, lectures, artists, etc
+(it's open ended).
