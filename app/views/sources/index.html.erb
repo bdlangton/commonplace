@@ -21,17 +21,19 @@
     </tr>
   </thead>
  
-  <% @sources.each do |source| %>
-    <tr>
-      <td><%= link_to source.title, source_path(source) %></td>
-      <td><%= source.author %></td>
-      <td><%= source.source_type %></td>
-      <td class="operations">
-        <%= link_to fa_icon('pencil'), edit_source_path(source), class: ['edit'] %>
-        <%= link_to fa_icon('ban'), source_path(source),
-              method: :delete,
-              data: { confirm: 'Are you sure?' },
-              class: ['delete', 'gray'] %></td>
-    </tr>
-  <% end %>
+  <tbody>
+    <% @sources.each do |source| %>
+      <tr>
+        <td><%= link_to source.title, source_path(source) %></td>
+        <td><%= source.author %></td>
+        <td><%= source.source_type %></td>
+        <td class="operations">
+          <%= link_to fa_icon('pencil'), edit_source_path(source), class: ['edit'] %>
+          <%= link_to fa_icon('ban'), source_path(source),
+                method: :delete,
+                data: { confirm: 'Are you sure?' },
+                class: ['delete', 'gray'] %></td>
+      </tr>
+    <% end %>
+  </tbody>
 </table>

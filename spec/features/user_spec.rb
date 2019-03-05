@@ -11,7 +11,7 @@ feature "user" do
     @user2 = create(:user)
     @source2 = create(:source, user: @user2)
     @highlight1 = create(:highlight, user: @user, source: @source1)
-    @highlight2 = create(:highlight, user: @user, source: @source1)
+    @highlight2 = create(:highlight, user: @user, source: @source1, favorite: true)
   end
 
   scenario "is anonymous" do
@@ -43,7 +43,7 @@ feature "user" do
 
     expect(page).to have_css '.badge-primary', text: 'New highlight'
     expect(page).to have_css '.badge-secondary', text: 'See Deleted Highlights'
-    expect(page).to have_css 'table.highlights > tr', count: 2
+    expect(page).to have_css 'table.highlights tbody tr', count: 2
   end
 
   scenario "checks favorites" do
@@ -51,7 +51,7 @@ feature "user" do
     visit favorites_path
 
     expect(page).to have_css '.badge-primary', text: 'New highlight'
-    expect(page).to have_css 'table.highlights > tr', count: 0
+    expect(page).to have_css 'table.highlights tbody tr', count: 1
   end
 
   scenario "checks tags" do
@@ -59,7 +59,7 @@ feature "user" do
     visit tags_path
 
     expect(page).to have_css '.badge-primary', text: 'New tag'
-    expect(page).to have_css 'table.tags > tr', count: 0
+    expect(page).to have_css 'table.tags tbody tr', count: 0
   end
 
   scenario "checks sources" do
@@ -67,6 +67,6 @@ feature "user" do
     visit sources_path
 
     expect(page).to have_css '.badge-primary', text: 'New source'
-    expect(page).to have_css 'table.sources > tr', count: 1
+    expect(page).to have_css 'table.sources tbody tr', count: 1
   end
 end

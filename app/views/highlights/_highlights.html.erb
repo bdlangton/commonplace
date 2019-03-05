@@ -6,37 +6,39 @@
   <thead>
     <tr>
       <% if !defined?(hide) || !hide.include?('source') %>
-        <th>Source</th>
+        <th class="source">Source</th>
       <% end %>
-      <th>Highlight</th>
-      <th>Note</th>
-      <th>Tags</th>
-      <th>Operations</th>
+      <th class="highlight">Highlight</th>
+      <th class="note">Note</th>
+      <th class="tags">Tags</th>
+      <th class="operations">Operations</th>
     </tr>
   </thead>
  
-  <% highlights.each do |highlight| %>
-    <tr>
-      <% if !defined?(hide) || !hide.include?('source') %>
-        <td><%= link_to highlight.source.title, source_path(highlight.source) %></td>
-      <% end %>
-      <td><%= simple_format highlight.highlight %></td>
-      <td><%= simple_format highlight.note %></td>
-      <td><%= raw tag_links(highlight.all_tags) %></td>
-      <td class="operations">
-        <%= link_to fa_icon('pencil'), edit_highlight_path(highlight), class: ['edit'] %>
-        <% id = highlight.id.to_s %>
-        <% if highlight.favorite %>
-          <%= link_to fa_icon('heart'), '/highlights/' + id + '/unfavorite', id: 'favorite-' + id, class: ['favorite', 'red'], remote: true %>
-        <% else %>
-          <%= link_to fa_icon('heart'), '/highlights/' + id + '/favorite', id: 'favorite-' + id, class: ['favorite', 'gray'], remote: true %>
+  <tbody>
+    <% highlights.each do |highlight| %>
+      <tr class="highlight-<%= highlight.id %>">
+        <% if !defined?(hide) || !hide.include?('source') %>
+          <td class="source"><%= link_to highlight.source.title, source_path(highlight.source) %></td>
         <% end %>
-        <% if highlight.published %>
-          <%= link_to fa_icon('ban'), '/highlights/' + id + '/unpublish', id: 'publish-' + id, class: ['publish', 'gray'], remote: true %>
-        <% else %>
-          <%= link_to fa_icon('ban'), '/highlights/' + id + '/publish', id: 'publish-' + id, class: ['publish', 'red'], remote: true %>
-        <% end %>
-      </td>
-    </tr>
-  <% end %>
+        <td class="highlight"><%= simple_format highlight.highlight %></td>
+        <td class="note"><%= simple_format highlight.note %></td>
+        <td class="tags"><%= raw tag_links(highlight.all_tags) %></td>
+        <td class="operations">
+          <% id = highlight.id.to_s %>
+          <%= link_to fa_icon('pencil'), edit_highlight_path(highlight), id: 'edit-' + id, class: ['edit'] %>
+          <% if highlight.favorite %>
+            <%= link_to fa_icon('heart'), '/highlights/' + id + '/unfavorite', id: 'favorite-' + id, class: ['favorite', 'red'], remote: true %>
+          <% else %>
+            <%= link_to fa_icon('heart'), '/highlights/' + id + '/favorite', id: 'favorite-' + id, class: ['favorite', 'gray'], remote: true %>
+          <% end %>
+          <% if highlight.published %>
+            <%= link_to fa_icon('ban'), '/highlights/' + id + '/unpublish', id: 'publish-' + id, class: ['publish', 'gray'], remote: true %>
+          <% else %>
+            <%= link_to fa_icon('ban'), '/highlights/' + id + '/publish', id: 'publish-' + id, class: ['publish', 'red'], remote: true %>
+          <% end %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
 </table>
