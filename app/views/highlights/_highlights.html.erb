@@ -26,7 +26,7 @@
         <td class="tags"><%= raw tag_links(highlight.all_tags) %></td>
         <td class="operations">
           <% id = highlight.id.to_s %>
-          <%= link_to fa_icon('pencil'), edit_highlight_path(highlight), id: 'edit-' + id, class: ['edit'] %>
+          <%= link_to fa_icon('pencil'), edit_highlight_path(highlight), id: 'edit-highlight-' + id, class: ['edit'] %>
           <% if highlight.favorite %>
             <%= link_to fa_icon('heart'), '/highlights/' + id + '/unfavorite', id: 'favorite-' + id, class: ['favorite', 'red'], remote: true %>
           <% else %>

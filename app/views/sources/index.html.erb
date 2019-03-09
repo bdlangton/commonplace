@@ -28,11 +28,11 @@
         <td class="author"><%= source.author %></td>
         <td class="source_type"><%= source.source_type %></td>
         <td class="operations">
-          <%= link_to fa_icon('pencil'), edit_source_path(source), id: 'edit-' + source.id.to_s, class: ['edit'] %>
+          <%= link_to fa_icon('pencil'), edit_source_path(source), id: 'edit-source-' + source.id.to_s, class: ['edit'] %>
           <%= link_to fa_icon('ban'), source_path(source),
                 method: :delete,
                 data: { confirm: 'Are you sure that you want to delete ' + source.title + '? This will also delete any highlights from this source.' },
-                id: 'delete-' + source.id.to_s,
+                id: 'delete-source-' + source.id.to_s,
                 class: ['delete', 'gray'] %></td>
       </tr>
     <% end %>

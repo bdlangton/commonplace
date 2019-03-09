@@ -69,7 +69,7 @@ feature "highlights" do
     sign_in_as('user@example.com')
     visit highlights_path
 
-    find('#edit-' + @highlight1.id.to_s).click
+    find('#edit-highlight-' + @highlight1.id.to_s).click
     fill_in 'highlight[highlight]', with: 'Edited highlight'
     fill_in 'highlight[note]', with: 'Edited note'
     click_on 'Save Highlight'

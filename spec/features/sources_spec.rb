@@ -33,7 +33,7 @@ feature "sources" do
     sign_in_as('user@example.com')
     visit sources_path
 
-    find('#edit-' + @source1.id.to_s).click
+    find('#edit-source-' + @source1.id.to_s).click
     fill_in 'source[title]', with: 'Edited source'
     fill_in 'source[notes]', with: 'Edited note'
     click_on 'Save Source'
@@ -52,7 +52,7 @@ feature "sources" do
     visit sources_path
 
     accept_alert do
-      find('#edit-' + @source1.id.to_s).click
+      find('#delete-source-' + @source1.id.to_s).click
     end
   end
 
