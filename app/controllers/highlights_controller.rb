@@ -71,7 +71,12 @@ class HighlightsController < ApplicationController
 
   # Create a new highlight.
   def create
-    @highlight = Highlight.new(highlight_params)
+    params = highlight_params.merge('all_tags': [
+      highlight_params['all_tags'],
+      highlight_params['user_id']
+    ])
+
+    @highlight = Highlight.new(params)
 
     if @highlight.save
       redirect_to session[:return_to]

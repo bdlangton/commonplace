@@ -11,7 +11,11 @@ class Highlight < ApplicationRecord
   scope :by_user, ->(id) { where(user_id: id) }
 
   # Find or create each of the tags from the comma separated list.
-  def all_tags=(titles)
+  def all_tags=(tags_and_user)
+    # Break out the comma separated tag titles from the user ID.
+    titles = tags_and_user[0]
+    user_id = tags_and_user[1]
+
     # Reject any 'blank' entries between commas.
     titles = titles.split(",").reject(&:blank?)
     self.tags = titles.map do |title|
