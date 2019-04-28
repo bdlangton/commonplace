@@ -10,12 +10,12 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190213022822) do
+ActiveRecord::Schema.define(version: 20190428125801) do
 
   create_table "highlights", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.text "highlight"
     t.text "note"
-    t.integer "user_id"
+    t.bigint "user_id"
     t.integer "source_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -30,7 +30,7 @@ ActiveRecord::Schema.define(version: 20190213022822) do
     t.string "title"
     t.string "author"
     t.string "source_type"
-    t.integer "user_id"
+    t.bigint "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "asin"
@@ -49,7 +49,7 @@ ActiveRecord::Schema.define(version: 20190213022822) do
 
   create_table "tags", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string "title"
-    t.integer "user_id"
+    t.bigint "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["user_id"], name: "index_tags_on_user_id"
@@ -67,6 +67,6 @@ ActiveRecord::Schema.define(version: 20190213022822) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
-  add_foreign_key "taggings", "Highlights", column: "highlight_id"
-  add_foreign_key "taggings", "Tags", column: "tag_id"
+  add_foreign_key "taggings", "highlights", column: "highlight_id"
+  add_foreign_key "taggings", "tags", column: "tag_id"
 end

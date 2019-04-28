@@ -16,10 +16,12 @@ class Highlight < ApplicationRecord
     titles = tags_and_user[0]
     user_id = tags_and_user[1]
 
-    # Reject any 'blank' entries between commas.
-    titles = titles.split(",").reject(&:blank?)
-    self.tags = titles.map do |title|
-      Tag.where(title: title.strip, user_id: user_id).first_or_create!
+    if titles.present?
+      # Reject any 'blank' entries between commas.
+      titles = titles.split(",").reject(&:blank?)
+      self.tags = titles.map do |title|
+        Tag.where(title: title.strip, user_id: user_id).first_or_create!
+      end
     end
   end
 
