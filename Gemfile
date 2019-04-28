@@ -47,6 +47,7 @@ gem 'will_paginate-bootstrap4'
 gem 'devise'
 gem 'rails-jquery-autocomplete'
 gem 'chosen-rails'
+gem "actionview", ">= 5.1.6.2"
 
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
