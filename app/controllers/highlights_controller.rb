@@ -71,6 +71,10 @@ class HighlightsController < ApplicationController
 
   # Create a new highlight.
   def create
+    # Change all_tags to be an array containing the comma separated list of tags
+    # and the current user ID. We need the user ID in order to save the tag to
+    # the correct user when creating a new highlight, since the highlight
+    # doesn't already have the user_id saved.
     params = highlight_params.merge('all_tags': [
       highlight_params['all_tags'],
       highlight_params['user_id']
