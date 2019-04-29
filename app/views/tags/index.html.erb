@@ -2,6 +2,7 @@
 <h1>Tags</h1>
 
 <%= link_to 'New tag', new_tag_path, class: ['badge', 'badge-pill', 'badge-primary'] %>
+<%= link_to 'Merge tags', tags_merge_path, class: ['badge', 'badge-pill', 'badge-secondary'] %>
 
 <table class="tags">
   <thead>
@@ -10,7 +11,7 @@
       <th class="operations">Operations</th>
     </tr>
   </thead>
- 
+
   <tbody>
     <% @tags.each do |tag| %>
       <tr>

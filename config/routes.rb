@@ -11,6 +11,10 @@ Rails.application.routes.draw do
   get 'highlights/:id/unfavorite', to: 'highlights#unfavorite'
   get 'favorites', to: 'highlights#favorites'
 
+  # Tags.
+  get 'tags/merge', to: 'tags#merge'
+  post 'tags/merge', to: 'tags#merge_post'
+
   # Autocomplete.
   resources :highlights do
     get :autocomplete_tags_title, :on => :collection

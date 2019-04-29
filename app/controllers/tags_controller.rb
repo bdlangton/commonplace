@@ -22,6 +22,42 @@ class TagsController < ApplicationController
     @highlights = @highlights.by_user(current_user).where(published: true)
   end
 
+  # Merge two tags into one.
+  def merge
+    @tags = Tag.by_user(current_user)
+  end
+
+  # Merge two tags into one (post action).
+  def merge_post
+    @tags = Tag.by_user(current_user)
+    merged_tags = Array.new
+
+    # Get form values.
+    @tag_to_use = @tags.find_by_title(params[:tag_to_use])
+    @tags_to_merge = @tags.where(title: params[:tags_to_merge])
+
+    # Go through each tag to merge into the base tag.
+    @tags_to_merge.each do |tag|
+      merged_tags.push(tag.title)
+      # Get every highlight that uses the old tag.
+      @highlights = Highlight.by_user(current_user).tagged_with(tag.title)
+      @highlights.each do |highlight|
+        highlight.tags = highlight.tags.map do |highlight_tag|
+          # If the tag matches the old tag, return the tag to use instead.
+          if highlight_tag.id == tag.id
+            @tag_to_use
+          else
+            highlight_tag
+          end
+        end
+        highlight.save
+      end
+      tag.destroy
+    end
+    flash[:notice] = "#{merged_tags.join(', ')} merged into #{@tag_to_use.title}."
+    redirect_to tags_merge_path
+  end
+
   # Edit a tag.
   def edit
     @tag = Tag.by_user(current_user).find(params[:id])

@@ -1,0 +1,20 @@
+<%= content_for(:title, 'Merge Tags') %>
+<h1>Merge Tags</h1>
+
+<%= form_with model: @tag, local: true do |form| %>
+
+  <p>
+    <%= label_tag 'Tag to use' %>
+    <%= select_tag :tag_to_use, options_from_collection_for_select(@tags, 'title', 'title', params[:tag]), include_blank: true, class: 'chosen-select', multiple: false %>
+  </p>
+
+  <p>
+    <%= label_tag 'Tags to merge' %>
+    <%= select_tag :tags_to_merge, options_from_collection_for_select(@tags, 'title', 'title', params[:tag]), include_blank: true, class: 'chosen-select', multiple: true %>
+  </p>
+
+  <p>
+    <%= form.submit 'Merge Tags', {class: ['btn', 'btn-primary']} %>
+  </p>
+
+<% end %>
