@@ -1,5 +1,5 @@
 <%= form_with model: @highlight, local: true do |form| %>
- 
+
   <% if @highlight.errors.any? %>
     <div id="error_explanation">
       <h2>
@@ -13,35 +13,35 @@
       </ul>
     </div>
   <% end %>
- 
+
   <div class="form-group">
     <%= form.label :highlight %><br>
-    <%= form.text_area :highlight, size: "80x5", class: 'form-control' %>
+    <%= form.text_area :highlight, size: "80x5", class: 'form-control', id: 'highlight' %>
   </div>
 
   <div class="form-group">
     <%= form.label :note %><br>
-    <%= form.text_area :note, size: "80x3", class: 'form-control' %>
+    <%= form.text_area :note, size: "80x3", class: 'form-control', id: 'note' %>
   </div>
 
   <div class="form-group">
     <%= form.label 'Tags' %><br/>
-    <%= form.autocomplete_field :all_tags, '/highlights/autocomplete_tags_title', 'data-delimiter' => ', ', 'data-auto-focus' => true, class: ['autocomplete', 'form-control'] %>
+    <%= form.autocomplete_field :all_tags, '/highlights/autocomplete_tags_title', 'data-delimiter' => ', ', 'data-auto-focus' => true, :fields => {:all_tags => '#all_tags'}, class: ['autocomplete', 'form-control'], id: 'all_tags' %>
   </div>
 
   <div class="form-group">
     <%= form.label :source %><br>
-    <%= form.collection_select :source_id, Source.by_user(current_user).order(:title), :id, :title, {selected: @source, include_blank: false}, {class: 'form-control'} %>
+    <%= form.collection_select :source_id, Source.by_user(current_user).order(:title), :id, :title, {selected: @source, include_blank: false}, {class: 'form-control', id: 'source'}  %>
   </div>
 
   <div class="form-group form-checkbox">
     <%= form.label :favorite %>
-    <%= form.check_box :favorite, class: 'form-control' %>
+    <%= form.check_box :favorite, class: 'form-control', id: 'favorite' %>
   </div>
 
   <div class="form-group form-checkbox">
     <%= form.label :published %>
-    <%= form.check_box :published, class: 'form-control' %>
+    <%= form.check_box :published, class: 'form-control', id: 'published' %>
   </div>
 
   <div class="form-group">
@@ -52,5 +52,5 @@
     <%= form.submit 'Save Highlight', {class: ['btn', 'btn-primary']} %>
     <%= form.button 'Back', {class: ['btn']} %>
   </div>
- 
+
 <% end %>
