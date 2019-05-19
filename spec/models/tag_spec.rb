@@ -3,10 +3,10 @@ require "rails_helper"
 RSpec.describe Tag, :type => :model do
 
   before(:all) do
-    @user1 = create(:user)
+    @user1 = create(:user, email: 'user@example.com', password: '123456')
     @user2 = create(:user)
     @science_tag1 = create(:tag, user: @user1, title: "science")
-    @science_tag2 = create(:tag, user: @user1, title: "science")
+    @science_tag2 = create(:tag, user: @user1, title: "philosophy")
   end
 
   it "is valid with valid attributes" do
@@ -24,5 +24,4 @@ RSpec.describe Tag, :type => :model do
     @tags2 = Tag.by_user(@user2)
     expect(@tags2.count).to eq(0)
   end
-
 end
