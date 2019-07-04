@@ -23,4 +23,4 @@ production:
   <<: *default
   database: commonplace
   username: barrett
-  socket: /var/run/mysqld/mysqld.sock
+  host: db
