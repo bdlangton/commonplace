@@ -31,7 +31,7 @@
 
   <div class="form-group">
     <%= form.label :source %><br>
-    <%= form.collection_select :source_id, Source.by_user(current_user).order(:title), :id, :title, {selected: @source, include_blank: false}, {class: 'form-control', id: 'source'}  %>
+    <%= form.collection_select :source_id, current_user.sources.order(:title), :id, :title, {selected: @source, include_blank: false}, {class: 'form-control', id: 'source'}  %>
   </div>
 
   <div class="form-group form-checkbox">

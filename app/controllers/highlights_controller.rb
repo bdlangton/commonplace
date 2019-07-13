@@ -15,8 +15,8 @@ class HighlightsController < ApplicationController
 
   # Show a list of highlights by the user.
   def index
-    @tags = Tag.by_user(current_user).joins(:highlights).where(highlights: {published: true}).distinct.order(:title)
-    @highlights = Highlight.by_user(current_user).where(published: true)
+    @tags = current_user.tags.joins(:highlights).where(highlights: {published: true}).distinct.order(:title)
+    @highlights = current_user.highlights.where(published: true)
     if params[:favorite].present?
       @highlights = @highlights.where(favorite: true)
     end
@@ -30,8 +30,8 @@ class HighlightsController < ApplicationController
 
   # Show favorite highlights by the user.
   def favorites
-    @tags = Tag.by_user(current_user).joins(:highlights).where(highlights: {favorite: true, published: true}).distinct.order(:title)
-    @highlights = Highlight.by_user(current_user).where(favorite: true, published: true)
+    @tags = current_user.tags.joins(:highlights).where(highlights: {favorite: true, published: true}).distinct.order(:title)
+    @highlights = current_user.highlights.where(favorite: true, published: true)
     if params[:tag].present?
       @highlights = @highlights.tagged_with(params[:tag])
     end
@@ -40,8 +40,8 @@ class HighlightsController < ApplicationController
 
   # Show a list of deleted (unpublished) highlights.
   def deleted
-    @tags = Tag.by_user(current_user).joins(:highlights).where(highlights: {published: false}).distinct.order(:title)
-    @highlights = Highlight.by_user(current_user).where(published: false)
+    @tags = current_user.tags.joins(:highlights).where(highlights: {published: false}).distinct.order(:title)
+    @highlights = current_user.highlights.where(published: false)
     if params[:tag].present?
       @highlights = @highlights.tagged_with(params[:tag])
     end
@@ -50,7 +50,7 @@ class HighlightsController < ApplicationController
 
   # Edit an existing highlight.
   def edit
-    @highlight = Highlight.by_user(current_user).find(params[:id])
+    @highlight = current_user.highlights.find(params[:id])
     @source = @highlight.source_id
     @tags = Tag.all
     session[:return_to] = request.referer
@@ -58,7 +58,7 @@ class HighlightsController < ApplicationController
 
   # Update an existing highlight.
   def update
-    @highlight = Highlight.by_user(current_user).find(params[:id])
+    @highlight = current_user.highlights.find(params[:id])
     @source = @highlight.source_id
     @tags = Tag.all
 
@@ -100,7 +100,7 @@ class HighlightsController < ApplicationController
 
   # Favorite a highlight. Ajax callback.
   def favorite
-    @highlight = Highlight.by_user(current_user).find(params[:id])
+    @highlight = current_user.highlights.find(params[:id])
     @highlight.favorite = true
     @highlight.save
     render json: @highlight
@@ -108,7 +108,7 @@ class HighlightsController < ApplicationController
 
   # Unfavorite a highlight. Ajax callback.
   def unfavorite
-    @highlight = Highlight.by_user(current_user).find(params[:id])
+    @highlight = current_user.highlights.find(params[:id])
     @highlight.favorite = false
     @highlight.save
     render json: @highlight
@@ -116,7 +116,7 @@ class HighlightsController < ApplicationController
 
   # Publish a highlight with ajax call.
   def publish
-    @highlight = Highlight.by_user(current_user).find(params[:id])
+    @highlight = current_user.highlights.find(params[:id])
     @highlight.published = true
     @highlight.save
     render json: @highlight
@@ -124,7 +124,7 @@ class HighlightsController < ApplicationController
 
   # Unpublish a highlight with ajax call.
   def unpublish
-    @highlight = Highlight.by_user(current_user).find(params[:id])
+    @highlight = current_user.highlights.find(params[:id])
     @highlight.published = false
     @highlight.save
     render json: @highlight
@@ -132,7 +132,7 @@ class HighlightsController < ApplicationController
 
   # Unpublish a highlight (not actually delete).
   def destroy
-    @highlight = Highlight.by_user(current_user).find(params[:id])
+    @highlight = current_user.highlights.find(params[:id])
     @highlight.published = false
     @highlight.save
 

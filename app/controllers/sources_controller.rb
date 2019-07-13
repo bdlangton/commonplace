@@ -8,8 +8,8 @@ class SourcesController < ApplicationController
 
   # List sources by user.
   def index
-    @source_types = Source.by_user(current_user).select(:source_type).distinct.sort_by &:source_type
-    @sources = Source.by_user(current_user)
+    @sources = current_user.sources
+    @source_types = @sources.select(:source_type).distinct.sort_by &:source_type
     if params[:source_type].present?
       @sources = @sources.where(source_type: params[:source_type])
     end
@@ -24,8 +24,8 @@ class SourcesController < ApplicationController
 
   # Show a source.
   def show
-    @source = Source.by_user(current_user).find(params[:id])
-    @tags = Tag.by_user(current_user).by_source(params[:id]).order(:title)
+    @source = current_user.sources.find(params[:id])
+    @tags = current_user.tags.by_source(params[:id]).order(:title)
     @highlights = @source.highlights.where(published: true)
     if params[:favorite].present?
       @highlights = @highlights.where(favorite: true)
@@ -38,12 +38,12 @@ class SourcesController < ApplicationController
 
   # Edit an existing source.
   def edit
-    @source = Source.by_user(current_user).find(params[:id])
+    @source = current_user.sources.find(params[:id])
   end
 
   # Update an existing source.
   def update
-    @source = Source.by_user(current_user).find(params[:id])
+    @source = current_user.sources.find(params[:id])
 
     if @source.update(source_params)
       redirect_to @source
@@ -65,7 +65,7 @@ class SourcesController < ApplicationController
 
   # Delete a source.
   def destroy
-    @source = Source.by_user(current_user).find(params[:id])
+    @source = current_user.sources.find(params[:id])
     @source.destroy
 
     redirect_to sources_path

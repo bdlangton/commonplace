@@ -6,7 +6,7 @@ class TagsController < ApplicationController
 
   # List tags by user.
   def index
-    @tags = Tag.by_user(current_user).select('tags.*', 'count(*) as count')
+    @tags = current_user.tags.select('tags.*', 'count(*) as count')
       .left_joins(:taggings)
       .group("tags.id")
       .order("count(taggings.highlight_id) DESC")
@@ -14,7 +14,7 @@ class TagsController < ApplicationController
 
   # Show a tag.
   def show
-    @tag = Tag.by_user(current_user).find(params[:id])
+    @tag = current_user.tags.find(params[:id])
     @highlights = @tag.highlights
     if params[:favorite].present?
       @highlights = @highlights.where(favorite: true)
@@ -24,12 +24,12 @@ class TagsController < ApplicationController
 
   # Merge two tags into one.
   def merge
-    @tags = Tag.by_user(current_user)
+    @tags = current_user.tags
   end
 
   # Merge two tags into one (post action).
   def merge_post
-    @tags = Tag.by_user(current_user)
+    @tags = current_user.tags
     merged_tags = Array.new
 
     # Get form values.
@@ -40,7 +40,7 @@ class TagsController < ApplicationController
     @tags_to_merge.each do |tag|
       merged_tags.push(tag.title)
       # Get every highlight that uses the old tag.
-      @highlights = Highlight.by_user(current_user).tagged_with(tag.title)
+      @highlights = current_user.highlights.tagged_with(tag.title)
       @highlights.each do |highlight|
         highlight.tags = highlight.tags.map do |highlight_tag|
           # If the tag matches the old tag, return the tag to use instead.
@@ -60,12 +60,12 @@ class TagsController < ApplicationController
 
   # Edit a tag.
   def edit
-    @tag = Tag.by_user(current_user).find(params[:id])
+    @tag = current_user.tags.find(params[:id])
   end
 
   # Update a tag.
   def update
-    @tag = Tag.by_user(current_user).find(params[:id])
+    @tag = current_user.tags.find(params[:id])
 
     if @tag.update(tag_params)
       redirect_to @tag
@@ -87,7 +87,7 @@ class TagsController < ApplicationController
 
   # Delete a tag.
   def destroy
-    @tag = Tag.by_user(current_user).find(params[:id])
+    @tag = current_user.tags.find(params[:id])
     @tag.destroy
 
     redirect_to tags_path
