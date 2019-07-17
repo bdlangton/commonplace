@@ -21,20 +21,7 @@ class AuthorsController < ApplicationController
   # Show an author.
   def show
     @author = current_user.authors.find(params[:id])
-    @tags = current_user.tags.by_author(params[:id]).order(:title)
     @sources = @author.sources
-
-    unless @sources.empty?
-      # @highlights = @sources.highlights.where(published: true)
-
-      # if params[:favorite].present?
-      #   @highlights = @highlights.where(favorite: true)
-      # end
-      # if params[:tag].present?
-      #   @highlights = @highlights.tagged_with(params[:tag])
-      # end
-      # @highlights = @highlights.sort_by(&:location)
-    end
   end
 
   # Edit an existing author.
