@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190715132853) do
+ActiveRecord::Schema.define(version: 20190717141956) do
 
   create_table "authors", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string "name"
@@ -39,7 +39,6 @@ ActiveRecord::Schema.define(version: 20190715132853) do
 
   create_table "sources", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string "title"
-    t.string "author"
     t.string "source_type"
     t.bigint "user_id"
     t.datetime "created_at", null: false
