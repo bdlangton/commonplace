@@ -8,6 +8,9 @@
       <% if !defined?(hide) || !hide.include?('source') %>
         <th class="source">Source</th>
       <% end %>
+      <% if !defined?(hide) || !hide.include?('author') %>
+        <th class="author">Author(s)</th>
+      <% end %>
       <th class="highlight">Highlight</th>
       <th class="note">Note</th>
       <th class="tags">Tags</th>
@@ -21,6 +24,9 @@
         <tr class="highlight-<%= highlight.id %>">
           <% if !defined?(hide) || !hide.include?('source') %>
             <td class="source"><%= link_to highlight.source.title, source_path(highlight.source) %></td>
+          <% end %>
+          <% if !defined?(hide) || !hide.include?('author') %>
+            <td class="author"><%= print_authors(highlight.source) %></td>
           <% end %>
           <td class="highlight"><%= simple_format highlight.highlight %></td>
           <td class="note"><%= simple_format highlight.note %></td>

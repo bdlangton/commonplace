@@ -1,9 +1,9 @@
 <%= content_for(:title, @source.title) %>
-<h1><%= @source.title %></h1> 
+<h1><%= @source.title %></h1>
 
 <p>
-  <strong>Author:</strong>
-  <%= @source.author %>
+  <strong>Author(s):</strong>
+  <%= print_authors(@source) %>
 </p>
 
 <p>
@@ -29,5 +29,4 @@
   <%= submit_tag "Filter", :name => nil %>
 <% end %>
 
-<%= render partial: 'highlights/highlights', locals: { highlights: @highlights, hide: ['source'] } %>
-
+<%= render partial: 'highlights/highlights', locals: { highlights: @highlights, hide: ['source', 'author'] } %>
