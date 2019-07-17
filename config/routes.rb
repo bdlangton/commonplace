@@ -19,8 +19,12 @@ Rails.application.routes.draw do
   resources :highlights do
     get :autocomplete_tags_title, :on => :collection
   end
+  resources :sources do
+    get :autocomplete_authors_name, :on => :collection
+  end
 
   # Resources.
+  resources :authors
   resources :highlights
   resources :sources
   resources :tags

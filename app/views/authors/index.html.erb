@@ -1,0 +1,34 @@
+<%= content_for(:name, 'Authors') %>
+<h1>Authors</h1>
+
+<%= link_to 'New author', new_author_path, class: ['badge', 'badge-pill', 'badge-primary'] %>
+
+<%= form_tag({}, :method => 'get', :class => 'filter-form') do %>
+  <%= label_tag 'Sort' %>
+  <%= select_tag 'sort', options_for_select([['Name', 'name'], ['Last Added', 'newest']], params[:sort]) %>
+  <%= submit_tag "Filter", :name => nil %>
+<% end %>
+
+<table class="authors">
+  <thead>
+    <tr>
+      <th class="name">Name</th>
+      <th class="operations">Operations</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @authors.each do |author| %>
+      <tr>
+        <td class="name"><%= link_to author.name, author_path(author) %></td>
+        <td class="operations">
+          <%= link_to fa_icon('pencil'), edit_author_path(author), id: 'edit-author-' + author.id.to_s, class: ['edit'] %>
+          <%= link_to fa_icon('ban'), author_path(author),
+                method: :delete,
+                data: { confirm: 'Are you sure that you want to delete ' + author.name + '? This will also delete any highlights from this author.' },
+                id: 'delete-author-' + author.id.to_s,
+                class: ['delete', 'gray'] %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

@@ -1,5 +1,5 @@
 <%= form_with model: @source, local: true do |form| %>
- 
+
   <% if @source.errors.any? %>
     <div id="error_explanation">
       <h2>
@@ -13,15 +13,15 @@
       </ul>
     </div>
   <% end %>
- 
+
   <p>
     <%= form.label :title %><br>
     <%= form.text_field :title, class: 'form-control' %>
   </p>
 
   <p>
-    <%= form.label :author %><br>
-    <%= form.text_field :author, :size => '20', :maxlength => '20', class: 'form-control' %>
+    <%= form.label 'Authors' %><br/>
+    <%= form.autocomplete_field :all_authors, '/sources/autocomplete_authors_name', 'data-delimiter' => ', ', 'data-auto-focus' => true, :fields => {:all_authors => '#all_authors'}, class: ['autocomplete', 'form-control'], id: 'all_authors' %>
   </p>
 
   <p>
@@ -42,5 +42,5 @@
     <%= form.submit 'Save Source', {class: ['btn', 'btn-primary']} %>
     <%= form.button 'Back', {class: ['btn']} %>
   </p>
- 
+
 <% end %>

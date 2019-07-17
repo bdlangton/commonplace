@@ -45,7 +45,16 @@ class SourcesController < ApplicationController
   def update
     @source = current_user.sources.find(params[:id])
 
-    if @source.update(source_params)
+    # Change all_authors to be an array containing the comma separated list of
+    # authors and the current user ID. We need the user ID in order to save the
+    # author to the correct user when creating a new author, since the author
+    # doesn't already have the user_id saved.
+    params = source_params.merge('all_authors': [
+      source_params['all_authors'],
+      source_params['user_id']
+    ])
+
+    if @source.update(params)
       redirect_to @source
     else
       render 'edit'
@@ -54,7 +63,16 @@ class SourcesController < ApplicationController
 
   # Create a new source.
   def create
-    @source = Source.new(source_params)
+    # Change all_authors to be an array containing the comma separated list of
+    # authors and the current user ID. We need the user ID in order to save the
+    # author to the correct user when creating a new author, since the author
+    # doesn't already have the user_id saved.
+    params = source_params.merge('all_authors': [
+      source_params['all_authors'],
+      source_params['user_id']
+    ])
+
+    @source = Source.new(params)
 
     if @source.save
       redirect_to @source
@@ -71,9 +89,29 @@ class SourcesController < ApplicationController
     redirect_to sources_path
   end
 
+  # Autocomplete authors for the user.
+  def autocomplete_authors_name
+    term = params[:term]
+
+    # Get terms already entered to ensure we don't suggest terms already taken.
+    existing_authors = params[:all_authors].split(',')
+    existing_authors.pop
+    existing_authors = existing_authors.map do |existing_authors|
+      existing_authors.strip
+    end
+
+    if existing_authors.empty?
+      authors = Author.where('name LIKE ?', "#{term}%").order(:name).all | Author.where('name LIKE ?', "%#{term}%").order(:name).all
+    else
+      authors = Author.where('name LIKE ?', "#{term}%").where('name NOT IN (?)', Array.wrap(existing_authors)).order(:name).all | Author.where('name LIKE ?', "%#{term}%").where('name NOT IN (?)', Array.wrap(existing_authors)).order(:name).all
+    end
+
+    render :json => authors.map { |author| {:id => author.id, :label => author.name, :value => author.name} }
+  end
+
   private
     # Define which source fields are required and permitted.
     def source_params
-      params.require(:source).permit(:title, :author, :source_type, :notes, :user_id)
+      params.require(:source).permit(:title, :all_authors, :source_type, :notes, :user_id)
     end
 end
