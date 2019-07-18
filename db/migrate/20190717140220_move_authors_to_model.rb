@@ -3,7 +3,7 @@ class MoveAuthorsToModel < ActiveRecord::Migration[5.1]
     Source.find_each do |source|
       # Skip over results with blank authors.
       if source.author.empty?
-        continue
+        next
       end
 
       # Find or create a new author.

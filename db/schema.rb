@@ -15,11 +15,9 @@ ActiveRecord::Schema.define(version: 20190717141956) do
   create_table "authors", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string "name"
     t.string "type"
-    t.bigint "source_id"
     t.bigint "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["source_id"], name: "index_authors_on_source_id"
     t.index ["user_id"], name: "index_authors_on_user_id"
   end
 
@@ -111,7 +109,6 @@ ActiveRecord::Schema.define(version: 20190717141956) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
-  add_foreign_key "authors", "sources"
   add_foreign_key "authors", "users"
   add_foreign_key "sources_authors", "authors"
   add_foreign_key "sources_authors", "sources"
