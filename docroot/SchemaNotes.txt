@@ -1,0 +1,22 @@
+Source
+- title: string
+- author: string
+- source_type: string (Book, Quote, Podcast)
+- link to user
+
+Highlight
+- highlight: text
+- note: text
+- link to source
+- link to user
+
+Tag
+- title
+- link to user
+
+User
+- username: string
+- password: string
+
+highlight_tags
+- links highlights and tags

@@ -5,21 +5,21 @@
 #   git config --global core.excludesfile '~/.gitignore_global'
 
 # Ignore bundler config.
-/.bundle
+/docroot/.bundle
 
 # Ignore the default SQLite database.
-/db/*.sqlite3
-/db/*.sqlite3-journal
+/docroot/db/*.sqlite3
+/docroot/db/*.sqlite3-journal
 
 # Ignore all logfiles and tempfiles.
-/log/*
-/tmp/*
-!/log/.keep
-!/tmp/.keep
+/docroot/log/*
+/docroot/tmp/*
+!/docroot/log/.keep
+!/docroot/tmp/.keep
 
-/node_modules
-/yarn-error.log
+/docroot/node_modules
+/docroot/yarn-error.log
 
 .byebug_history
-config/local_env.yml
-public/assets
+docroot/config/local_env.yml
+docroot/public/assets

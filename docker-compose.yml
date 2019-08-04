@@ -1,0 +1,33 @@
+version: "3.1"
+
+services:
+  db:
+    image: mysql:5.7
+    container_name: commonplace-db
+    working_dir: /home/app
+    restart: always
+    volumes:
+      - ./docroot:/home/app/docroot:cached
+      - ./db-backups:/var/mysql/backups:delegated
+    environment:
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+      - MYSQL_DATABASE=${MYSQL_DATABASE}
+      - MYSQL_USER=${MYSQL_USER}
+      - MYSQL_PASSWORD=${MYSQL_PASSWORD}
+    ports:
+      - "3311:3306"
+
+  web:
+    build: .
+    # command: bin/rails server --port 3000 --binding 0.0.0.0
+    working_dir: /home/app/docroot
+    container_name: commonplace-webserver
+    restart: always
+    env_file:
+      - .env
+    ports:
+      - "8085:80"
+    links:
+      - db
+   volumes:
+      - ./docroot:/home/app/docroot:cached
