@@ -5,6 +5,7 @@ class ImportController < ApplicationController
   # Import highlights from the kindle website.
   def import
     # Keep track of how many books and highlights are imported.
+    authors_count = 0
     books_count = 0
     highlights_count = 0
 
@@ -20,13 +21,22 @@ class ImportController < ApplicationController
       @books = kindle.books
 
       @books.each do |bk|
-        # Create or load the book.
+        # Create or load the author.
+        if Author.where(name: bk.author, user: current_user).empty?
+          authors_count += 1
+          @author = Author.new(name: bk.author, user: current_user)
+          @author.save!
+        else
+          @author = Author.where(name: bk.author, user: current_user).first
+        end
+
+        # Create or load the book/source.
         if Source.where(asin: bk.asin, user: current_user).empty?
           books_count += 1
-          @book = Source.new(title: bk.title, author: bk.author, source_type: 'Book', asin: bk.asin, user: current_user)
+          @book = Source.new(title: bk.title, author: @author, source_type: 'Book', asin: bk.asin, user: current_user)
           @book.save!
         else
-          @book = Source.where(asin: bk.asin).first
+          @book = Source.where(asin: bk.asin, user: current_user).first
         end
 
         # Get all highlights from the book.
@@ -58,7 +68,7 @@ class ImportController < ApplicationController
       end
 
       # Redirect to the user's highlights.
-      flash[:notice] = "Import finished. #{books_count} books added and #{highlights_count} highlights added."
+      flash[:notice] = "Import finished. #{authors_count} authors added, #{books_count} books added, and #{highlights_count} highlights added."
       redirect_to highlights_path
     rescue KindleHighlights::Client::CaptchaError => error
       # Reload the page and display the captcha error.
