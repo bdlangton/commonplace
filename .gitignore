@@ -24,3 +24,4 @@
 docroot/config/local_env.yml
 docroot/public/assets
 db-backups
+.env
