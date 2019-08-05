@@ -21,7 +21,7 @@ services:
     build: .
     # command: bin/rails server --port 3000 --binding 0.0.0.0
     working_dir: /home/app/docroot
-    container_name: commonplace-webserver
+    container_name: commonplace-web
     restart: always
     env_file:
       - .env
