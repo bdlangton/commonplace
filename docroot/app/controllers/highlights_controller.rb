@@ -15,13 +15,22 @@ class HighlightsController < ApplicationController
 
   # Show a list of highlights by the user.
   def index
-    @tags = current_user.tags.joins(:highlights).where(highlights: {published: true}).distinct.order(:title)
+    @authors = current_user.authors.order(:name)
     @highlights = current_user.highlights.where(published: true)
+
     if params[:favorite].present?
       @highlights = @highlights.where(favorite: true)
     end
+
     if params[:tag].present?
       @highlights = @highlights.tagged_with(params[:tag])
+    end
+
+    if params[:author].present?
+      @highlights = @highlights.by_author(params[:author])
+      @tags = current_user.tags.by_author(params[:author]).where(highlights: {published: true}).distinct.order(:title)
+    else
+      @tags = current_user.tags.joins(:highlights).where(highlights: {published: true}).distinct.order(:title)
     end
 
     @highlights = @highlights.sort_by(&:created_at).reverse
@@ -30,11 +39,20 @@ class HighlightsController < ApplicationController
 
   # Show favorite highlights by the user.
   def favorites
-    @tags = current_user.tags.joins(:highlights).where(highlights: {favorite: true, published: true}).distinct.order(:title)
+    @authors = current_user.authors.order(:name)
     @highlights = current_user.highlights.where(favorite: true, published: true)
+
     if params[:tag].present?
       @highlights = @highlights.tagged_with(params[:tag])
     end
+
+    if params[:author].present?
+      @highlights = @highlights.by_author(params[:author])
+      @tags = current_user.tags.by_author(params[:author]).where(highlights: {favorite: true, published: true}).distinct.order(:title)
+    else
+      @tags = current_user.tags.joins(:highlights).where(highlights: {favorite: true, published: true}).distinct.order(:title)
+    end
+
     @highlights = @highlights.paginate(:page => params[:page], :per_page => 20)
   end
 

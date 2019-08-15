@@ -5,6 +5,8 @@
 <%= link_to 'See Deleted Highlights', highlights_deleted_path, class: ['badge', 'badge-pill', 'badge-secondary'] %>
 
 <%= form_tag({}, :method => 'get', :class => 'filter-form') do %>
+  <%= label_tag :author %>
+  <%= select_tag :author, options_from_collection_for_select(@authors, 'id', 'name', params[:author]), include_blank: true, class: 'chosen-select' %>
   <%= label_tag :tag %>
   <%= select_tag :tag, options_from_collection_for_select(@tags, 'title', 'title', params[:tag]), include_blank: true, class: 'chosen-select', multiple: true %>
   <%= label_tag :favorite %>
