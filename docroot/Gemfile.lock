@@ -164,7 +164,7 @@ GEM
     net-http-persistent (3.0.0)
       connection_pool (~> 2.2)
     nio4r (2.3.1)
-    nokogiri (1.10.3)
+    nokogiri (1.10.4)
       mini_portile2 (~> 2.4.0)
     ntlm-http (0.1.1)
     orm_adapter (0.5.0)
@@ -335,6 +335,7 @@ DEPENDENCIES
   mail
   mechanize
   mysql2 (< 0.5)
+  nokogiri (>= 1.10.4)
   pry-rails
   puma (~> 3.7)
   rails (~> 5.1.4)
