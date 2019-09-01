@@ -3,6 +3,7 @@ FactoryBot.define do
     name { "MyString" }
     type { "" }
     source { nil }
+    all_tags { "" }
     user { nil }
   end
 

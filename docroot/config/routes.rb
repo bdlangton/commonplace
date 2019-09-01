@@ -16,12 +16,11 @@ Rails.application.routes.draw do
   post 'tags/merge', to: 'tags#merge_post'
 
   # Autocomplete.
-  resources :highlights do
+  resources :tags do
     get :autocomplete_tags_title, :on => :collection
   end
   resources :sources do
     get :autocomplete_authors_name, :on => :collection
-    get :autocomplete_tags_title, :on => :collection
   end
 
   # Resources.

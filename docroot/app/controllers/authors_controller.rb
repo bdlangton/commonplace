@@ -33,7 +33,16 @@ class AuthorsController < ApplicationController
   def update
     @author = current_user.authors.find(params[:id])
 
-    if @author.update(author_params)
+    # Change all_tags to be an array containing the comma separated list of tags
+    # and the current user ID. We need the user ID in order to save the tag to
+    # the correct user when creating a new highlight, since the highlight
+    # doesn't already have the user_id saved.
+    params = author_params.merge('all_tags': [
+      author_params['all_tags'],
+      author_params['user_id']
+    ])
+
+    if @author.update(params)
       redirect_to @author
     else
       render 'edit'
@@ -42,7 +51,16 @@ class AuthorsController < ApplicationController
 
   # Create a new author.
   def create
-    @author = Author.new(author_params)
+    # Change all_tags to be an array containing the comma separated list of tags
+    # and the current user ID. We need the user ID in order to save the tag to
+    # the correct user when creating a new highlight, since the highlight
+    # doesn't already have the user_id saved.
+    params = author_params.merge('all_tags': [
+      author_params['all_tags'],
+      author_params['user_id']
+    ])
+
+    @author = Author.new(params)
 
     if @author.save
       redirect_to @author
@@ -62,6 +80,6 @@ class AuthorsController < ApplicationController
   private
     # Define which author fields are required and permitted.
     def author_params
-      params.require(:author).permit(:name, :type, :user_id)
+      params.require(:author).permit(:name, :type, :all_tags, :user_id)
     end
 end

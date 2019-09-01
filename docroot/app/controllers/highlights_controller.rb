@@ -1,5 +1,4 @@
 class HighlightsController < ApplicationController
-  autocomplete :tags, :title
   require 'will_paginate/array'
 
   # Create new highlight.
@@ -155,26 +154,6 @@ class HighlightsController < ApplicationController
     @highlight.save
 
     redirect_to highlights_path
-  end
-
-  # Autocomplete tags for the user.
-  def autocomplete_tags_title
-    term = params[:term]
-
-    # Get terms already entered to ensure we don't suggest terms already taken.
-    existing_terms = params[:all_tags].split(',')
-    existing_terms.pop
-    existing_terms = existing_terms.map do |existing_term|
-      existing_term.strip
-    end
-
-    if existing_terms.empty?
-      tags = Tag.where('title LIKE ?', "#{term}%").order(:title).all | Tag.where('title LIKE ?', "%#{term}%").order(:title).all
-    else
-      tags = Tag.where('title LIKE ?', "#{term}%").where('title NOT IN (?)', Array.wrap(existing_terms)).order(:title).all | Tag.where('title LIKE ?', "%#{term}%").where('title NOT IN (?)', Array.wrap(existing_terms)).order(:title).all
-    end
-
-    render :json => tags.map { |tag| {:id => tag.id, :label => tag.title, :value => tag.title} }
   end
 
   private
