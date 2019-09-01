@@ -1,6 +1,6 @@
 <%= content_for(:title, 'Tag: ' + @tag.title) %>
 <h1><%= @tag.title %></h1>
- 
+
 <%= link_to 'Edit Tag', edit_tag_path(@tag), class: ['badge', 'badge-pill', 'badge-light'] %>
 
 <%= form_tag({}, :method => 'get', :class => 'filter-form') do %>
@@ -9,4 +9,6 @@
   <%= submit_tag "Filter", :name => nil %>
 <% end %>
 
+<%= render partial: 'sources/sources', locals: { sources: @sources } %>
+<%= render partial: 'authors/authors', locals: { authors: @authors } %>
 <%= render partial: 'highlights/highlights', locals: { highlights: @highlights } %>

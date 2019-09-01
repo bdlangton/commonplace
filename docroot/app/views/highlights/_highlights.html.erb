@@ -1,25 +1,26 @@
-<% if !defined?(hide) || !hide.include?('source') %>
-  <table class="highlights">
-<% else %>
-  <table class="highlights no-source">
-<% end %>
-  <thead>
-    <tr>
-      <% if !defined?(hide) || !hide.include?('source') %>
-        <th class="source">Source</th>
-      <% end %>
-      <% if !defined?(hide) || !hide.include?('author') %>
-        <th class="author">Author(s)</th>
-      <% end %>
-      <th class="highlight">Highlight</th>
-      <th class="note">Note</th>
-      <th class="tags">Tags</th>
-      <th class="operations">Operations</th>
-    </tr>
-  </thead>
+<% if !highlights.empty? %>
+  <% if !defined?(hide) || !hide.include?('source') %>
+    <table class="highlights">
+  <% else %>
+    <table class="highlights no-source">
+  <% end %>
+    <caption>Highlights</caption>
+    <thead>
+      <tr>
+        <% if !defined?(hide) || !hide.include?('source') %>
+          <th class="source">Source</th>
+        <% end %>
+        <% if !defined?(hide) || !hide.include?('author') %>
+          <th class="author">Author(s)</th>
+        <% end %>
+        <th class="highlight">Highlight</th>
+        <th class="note">Note</th>
+        <th class="tags">Tags</th>
+        <th class="operations">Operations</th>
+      </tr>
+    </thead>
 
-  <tbody>
-    <% if highlights %>
+    <tbody>
       <% highlights.each do |highlight| %>
         <tr class="highlight-<%= highlight.id %>">
           <% if !defined?(hide) || !hide.include?('source') %>
@@ -47,6 +48,6 @@
           </td>
         </tr>
       <% end %>
-    <% end %>
-  </tbody>
-</table>
+    </tbody>
+  </table>
+<% end %>

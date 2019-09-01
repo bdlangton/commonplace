@@ -1,29 +1,32 @@
-<table class="sources">
-  <thead>
-    <tr>
-      <th class="title">Title</th>
-      <th class="author">Author(s)</th>
-      <th class="source_type">Type</th>
-      <th class="tags">Tags</th>
-      <th class="operations">Operations</th>
-    </tr>
-  </thead>
-
-  <tbody>
-    <% sources.each do |source| %>
+<% if !sources.empty? %>
+  <table class="sources">
+    <caption>Sources</caption>
+    <thead>
       <tr>
-        <td class="title"><%= link_to source.title, source_path(source) %></td>
-        <td class="author"><%= print_authors(source) %></td>
-        <td class="source_type"><%= source.source_type %></td>
-        <td class="tags"><%= raw tag_links(source.all_tags) %></td>
-        <td class="operations">
-          <%= link_to fa_icon('pencil'), edit_source_path(source), id: 'edit-source-' + source.id.to_s, class: ['edit'] %>
-          <%= link_to fa_icon('ban'), source_path(source),
-                method: :delete,
-                data: { confirm: 'Are you sure that you want to delete ' + source.title + '? This will also delete any highlights from this source.' },
-                id: 'delete-source-' + source.id.to_s,
-                class: ['delete', 'gray'] %></td>
+        <th class="title">Title</th>
+        <th class="author">Author(s)</th>
+        <th class="source_type">Type</th>
+        <th class="tags">Tags</th>
+        <th class="operations">Operations</th>
       </tr>
-    <% end %>
-  </tbody>
-</table>
+    </thead>
+
+    <tbody>
+      <% sources.each do |source| %>
+        <tr>
+          <td class="title"><%= link_to source.title, source_path(source) %></td>
+          <td class="author"><%= print_authors(source) %></td>
+          <td class="source_type"><%= source.source_type %></td>
+          <td class="tags"><%= raw tag_links(source.all_tags) %></td>
+          <td class="operations">
+            <%= link_to fa_icon('pencil'), edit_source_path(source), id: 'edit-source-' + source.id.to_s, class: ['edit'] %>
+            <%= link_to fa_icon('ban'), source_path(source),
+                  method: :delete,
+                  data: { confirm: 'Are you sure that you want to delete ' + source.title + '? This will also delete any highlights from this source.' },
+                  id: 'delete-source-' + source.id.to_s,
+                  class: ['delete', 'gray'] %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+<% end %>

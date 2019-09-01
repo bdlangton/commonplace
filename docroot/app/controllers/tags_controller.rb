@@ -10,18 +10,26 @@ class TagsController < ApplicationController
   def index
     @tags = current_user.tags.select('tags.*', 'count(*) as count')
       .left_joins(:taggings)
+      .left_joins(:source_taggings)
+      .left_joins(:author_taggings)
       .group("tags.id")
-      .order("count(taggings.highlight_id) DESC")
+      .order("count(*) DESC")
   end
 
   # Show a tag.
   def show
     @tag = current_user.tags.find(params[:id])
+
+    # Get highlights w/the tag.
     @highlights = @tag.highlights
     if params[:favorite].present?
       @highlights = @highlights.where(favorite: true)
     end
     @highlights = @highlights.by_user(current_user).where(published: true)
+
+    # Get sources and authors w/the tag.
+    @sources = @tag.sources.by_user(current_user)
+    @authors = @tag.authors.by_user(current_user)
   end
 
   # Merge two tags into one.
