@@ -4,6 +4,8 @@ class Tag < ApplicationRecord
   has_many :highlights, through: :taggings
   has_many :source_taggings, :dependent => :delete_all
   has_many :sources, through: :source_taggings
+  has_many :author_taggings, :dependent => :delete_all
+  has_many :authors, through: :author_taggings
   validates :user_id, numericality: { only_integer: true }
 
   # Scope to filter by user ID.
