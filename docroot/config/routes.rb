@@ -21,6 +21,7 @@ Rails.application.routes.draw do
   end
   resources :sources do
     get :autocomplete_authors_name, :on => :collection
+    get :autocomplete_tags_title, :on => :collection
   end
 
   # Resources.

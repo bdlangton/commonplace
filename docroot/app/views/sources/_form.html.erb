@@ -35,6 +35,11 @@
   </p>
 
   <p>
+    <%= form.label 'Tags' %><br/>
+    <%= form.autocomplete_field :all_tags, '/highlights/autocomplete_tags_title', 'data-delimiter' => ', ', 'data-auto-focus' => true, :fields => {:all_tags => '#all_tags'}, class: ['autocomplete', 'form-control'], id: 'all_tags' %>
+  </p>
+
+  <p>
     <%= form.hidden_field :user_id, :value => current_user.id %>
   </p>
 

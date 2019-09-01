@@ -25,6 +25,7 @@ FactoryBot.define do
     sequence(:title) { |n| "Title #{n}" }
     sequence(:author) { |n| "Author #{n}" }
     source_type { "Book" }
+    all_tags { "" }
     user
   end
 
