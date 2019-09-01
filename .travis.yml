@@ -13,6 +13,7 @@ branches:
 cache: bundler
 
 script:
+  - cd docroot
   - RAILS_ENV=test bundle exec rake db:test:prepare
   - RAILS_ENV=test bundle exec rspec spec/
 

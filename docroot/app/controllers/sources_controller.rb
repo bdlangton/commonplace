@@ -53,6 +53,10 @@ class SourcesController < ApplicationController
       source_params['all_authors'],
       source_params['user_id']
     ])
+    params = params.merge('all_tags': [
+      source_params['all_tags'],
+      source_params['user_id']
+    ])
 
     if @source.update(params)
       redirect_to @source
@@ -69,6 +73,10 @@ class SourcesController < ApplicationController
     # doesn't already have the user_id saved.
     params = source_params.merge('all_authors': [
       source_params['all_authors'],
+      source_params['user_id']
+    ])
+    params = params.merge('all_tags': [
+      source_params['all_tags'],
       source_params['user_id']
     ])
 
@@ -112,6 +120,6 @@ class SourcesController < ApplicationController
   private
     # Define which source fields are required and permitted.
     def source_params
-      params.require(:source).permit(:title, :all_authors, :source_type, :notes, :user_id)
+      params.require(:source).permit(:title, :all_authors, :all_tags, :source_type, :notes, :user_id)
     end
 end

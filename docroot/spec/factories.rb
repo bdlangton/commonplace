@@ -3,6 +3,7 @@ FactoryBot.define do
     name { "MyString" }
     type { "" }
     source { nil }
+    all_tags { "" }
     user { nil }
   end
 
@@ -25,6 +26,7 @@ FactoryBot.define do
     sequence(:title) { |n| "Title #{n}" }
     sequence(:author) { |n| "Author #{n}" }
     source_type { "Book" }
+    all_tags { "" }
     user
   end
 
