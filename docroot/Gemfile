@@ -50,6 +50,7 @@ gem "actionview", ">= 5.1.6.2"
 gem "nokogiri", ">= 1.10.4"
 gem "carrierwave", "~> 2.0"
 gem "devise-jwt"
+gem "react-rails"
 
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
