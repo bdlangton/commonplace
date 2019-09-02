@@ -18,7 +18,7 @@
             <%= link_to fa_icon('pencil'), edit_author_path(author), id: 'edit-author-' + author.id.to_s, class: ['edit'] %>
             <%= link_to fa_icon('ban'), author_path(author),
                   method: :delete,
-                  data: { confirm: 'Are you sure that you want to delete ' + author.name + '? This will also delete any highlights from this author.' },
+                  data: { confirm: 'Are you sure that you want to delete ' + author.name + '?' },
                   id: 'delete-author-' + author.id.to_s,
                   class: ['delete', 'gray'] %></td>
         </tr>

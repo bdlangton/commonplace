@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190901190756) do
+ActiveRecord::Schema.define(version: 20190902152745) do
 
   create_table "author_taggings", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.bigint "author_id"
@@ -124,8 +124,4 @@ ActiveRecord::Schema.define(version: 20190901190756) do
   end
 
   add_foreign_key "authors", "users"
-  add_foreign_key "sources_authors", "authors"
-  add_foreign_key "sources_authors", "sources"
-  add_foreign_key "taggings", "highlights"
-  add_foreign_key "taggings", "tags"
 end
