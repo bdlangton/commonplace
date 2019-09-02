@@ -17,6 +17,9 @@
 //= require chosen-jquery
 //= require popper
 //= require bootstrap
+//= require react
+//= require react_ujs
+//= require components
 //= require_tree .
 
 document.addEventListener("DOMContentLoaded", function(event) {
