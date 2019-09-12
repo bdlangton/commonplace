@@ -32,6 +32,7 @@ Rails.application.routes.draw do
   # Import.
   get 'import', to: 'import#form'
   post 'import', to: 'import#import'
+  post 'upload', to: 'import#upload'
 
   # Root page.
   root 'highlights#index'

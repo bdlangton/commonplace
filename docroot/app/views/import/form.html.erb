@@ -4,16 +4,30 @@
 <%= form_tag("/import", method: "post") do %>
   <p>Enter your Amazon credentials to retrieve highlights.</p>
   <p>
-    <%= label_tag(:email, "Email:") %>
+    <%= label_tag(:email, 'Email:') %>
     <%= text_field_tag(:email) %>
   </p>
 
   <p>
-    <%= label_tag(:password, "Password:") %>
+    <%= label_tag(:password, 'Password:') %>
     <%= password_field_tag(:password) %>
   </p>
 
   <p>
-    <%= submit_tag("Import") %>
+    <%= submit_tag('Import') %>
+  </p>
+<% end %>
+
+<h1>Upload JSON File</h1>
+
+<%= form_tag("/upload", multipart: true, method: "post") do %>
+  <p>Upload a JSON file. If the Amazon import above isn't working, then you can grab your highlights using Readwise's <a href="https://readwise.io/bookcision" target="_blank">Bookcision snippet</a> and then uploading that file here.</p>
+  <p>
+    <%= label_tag(:file, 'File:') %>
+    <%= file_field_tag(:file, :accept => 'application/json') %>
+  </p>
+
+  <p>
+    <%= submit_tag('Upload') %>
   </p>
 <% end %>
