@@ -21,19 +21,24 @@ class ImportController < ApplicationController
       @books = kindle.books
 
       @books.each do |bk|
-        # Create or load the author.
-        if Author.where(name: bk.author, user: current_user).empty?
-          authors_count += 1
-          @author = Author.new(name: bk.author, user: current_user)
-          @author.save!
-        else
-          @author = Author.where(name: bk.author, user: current_user).first
+        # Create or load the author(s).
+        @authors = []
+        bk_authors = split_authors(bk.author)
+        for bk_author in bk_authors
+          if Author.where(name: bk_author, user: current_user).empty?
+            authors_count += 1
+            @author = Author.new(name: bk_author, user: current_user)
+            @author.save!
+          else
+            @author = Author.where(name: bk_author, user: current_user).first
+          end
+          @authors.push(@author)
         end
 
         # Create or load the book/source.
         if Source.where(asin: bk.asin, user: current_user).empty?
           books_count += 1
-          @book = Source.new(title: bk.title, author: @author, source_type: 'Book', asin: bk.asin, user: current_user)
+          @book = Source.new(title: bk.title, authors: @authors, source_type: 'Book', asin: bk.asin, user: current_user)
           @book.save!
         else
           @book = Source.where(asin: bk.asin, user: current_user).first
@@ -94,19 +99,24 @@ class ImportController < ApplicationController
       return
     end
 
-    # Create or load the author.
-    if Author.where(name: bk['authors'], user: current_user).empty?
-      authors_count += 1
-      @author = Author.new(name: bk['authors'], user: current_user)
-      @author.save!
-    else
-      @author = Author.where(name: bk['authors'], user: current_user).first
+    # Create or load the author(s).
+    @authors = []
+    bk_authors = split_authors(bk['authors'])
+    for bk_author in bk_authors
+      if Author.where(name: bk_author, user: current_user).empty?
+        authors_count += 1
+        @author = Author.new(name: bk_author, user: current_user)
+        @author.save!
+      else
+        @author = Author.where(name: bk_author, user: current_user).first
+      end
+      @authors.push(@author)
     end
 
     # Create or load the book/source.
     if Source.where(asin: bk['asin'], user: current_user).empty?
       books_count += 1
-      @book = Source.new(title: bk['title'], authors: [@author], source_type: 'Book', asin: bk['asin'], user: current_user)
+      @book = Source.new(title: bk['title'], authors: @authors, source_type: 'Book', asin: bk['asin'], user: current_user)
       @book.save!
     else
       @book = Source.where(asin: bk['asin'], user: current_user).first
@@ -143,4 +153,25 @@ class ImportController < ApplicationController
     flash[:notice] = "Upload finished. #{authors_count} authors added, #{books_count} books added, and #{highlights_count} highlights added."
     redirect_to highlights_path
   end
+
+  private
+    def split_authors(authors)
+      # Get last author separated by "and" if it exists.
+      last_author = nil
+      if authors.include? " and "
+        split = authors.split(' and ')
+        authors = split[0]
+        last_author = split[1].strip
+      end
+
+      # Split the list of authors separated by a comma.
+      authors_array = authors.split(',').map { |s| s.strip }
+
+      # If there was an author listed after an "and" then add that here.
+      unless last_author.nil?
+        authors_array.push(last_author)
+      end
+
+      return authors_array
+    end
 end
