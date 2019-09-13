@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190902152745) do
+ActiveRecord::Schema.define(version: 20190913124958) do
 
   create_table "author_taggings", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.bigint "author_id"
@@ -38,6 +38,7 @@ ActiveRecord::Schema.define(version: 20190902152745) do
     t.integer "location", default: 0
     t.boolean "favorite"
     t.boolean "published", default: true, null: false
+    t.string "url"
     t.index ["source_id"], name: "index_highlights_on_source_id"
     t.index ["user_id"], name: "index_highlights_on_user_id"
   end
