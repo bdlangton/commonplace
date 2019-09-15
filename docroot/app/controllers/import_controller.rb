@@ -63,7 +63,7 @@ class ImportController < ApplicationController
             # If there is a note in the highlight, but we don't have a note saved
             # locally, then update the highlight.
             @highlight = Highlight.find_by(location: hl.location, user: current_user, source: @book)
-            if @highlight.note.empty?
+            if @highlight.note.nil?
               highlights_count += 1
               @highlight.note = hl.note
               @highlight.save!
@@ -137,13 +137,33 @@ class ImportController < ApplicationController
         highlights_count += 1
         @highlight = Highlight.new(highlight: hl['text'], note: hl['note'], location: hl['location']['value'], url: hl['location']['url'], user: current_user, source: @book)
         @highlight.save!
-      elsif hl['note']
+      else
+        @highlight = Highlight.find_by(location: hl['location']['value'], user: current_user, source: @book)
+
+        # If we need to update the current highlight.
+        update = false
+
         # If there is a note in the highlight, but we don't have a note saved
         # locally, then update the highlight.
-        @highlight = Highlight.find_by(location: hl['location']['value'], user: current_user, source: @book)
-        if @highlight.note.empty?
+        if hl['note']
+          if @highlight.note.nil?
+            update = true
+            @highlight.note = hl['note']
+          end
+        end
+
+        # If there is a kindle URL in the highlight, but we don't have the URL
+        # saved locally, then update the highlight.
+        if hl['location']['url']
+          if @highlight.url.nil?
+            update = true
+            @highlight.url = hl['location']['url']
+          end
+        end
+
+        # Save the highlight if anything was updated.
+        if update
           highlights_count += 1
-          @highlight.note = hl['note']
           @highlight.save!
         end
       end
