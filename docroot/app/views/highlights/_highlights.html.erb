@@ -40,6 +40,9 @@
             <% else %>
               <%= link_to fa_icon('heart'), '/highlights/' + id + '/favorite', id: 'favorite-' + id, class: ['favorite', 'gray'], remote: true %>
             <% end %>
+            <% if highlight.url %>
+              <%= link_to fa_icon('tablet'), highlight.url, id: 'tablet-' + id, class: ['tablet', 'gray'] %>
+            <% end %>
             <% if highlight.published %>
               <%= link_to fa_icon('ban'), '/highlights/' + id + '/unpublish', id: 'publish-' + id, class: ['publish', 'gray'], remote: true %>
             <% else %>
