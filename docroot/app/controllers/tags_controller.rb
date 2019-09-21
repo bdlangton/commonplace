@@ -115,9 +115,9 @@ class TagsController < ApplicationController
     end
 
     if existing_terms.empty?
-      tags = Tag.where('title LIKE ?', "#{term}%").order(:title).all | Tag.where('title LIKE ?', "%#{term}%").order(:title).all
+      tags = current_user.tags.where('title LIKE ?', "#{term}%").order(:title).all | current_user.tags.where('title LIKE ?', "%#{term}%").order(:title).all
     else
-      tags = Tag.where('title LIKE ?', "#{term}%").where('title NOT IN (?)', Array.wrap(existing_terms)).order(:title).all | Tag.where('title LIKE ?', "%#{term}%").where('title NOT IN (?)', Array.wrap(existing_terms)).order(:title).all
+      tags = current_user.tags.where('title LIKE ?', "#{term}%").where('title NOT IN (?)', Array.wrap(existing_terms)).order(:title).all | current_user.tags.where('title LIKE ?', "%#{term}%").where('title NOT IN (?)', Array.wrap(existing_terms)).order(:title).all
     end
 
     render :json => tags.map { |tag| {:id => tag.id, :label => tag.title, :value => tag.title} }

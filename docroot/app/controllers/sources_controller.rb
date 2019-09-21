@@ -109,9 +109,9 @@ class SourcesController < ApplicationController
     end
 
     if existing_authors.empty?
-      authors = Author.where('name LIKE ?', "#{term}%").order(:name).all | Author.where('name LIKE ?', "%#{term}%").order(:name).all
+      authors = current_user.authors.where('name LIKE ?', "#{term}%").order(:name).all | current_user.authors.where('name LIKE ?', "%#{term}%").order(:name).all
     else
-      authors = Author.where('name LIKE ?', "#{term}%").where('name NOT IN (?)', Array.wrap(existing_authors)).order(:name).all | Author.where('name LIKE ?', "%#{term}%").where('name NOT IN (?)', Array.wrap(existing_authors)).order(:name).all
+      authors = current_user.authors.where('name LIKE ?', "#{term}%").where('name NOT IN (?)', Array.wrap(existing_authors)).order(:name).all | current_user.authors.where('name LIKE ?', "%#{term}%").where('name NOT IN (?)', Array.wrap(existing_authors)).order(:name).all
     end
 
     render :json => authors.map { |author| {:id => author.id, :label => author.name, :value => author.name} }
