@@ -1,0 +1,26 @@
+class UsersController < ApplicationController
+
+  # User settings.
+  def settings
+    @user = current_user
+  end
+
+  # Update user profile.
+  def update
+    Rails.logger.debug("Books: #{params.inspect}")
+    current_user.data = {
+      'email' => {
+        'receive' => params[:user][:receive] ? true : false,
+        'favorite_count' => params[:user][:favorite_count],
+        'random_count' => params[:user][:random_count]
+      }
+    }.to_json
+
+    if current_user.save
+      redirect_to '/'
+    else
+      render 'settings'
+    end
+  end
+
+end

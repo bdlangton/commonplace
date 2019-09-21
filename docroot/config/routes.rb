@@ -29,6 +29,10 @@ Rails.application.routes.draw do
   resources :sources
   resources :tags
 
+  # User settings.
+  get 'settings', to: 'users#settings'
+  patch 'user/:id', to: 'users#update', :as => :user
+
   # Import.
   get 'import', to: 'import#form'
   post 'import', to: 'import#import'

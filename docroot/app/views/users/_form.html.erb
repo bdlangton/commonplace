@@ -1,0 +1,40 @@
+<%= form_with model: @user, local: true do |form| %>
+
+  <% if @user.errors.any? %>
+    <div id="error_explanation">
+      <h2>
+        <%= pluralize(@user.errors.count, "error") %> prohibited
+        your profile from being saved:
+      </h2>
+      <ul>
+        <% @user.errors.full_messages.each do |msg| %>
+          <li><%= msg %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <fieldset>
+    <legend>Email Settings</legend>
+
+    <div class="form-group form-checkbox">
+      <%= form.label "Receive daily emails?" %>
+      <%= form.check_box :receive, class: 'form-control', id: 'receive', :checked => User.receive_email(@user) %>
+    </div>
+
+    <div class="form-group form-checkbox">
+      <%= form.select :favorite_count, [0, 1, 2, 3, 4, 5], class: 'form-control', id: 'favorites', :selected => User.email_favorite_count(@user) %>
+      <%= form.label "Number of favorite highlights to receive per email" %>
+    </div>
+
+    <div class="form-group form-checkbox">
+      <%= form.select :random_count, [0, 1, 2, 3, 4, 5], class: 'form-control', id: 'random', :selected => User.email_random_count(@user) %>
+      <%= form.label "Number of random highlights to receive per email" %>
+    </div>
+  </fieldset>
+
+  <div class="form-group">
+    <%= form.submit 'Save Profile', {class: ['btn', 'btn-primary']} %>
+  </div>
+
+<% end %>
