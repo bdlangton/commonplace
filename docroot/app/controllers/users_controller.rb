@@ -7,7 +7,6 @@ class UsersController < ApplicationController
 
   # Update user profile.
   def update
-    Rails.logger.debug("Books: #{params.inspect}")
     current_user.data = {
       'email' => {
         'receive' => params[:user][:receive] ? true : false,

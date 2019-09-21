@@ -25,7 +25,7 @@ class User < ApplicationRecord
     unless user.data.nil?
       data = JSON.parse(user.data)
       if data.include? 'email' and data['email'].include? 'favorite_count'
-        return data['email']['favorite_count']
+        return data['email']['favorite_count'].to_i
       end
     end
     return 2
@@ -36,7 +36,7 @@ class User < ApplicationRecord
     unless user.data.nil?
       data = JSON.parse(user.data)
       if data.include? 'email' and data['email'].include? 'random_count'
-        return data['email']['random_count']
+        return data['email']['random_count'].to_i
       end
     end
     return 1
