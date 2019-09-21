@@ -19,7 +19,9 @@ Mail.defaults do
 end
 
 class Kindle
-  def random_highlights(user, favorites = 2, any = 1)
+  def random_highlights(user)
+    favorites = User.email_favorite_count(user)
+    any = User.email_random_count(user)
     random = Set[]
     count = 0
     loops = 0
@@ -58,11 +60,12 @@ class Kindle
 end
 
 task :email => :environment do
-  users = User.all
+  # Get users that have opted in to receiving email.
+  users = User.all.select{ |user| User.receive_email(user) }
 
   for user in users
     data = Kindle.new
-    highlights = data.random_highlights(user, 2, 1)
+    highlights = data.random_highlights(user)
 
     # Skip this user if they have no highlights return.
     if highlights.empty?
@@ -71,7 +74,7 @@ task :email => :environment do
 
     text = ''
     mail = Mail.new do
-      from 'Commonplace Book <bdlangton@gmail.com>'
+      from 'Commonplace Book <barrett@langton.dev>'
 
       to user.email
       subject "Your daily highlights for #{Time.now.strftime("%b %-d")}"

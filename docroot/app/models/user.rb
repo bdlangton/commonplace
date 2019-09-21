@@ -8,4 +8,37 @@ class User < ApplicationRecord
   has_many :highlights, dependent: :destroy
   has_many :sources, dependent: :destroy
   has_many :tags, dependent: :destroy
+
+  # Check if the user should receive daily emails.
+  def self.receive_email(user)
+    unless user.data.nil?
+      data = JSON.parse(user.data)
+      if data.include? 'email' and data['email'].include? 'receive'
+        return data['email']['receive']
+      end
+    end
+    return false
+  end
+
+  # Check how many favorite highlights the user wants in their email.
+  def self.email_favorite_count(user)
+    unless user.data.nil?
+      data = JSON.parse(user.data)
+      if data.include? 'email' and data['email'].include? 'favorite_count'
+        return data['email']['favorite_count']
+      end
+    end
+    return 2
+  end
+
+  # Check how many random highlights the user wants in their email.
+  def self.email_random_count(user)
+    unless user.data.nil?
+      data = JSON.parse(user.data)
+      if data.include? 'email' and data['email'].include? 'random_count'
+        return data['email']['random_count']
+      end
+    end
+    return 1
+  end
 end
