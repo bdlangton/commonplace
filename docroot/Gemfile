@@ -70,6 +70,7 @@ group :development, :test do
   gem "rufo"
   gem "rubocop"
   gem "reek"
+  gem "rubocop-rails_config"
 end
 
 group :development do
