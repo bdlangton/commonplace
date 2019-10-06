@@ -1,11 +1,13 @@
+# frozen_string_literal: true
+
 class Source < ApplicationRecord
   include Tags
 
   belongs_to :user
-  has_many :highlights, :dependent => :delete_all
-  has_many :sources_authors, :dependent => :delete_all
+  has_many :highlights, dependent: :delete_all
+  has_many :sources_authors, dependent: :delete_all
   has_many :authors, through: :sources_authors
-  has_many :source_taggings, :dependent => :delete_all
+  has_many :source_taggings, dependent: :delete_all
   has_many :tags, through: :source_taggings
   validates :user_id, numericality: { only_integer: true }
 

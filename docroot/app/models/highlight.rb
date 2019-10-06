@@ -1,11 +1,13 @@
+# frozen_string_literal: true
+
 class Highlight < ApplicationRecord
   include Tags
 
   belongs_to :user
   belongs_to :source
-  has_many :taggings, :dependent => :delete_all
+  has_many :taggings, dependent: :delete_all
   has_many :tags, through: :taggings
-  validates_numericality_of :user_id, :equal_to => Proc.new { |highlight| highlight.source.user_id }
+  validates_numericality_of :user_id, equal_to: Proc.new { |highlight| highlight.source.user_id }
   validates :user_id, numericality: { only_integer: true }
   validates :source_id, numericality: { only_integer: true }
 
@@ -25,11 +27,11 @@ class Highlight < ApplicationRecord
     else
       @highlights = Tag.find_by_title!(titles).highlights.to_a
     end
-    return @highlights.uniq
+    @highlights.uniq
   end
 
   # Filter highlights by authors that have sources that have those highlights.
   def self.by_author(id)
-    self.joins("JOIN sources ON highlights.source_id = sources.id JOIN sources_authors ON sources.id = sources_authors.source_id").where(highlights: {published: true}, sources_authors: {author_id: id}).distinct
+    self.joins("JOIN sources ON highlights.source_id = sources.id JOIN sources_authors ON sources.id = sources_authors.source_id").where(highlights: { published: true }, sources_authors: { author_id: id }).distinct
   end
 end
