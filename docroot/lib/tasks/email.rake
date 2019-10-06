@@ -1,20 +1,22 @@
-require 'bundler'
-require 'kindle_highlights'
-require 'fileutils'
-require 'json'
-require 'cgi'
-require 'mail'
-require 'htmlentities'
+# frozen_string_literal: true
+
+require "bundler"
+require "kindle_highlights"
+require "fileutils"
+require "json"
+require "cgi"
+require "mail"
+require "htmlentities"
 # require 'config/environment'
 
 Mail.defaults do
   delivery_method :smtp,
-    address: 'smtp.gmail.com',
+    address: "smtp.gmail.com",
     port: 587,
-    domain: 'gmail.com',
-    user_name: ENV['GMAIL_USERNAME'],
-    password: ENV['GMAIL_PASSWORD'],
-    authentication: 'plain',
+    domain: "gmail.com",
+    user_name: ENV["GMAIL_USERNAME"],
+    password: ENV["GMAIL_PASSWORD"],
+    authentication: "plain",
     enable_starttls_auto: true
 end
 
@@ -55,13 +57,13 @@ class Kindle
         return random
       end
     end
-    return random
+    random
   end
 end
 
-task :email => :environment do
+task email: :environment do
   # Get users that have opted in to receiving email.
-  users = User.all.select{ |user| User.receive_email(user) }
+  users = User.all.select { |user| User.receive_email(user) }
 
   for user in users
     data = Kindle.new
@@ -72,14 +74,14 @@ task :email => :environment do
       next
     end
 
-    text = ''
+    text = ""
     mail = Mail.new do
-      from 'Commonplace Book <barrett@langton.dev>'
+      from "Commonplace Book <barrett@langton.dev>"
 
       to user.email
       subject "Your daily highlights for #{Time.now.strftime("%b %-d")}"
       html_part do
-        content_type 'text/html; charset=UTF-8'
+        content_type "text/html; charset=UTF-8"
 
         highlights.each do |highlight|
           if highlight.blank?
