@@ -67,7 +67,6 @@ group :development, :test do
   gem "database_cleaner"
   gem "simplecov"
   gem "simplecov-console"
-  gem "rufo"
   gem "rubocop"
   gem "reek"
   gem "rubocop-rails_config"

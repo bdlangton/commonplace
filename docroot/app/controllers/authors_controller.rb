@@ -1,5 +1,8 @@
+# frozen_string_literal: true
+
+# Authors controller.
 class AuthorsController < ApplicationController
-  require 'will_paginate/array'
+  require "will_paginate/array"
 
   # Create a new author.
   def new
@@ -11,10 +14,10 @@ class AuthorsController < ApplicationController
     @authors = current_user.authors
 
     # Sort.
-    if params[:sort] == 'newest'
+    if params[:sort] == "newest"
       @authors = @authors.sort_by(&:created_at).reverse
     else
-      @authors = @authors.sort_by &:name
+      @authors = @authors.sort_by(&:name)
     end
   end
 
@@ -38,14 +41,14 @@ class AuthorsController < ApplicationController
     # the correct user when creating a new highlight, since the highlight
     # doesn't already have the user_id saved.
     params = author_params.merge('all_tags': [
-      author_params['all_tags'],
-      author_params['user_id']
+      author_params["all_tags"],
+      author_params["user_id"]
     ])
 
     if @author.update(params)
       redirect_to @author
     else
-      render 'edit'
+      render "edit"
     end
   end
 
@@ -56,8 +59,8 @@ class AuthorsController < ApplicationController
     # the correct user when creating a new highlight, since the highlight
     # doesn't already have the user_id saved.
     params = author_params.merge('all_tags': [
-      author_params['all_tags'],
-      author_params['user_id']
+      author_params["all_tags"],
+      author_params["user_id"]
     ])
 
     @author = Author.new(params)
@@ -65,7 +68,7 @@ class AuthorsController < ApplicationController
     if @author.save
       redirect_to @author
     else
-      render 'new'
+      render "new"
     end
   end
 

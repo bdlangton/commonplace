@@ -1,5 +1,8 @@
+# frozen_string_literal: true
+
+# Sources controller.
 class SourcesController < ApplicationController
-  require 'will_paginate/array'
+  require "will_paginate/array"
 
   # Create a new source.
   def new
@@ -9,16 +12,16 @@ class SourcesController < ApplicationController
   # List sources by user.
   def index
     @sources = current_user.sources
-    @source_types = @sources.select(:source_type).distinct.sort_by &:source_type
+    @source_types = @sources.select(:source_type).distinct.sort_by(&:source_type)
     if params[:source_type].present?
       @sources = @sources.where(source_type: params[:source_type])
     end
 
     # Sort.
-    if params[:sort] == 'newest'
+    if params[:sort] == "newest"
       @sources = @sources.sort_by(&:created_at).reverse
     else
-      @sources = @sources.sort_by &:title
+      @sources = @sources.sort_by(&:title)
     end
   end
 
@@ -50,18 +53,18 @@ class SourcesController < ApplicationController
     # author to the correct user when creating a new author, since the author
     # doesn't already have the user_id saved.
     params = source_params.merge('all_authors': [
-      source_params['all_authors'],
-      source_params['user_id']
-    ])
+                                   source_params["all_authors"],
+                                   source_params["user_id"],
+                                 ])
     params = params.merge('all_tags': [
-      source_params['all_tags'],
-      source_params['user_id']
-    ])
+                            source_params["all_tags"],
+                            source_params["user_id"],
+                          ])
 
     if @source.update(params)
       redirect_to @source
     else
-      render 'edit'
+      render "edit"
     end
   end
 
@@ -72,20 +75,20 @@ class SourcesController < ApplicationController
     # author to the correct user when creating a new author, since the author
     # doesn't already have the user_id saved.
     params = source_params.merge('all_authors': [
-      source_params['all_authors'],
-      source_params['user_id']
-    ])
+                                   source_params["all_authors"],
+                                   source_params["user_id"],
+                                 ])
     params = params.merge('all_tags': [
-      source_params['all_tags'],
-      source_params['user_id']
-    ])
+                            source_params["all_tags"],
+                            source_params["user_id"],
+                          ])
 
     @source = Source.new(params)
 
     if @source.save
       redirect_to @source
     else
-      render 'new'
+      render "new"
     end
   end
 
@@ -102,19 +105,19 @@ class SourcesController < ApplicationController
     term = params[:term]
 
     # Get terms already entered to ensure we don't suggest terms already taken.
-    existing_authors = params[:all_authors].split(',')
+    existing_authors = params[:all_authors].split(",")
     existing_authors.pop
-    existing_authors = existing_authors.map do |existing_authors|
-      existing_authors.strip
+    existing_authors = existing_authors.map do |existing_author|
+      existing_author.strip
     end
 
     if existing_authors.empty?
-      authors = current_user.authors.where('name LIKE ?', "#{term}%").order(:name).all | current_user.authors.where('name LIKE ?', "%#{term}%").order(:name).all
+      authors = current_user.authors.where("name LIKE ?", "#{term}%").order(:name).all | current_user.authors.where("name LIKE ?", "%#{term}%").order(:name).all
     else
-      authors = current_user.authors.where('name LIKE ?', "#{term}%").where('name NOT IN (?)', Array.wrap(existing_authors)).order(:name).all | current_user.authors.where('name LIKE ?', "%#{term}%").where('name NOT IN (?)', Array.wrap(existing_authors)).order(:name).all
+      authors = current_user.authors.where("name LIKE ?", "#{term}%").where("name NOT IN (?)", Array.wrap(existing_authors)).order(:name).all | current_user.authors.where("name LIKE ?", "%#{term}%").where("name NOT IN (?)", Array.wrap(existing_authors)).order(:name).all
     end
 
-    render :json => authors.map { |author| {:id => author.id, :label => author.name, :value => author.name} }
+    render json: authors.map { |author| { id: author.id, label: author.name, value: author.name } }
   end
 
   private
