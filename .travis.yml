@@ -3,12 +3,15 @@ language: ruby
 rvm:
   - 2.6
 
-env:
-  - DB=mysql
+services:
+  - mysql
 
 branches:
   only:
     - master
+    - staging
+
+gemfile: docroot/Gemfile
 
 cache: bundler
 
