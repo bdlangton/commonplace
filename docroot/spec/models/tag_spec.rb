@@ -1,9 +1,10 @@
+# frozen_string_literal: true
+
 require "rails_helper"
 
-RSpec.describe Tag, :type => :model do
-
+RSpec.describe Tag, type: :model do
   before(:all) do
-    @user1 = create(:user, email: 'user@example.com', password: '123456')
+    @user1 = create(:user, email: "user@example.com", password: "123456")
     @user2 = create(:user)
     @science_tag1 = create(:tag, user: @user1, title: "science")
     @science_tag2 = create(:tag, user: @user1, title: "philosophy")

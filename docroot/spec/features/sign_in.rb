@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Features
   def create_user(email)
     create(:user, email: email, password: "123456")

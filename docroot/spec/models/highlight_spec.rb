@@ -1,7 +1,8 @@
+# frozen_string_literal: true
+
 require "rails_helper"
 
-RSpec.describe Highlight, :type => :model do
-
+RSpec.describe Highlight, type: :model do
   before(:all) do
     @user1 = create(:user)
     @source1 = create(:source, user: @user1)
@@ -31,5 +32,4 @@ RSpec.describe Highlight, :type => :model do
     @highlights = Highlight.by_user(@user2)
     expect(@highlights.count).to eq(0)
   end
-
 end
