@@ -1,10 +1,12 @@
+# frozen_string_literal: true
+
 FactoryBot.define do
   factory :author do
-    name { "MyString" }
+    name { "My Author" }
     type { "" }
-    source { nil }
+    sources { [] }
     all_tags { "" }
-    user { nil }
+    user
   end
 
   factory :user do
@@ -24,7 +26,7 @@ FactoryBot.define do
 
   factory :source do
     sequence(:title) { |n| "Title #{n}" }
-    sequence(:author) { |n| "Author #{n}" }
+    sequence(:authors) { [] }
     source_type { "Book" }
     all_tags { "" }
     user

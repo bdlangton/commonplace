@@ -17,12 +17,12 @@ feature "sources" do
     sign_in_as('user@example.com')
     visit sources_path
 
-    click_on 'New source'
-    fill_in 'source[title]', with: 'My source'
-    fill_in 'source[author]', with: 'Mr Author'
-    fill_in 'source[source_type]', with: 'Book'
-    fill_in 'source[notes]', with: 'My notes'
-    click_on 'Save Source'
+    click_on "New source"
+    fill_in "source[title]", with: "My source"
+    fill_in "source[all_authors]", with: "Mr Author"
+    fill_in "source[source_type]", with: "Book"
+    fill_in "source[notes]", with: "My notes"
+    click_on "Save Source"
 
     expect(page).to have_css('h1', text: 'My source')
     visit sources_path
