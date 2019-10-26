@@ -11,6 +11,11 @@ RSpec.describe User, type: :model do
     expect(@user1).to be_valid
   end
 
+  it "is not valid with missing required fields" do
+    @invalid_user = build(:user, email: "")
+    expect(@invalid_user).to_not be_valid
+  end
+
   it "has a unique email" do
     @user2 = build(:user, email: @user1.email)
     expect(@user2).to_not be_valid

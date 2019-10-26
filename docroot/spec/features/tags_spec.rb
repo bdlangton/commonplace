@@ -27,6 +27,16 @@ feature "tags" do
     expect(page).to have_css("table.tags td.title", text: "My tag")
   end
 
+  scenario "adds invalid new tag" do
+    sign_in_as("user@example.com")
+    visit tags_path
+
+    click_on "New tag"
+    click_on "Save Tag"
+
+    expect(page).to have_css("li", text: "Title is required")
+  end
+
   scenario "edits tag" do
     sign_in_as("user@example.com")
     visit tags_path

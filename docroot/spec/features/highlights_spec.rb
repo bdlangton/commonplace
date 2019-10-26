@@ -9,9 +9,11 @@ include Features
 feature "highlights" do
   background do
     @user1 = create(:user, email: "user@example.com", password: "123456")
-    @source1 = create(:source, user: @user1)
+    @author1 = create(:author, user: @user1)
+    @source1 = create(:source, user: @user1, authors: [@author1])
     @user2 = create(:user, email: "user2@example.com", password: "123456")
-    @source2 = create(:source, user: @user2)
+    @author2 = create(:author, user: @user2)
+    @source2 = create(:source, user: @user2, authors: [@author2])
     @highlight1 = create(:highlight, user: @user1, source: @source1, favorite: true)
     @highlight2 = create(:highlight, user: @user1, source: @source1)
     @highlight3 = create(:highlight, user: @user1, source: @source1, published: false)
@@ -27,6 +29,16 @@ feature "highlights" do
     click_on "Save Highlight"
 
     expect(page).to have_css("table.highlights td", text: "My highlight")
+  end
+
+  scenario "adds invalid new highlight" do
+    sign_in_as("user@example.com")
+    visit highlights_path
+
+    click_on "New highlight"
+    click_on "Save Highlight"
+
+    expect(page).to have_css("li", text: "Highlight is required")
   end
 
   scenario "favorites highlight" do

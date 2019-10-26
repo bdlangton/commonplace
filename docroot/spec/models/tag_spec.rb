@@ -18,6 +18,11 @@ RSpec.describe Tag, type: :model do
     expect(@tag2).to be_valid
   end
 
+  it "is not valid with missing required fields" do
+    @invalid_tag = build(:tag, user: @user1, title: "")
+    expect(@invalid_tag).to_not be_valid
+  end
+
   it "gets tags by user" do
     @tags1 = Tag.by_user(@user1)
     expect(@tags1.count).to eq(2)

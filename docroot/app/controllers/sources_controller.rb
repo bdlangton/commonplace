@@ -18,10 +18,10 @@ class SourcesController < ApplicationController
     end
 
     # Sort.
-    if params[:sort] == "newest"
-      @sources = @sources.sort_by(&:created_at).reverse
-    else
+    if params[:sort] == "title"
       @sources = @sources.sort_by(&:title)
+    else
+      @sources = @sources.sort_by(&:created_at).reverse
     end
   end
 

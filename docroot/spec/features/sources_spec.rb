@@ -9,10 +9,12 @@ include Features
 feature "sources" do
   background do
     @user1 = create(:user, email: "user@example.com", password: "123456")
-    @source1 = create(:source, user: @user1, title: "A source")
-    @source2 = create(:source, user: @user1, source_type: "Artist", title: "Second source")
+    @author1 = create(:author, user: @user1)
+    @source1 = create(:source, user: @user1, authors: [@author1], title: "A source")
+    @source2 = create(:source, user: @user1, authors: [@author1], source_type: "Artist", title: "Second source")
     @user2 = create(:user, email: "user2@example.com", password: "123456")
-    @source3 = create(:source, user: @user2)
+    @author2 = create(:author, user: @user2)
+    @source3 = create(:source, user: @user2, authors: [@author2])
   end
 
   scenario "adds new source" do
@@ -29,6 +31,18 @@ feature "sources" do
     expect(page).to have_css("h1", text: "My source")
     visit sources_path
     expect(page).to have_css("table.sources td.title", text: "My source")
+  end
+
+  scenario "adds invalid new source" do
+    sign_in_as("user@example.com")
+    visit sources_path
+
+    click_on "New source"
+    click_on "Save Source"
+
+    expect(page).to have_css("li", text: "Title is required")
+    expect(page).to have_css("li", text: "Authors is required")
+    expect(page).to have_css("li", text: "Source type is required")
   end
 
   scenario "edits source" do
