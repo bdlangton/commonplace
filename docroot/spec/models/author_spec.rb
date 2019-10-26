@@ -15,6 +15,11 @@ RSpec.describe Author, type: :model do
     expect(@author2).to be_valid
   end
 
+  it "is not valid with missing required fields" do
+    @invalid_author = build(:author, user: @user1, name: "")
+    expect(@invalid_author).to_not be_valid
+  end
+
   it "gets authors by user" do
     @authors1 = Author.by_user(@user1)
     expect(@authors1.count).to eq(2)

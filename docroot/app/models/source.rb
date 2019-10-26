@@ -10,6 +10,7 @@ class Source < ApplicationRecord
   has_many :source_taggings, dependent: :delete_all
   has_many :tags, through: :source_taggings
   validates :user_id, numericality: { only_integer: true }
+  validates_with SourceAuthorValidator
   validates_presence_of :title, message: "is required"
   validates_presence_of :authors, message: "is required"
   validates_presence_of :source_type, message: "is required"
