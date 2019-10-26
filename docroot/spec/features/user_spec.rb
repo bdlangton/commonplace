@@ -8,13 +8,13 @@ include Features
 
 feature "user" do
   background do
-    @user = create(:user, email: "user@example.com", password: "123456")
-    @author1 = create(:author, user: @user)
-    @source1 = create(:source, user: @user, authors: [@author1])
+    @user1 = create(:user, email: "user@example.com", password: "123456")
+    @author1 = create(:author, user: @user1)
+    @source1 = create(:source, user: @user1, authors: [@author1])
     @user2 = create(:user)
     @source2 = create(:source, user: @user2, authors: [@author1])
-    @highlight1 = create(:highlight, user: @user, source: @source1)
-    @highlight2 = create(:highlight, user: @user, source: @source1, favorite: true)
+    @highlight1 = create(:highlight, user: @user1, source: @source1)
+    @highlight2 = create(:highlight, user: @user1, source: @source1, favorite: true)
   end
 
   scenario "is anonymous" do

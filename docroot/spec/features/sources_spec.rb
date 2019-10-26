@@ -32,6 +32,18 @@ feature "sources" do
     expect(page).to have_css("table.sources td.title", text: "My source")
   end
 
+  scenario "adds invalid new source" do
+    sign_in_as("user@example.com")
+    visit sources_path
+
+    click_on "New source"
+    click_on "Save Source"
+
+    expect(page).to have_css("li", text: "Title is required")
+    expect(page).to have_css("li", text: "Authors is required")
+    expect(page).to have_css("li", text: "Source type is required")
+  end
+
   scenario "edits source" do
     sign_in_as("user@example.com")
     visit sources_path

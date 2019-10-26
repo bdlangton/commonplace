@@ -31,6 +31,16 @@ feature "highlights" do
     expect(page).to have_css("table.highlights td", text: "My highlight")
   end
 
+  scenario "adds invalid new highlight" do
+    sign_in_as("user@example.com")
+    visit highlights_path
+
+    click_on "New highlight"
+    click_on "Save Highlight"
+
+    expect(page).to have_css("li", text: "Highlight is required")
+  end
+
   scenario "favorites highlight" do
     sign_in_as("user@example.com")
     visit highlights_path
