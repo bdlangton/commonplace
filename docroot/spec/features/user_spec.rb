@@ -9,9 +9,10 @@ include Features
 feature "user" do
   background do
     @user = create(:user, email: "user@example.com", password: "123456")
-    @source1 = create(:source, user: @user)
+    @author1 = create(:author, user: @user)
+    @source1 = create(:source, user: @user, authors: [@author1])
     @user2 = create(:user)
-    @source2 = create(:source, user: @user2)
+    @source2 = create(:source, user: @user2, authors: [@author1])
     @highlight1 = create(:highlight, user: @user, source: @source1)
     @highlight2 = create(:highlight, user: @user, source: @source1, favorite: true)
   end

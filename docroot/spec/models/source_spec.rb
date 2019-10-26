@@ -8,7 +8,7 @@ RSpec.describe Source, type: :model do
     @user2 = create(:user)
     @author1 = create(:author, user: @user1)
     @source1 = create(:source, user: @user1, authors: [@author1])
-    @source2 = create(:source, user: @user1)
+    @source2 = create(:source, user: @user1, authors: [@author1])
   end
 
   it "is valid with valid attributes" do

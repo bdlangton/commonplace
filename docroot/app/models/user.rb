@@ -10,6 +10,8 @@ class User < ApplicationRecord
   has_many :highlights, dependent: :destroy
   has_many :sources, dependent: :destroy
   has_many :tags, dependent: :destroy
+  validates_presence_of :email, message: "is required"
+  validates_uniqueness_of :email, message: "There is already an account with that email."
 
   # Check if the user should receive daily emails.
   def self.receive_email(user)

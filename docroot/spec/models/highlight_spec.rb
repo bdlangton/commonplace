@@ -5,9 +5,10 @@ require "rails_helper"
 RSpec.describe Highlight, type: :model do
   before(:all) do
     @user1 = create(:user)
-    @source1 = create(:source, user: @user1)
+    @author1 = create(:author, user: @user1)
+    @source1 = create(:source, user: @user1, authors: [@author1])
     @user2 = create(:user)
-    @source2 = create(:source, user: @user2)
+    @source2 = create(:source, user: @user2, authors: [@author1])
     @highlight1 = create(:highlight, user: @user1, source: @source1)
     @highlight2 = create(:highlight, user: @user1, source: @source1)
   end

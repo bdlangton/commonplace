@@ -9,6 +9,7 @@ class Author < ApplicationRecord
   has_many :author_taggings, dependent: :delete_all
   has_many :tags, through: :author_taggings
   validates :user_id, numericality: { only_integer: true }
+  validates_presence_of :name, message: "is required"
 
   # Scope to filter by user ID.
   scope :by_user, ->(id) { where(user_id: id) }

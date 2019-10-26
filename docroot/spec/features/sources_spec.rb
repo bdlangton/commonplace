@@ -9,10 +9,11 @@ include Features
 feature "sources" do
   background do
     @user1 = create(:user, email: "user@example.com", password: "123456")
-    @source1 = create(:source, user: @user1, title: "A source")
-    @source2 = create(:source, user: @user1, source_type: "Artist", title: "Second source")
+    @author1 = create(:author, user: @user1)
+    @source1 = create(:source, user: @user1, authors: [@author1], title: "A source")
+    @source2 = create(:source, user: @user1, authors: [@author1], source_type: "Artist", title: "Second source")
     @user2 = create(:user, email: "user2@example.com", password: "123456")
-    @source3 = create(:source, user: @user2)
+    @source3 = create(:source, user: @user2, authors: [@author1])
   end
 
   scenario "adds new source" do
