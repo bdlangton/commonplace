@@ -43,7 +43,7 @@ gem "will_paginate"
 gem "font-awesome-rails"
 gem "bootstrap"
 gem "will_paginate-bootstrap4"
-gem "devise"
+gem "devise", ">= 4.7.1"
 gem "rails-jquery-autocomplete"
 gem "chosen-rails"
 gem "actionview", ">= 5.1.6.2"
@@ -72,6 +72,7 @@ group :development, :test do
   gem "rubocop-rails_config"
   gem "erubi"
   gem "ruumba"
+  gem "rubyzip", ">= 1.3.0"
 end
 
 group :development do
