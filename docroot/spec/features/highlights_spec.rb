@@ -12,8 +12,8 @@ feature "highlights" do
     @author1 = create(:author, user: @user1)
     @source1 = create(:source, user: @user1, authors: [@author1])
     @user2 = create(:user, email: "user2@example.com", password: "123456")
-    # TODO: This should fail (author doesn't belong to user).
-    @source2 = create(:source, user: @user2, authors: [@author1])
+    @author2 = create(:author, user: @user2)
+    @source2 = create(:source, user: @user2, authors: [@author2])
     @highlight1 = create(:highlight, user: @user1, source: @source1, favorite: true)
     @highlight2 = create(:highlight, user: @user1, source: @source1)
     @highlight3 = create(:highlight, user: @user1, source: @source1, published: false)
