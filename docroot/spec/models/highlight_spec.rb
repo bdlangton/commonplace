@@ -6,11 +6,11 @@ RSpec.describe Highlight, type: :model do
   before(:all) do
     @user1 = create(:user)
     @author1 = create(:author, user: @user1)
-    @tag1 = create(:tag, user: @user1)
+    @tag1 = create(:tag, title: "tag1", user: @user1)
     @source1 = create(:source, user: @user1, authors: [@author1])
     @user2 = create(:user)
     @author2 = create(:author, user: @user2)
-    @tag2 = create(:tag, user: @user2)
+    @tag2 = create(:tag, title: "tag2", user: @user2)
     @source2 = create(:source, user: @user2, authors: [@author2])
     @highlight1 = create(:highlight, user: @user1, source: @source1, tags: [@tag1])
     @highlight2 = create(:highlight, user: @user1, source: @source1, tags: [@tag1])
@@ -47,6 +47,25 @@ RSpec.describe Highlight, type: :model do
     expect(@highlights.count).to eq(2)
 
     @highlights = Highlight.by_user(@user2)
+    expect(@highlights.count).to eq(0)
+  end
+
+  it "gets highlights tagged with tag" do
+    @highlights = Highlight.tagged_with(["not a tag"])
+    expect(@highlights.count).to eq(0)
+
+    @highlights = Highlight.tagged_with("tag1")
+    expect(@highlights.count).to eq(2)
+
+    @highlights = Highlight.tagged_with(["tag1", "tag2"])
+    expect(@highlights.count).to eq(2)
+  end
+
+  it "gets highlights by author id" do
+    @highlights = Highlight.by_author(@author1.id)
+    expect(@highlights.count).to eq(2)
+
+    @highlights = Highlight.by_author(@author2.id)
     expect(@highlights.count).to eq(0)
   end
 end

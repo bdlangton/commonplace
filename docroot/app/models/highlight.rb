@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 class Highlight < ApplicationRecord
+  include Authors
   include Tags
 
   belongs_to :user
@@ -31,6 +32,8 @@ class Highlight < ApplicationRecord
       @highlights = Tag.find_by_title!(titles).highlights.to_a
     end
     @highlights.uniq
+  rescue ActiveRecord::RecordNotFound
+    []
   end
 
   # Filter highlights by authors that have sources that have those highlights.

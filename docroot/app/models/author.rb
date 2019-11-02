@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 class Author < ApplicationRecord
+  include Authors
   include Tags
 
   belongs_to :user
