@@ -52,12 +52,44 @@ feature "sources" do
     find("#edit-source-" + @source1.id.to_s).click
     fill_in "source[title]", with: "Edited source"
     fill_in "source[notes]", with: "Edited note"
+    fill_in "source[all_tags]", with: "Edited tag"
     click_on "Save Source"
 
     expect(page).to have_css("h1", text: "Edited source")
     expect(page).to have_css("p", text: "Edited note")
+    expect(page).to have_css("p", text: "Edited tag")
     visit sources_path
     expect(page).to have_css("table.sources td.title", text: "Edited source")
+  end
+
+  scenario "edits source with autocomplete user" do
+    pending "get working with autocomplete"
+    sign_in_as("user@example.com")
+    visit sources_path
+
+    find("#edit-source-" + @source1.id.to_s).click
+    expect(page).to have_css("no")
+  end
+
+  scenario "edits source with autocomplete tags" do
+    pending "get working with autocomplete"
+    sign_in_as("user@example.com")
+    visit sources_path
+
+    find("#edit-source-" + @source1.id.to_s).click
+    expect(page).to have_css("no")
+  end
+
+  scenario "edits invalid source" do
+    sign_in_as("user@example.com")
+    visit sources_path
+
+    find("#edit-source-" + @source1.id.to_s).click
+    fill_in "source[title]", with: ""
+    fill_in "source[notes]", with: "Edited note"
+    click_on "Save Source"
+
+    expect(page).to have_css("li", text: "Title is required")
   end
 
   scenario "deletes source" do

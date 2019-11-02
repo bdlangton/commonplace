@@ -52,6 +52,27 @@ feature "authors" do
     expect(page).to have_css("table.authors td.author", text: "Edited author")
   end
 
+  scenario "edits author with autocomplete tags" do
+    pending "get working with autocomplete"
+    sign_in_as("user@example.com")
+    visit authors_path
+
+    find("#edit-author-" + @author1.id.to_s).click
+    expect(page).to have_css("no")
+  end
+
+  scenario "edits invalid author" do
+    sign_in_as("user@example.com")
+    visit authors_path
+
+    find("#edit-author-" + @author1.id.to_s).click
+    fill_in "author[name]", with: ""
+    fill_in "author[all_tags]", with: "Edited tag"
+    click_on "Save Author"
+
+    expect(page).to have_css("li", text: "Name is required")
+  end
+
   scenario "deletes author" do
     pending "have to use selenium but it is running on dev, not test"
     # Capybara.current_driver = :selenium

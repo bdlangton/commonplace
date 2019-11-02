@@ -72,7 +72,7 @@ class AuthorsController < ApplicationController
     end
   end
 
-  # Delete a author.
+  # Delete an author.
   def destroy
     @author = current_user.authors.find(params[:id])
     @author.destroy
