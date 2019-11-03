@@ -11,6 +11,9 @@ feature "authors" do
     @user1 = create(:user, email: "user@example.com", password: "123456")
     @author1 = create(:author, name: "Mr Author1", user: @user1)
     @author2 = create(:author, name: "Mr Author2", user: @user1)
+    @source1 = create(:source, title: "Source 1", user: @user1, authors: [@author1])
+    @highlight1 = create(:highlight, user: @user1, source: @source1, favorite: true)
+    @highlight2 = create(:highlight, user: @user1, source: @source1, favorite: false)
   end
 
   scenario "adds new author" do
@@ -35,6 +38,15 @@ feature "authors" do
     click_on "Save Author"
 
     expect(page).to have_css("li", text: "Name is required")
+  end
+
+  scenario "views author" do
+    sign_in_as("user@example.com")
+    visit authors_path
+
+    click_on "Mr Author1"
+    expect(page).to have_css("table.sources td.title", text: "Source 1")
+    expect(page).to have_css("p.favorites-highlights", text: "1 / 2")
   end
 
   scenario "edits author" do
