@@ -30,6 +30,8 @@ class SourcesController < ApplicationController
     @source = current_user.sources.find(params[:id])
     @tags = current_user.tags.by_source(params[:id]).order(:title)
     @highlights = @source.highlights.where(published: true)
+    @highlights_count = @highlights.count
+    @favorites_count = @highlights.where(favorite: true).count
     if params[:favorite].present?
       @highlights = @highlights.where(favorite: true)
     end
