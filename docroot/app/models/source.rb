@@ -2,6 +2,7 @@
 
 class Source < ApplicationRecord
   include Authors
+  include ByUser
   include Tags
 
   belongs_to :user
@@ -15,7 +16,4 @@ class Source < ApplicationRecord
   validates_presence_of :title, message: "is required"
   validates_presence_of :authors, message: "is required"
   validates_presence_of :source_type, message: "is required"
-
-  # Scope to filter by user ID.
-  scope :by_user, ->(id) { where(user_id: id) }
 end

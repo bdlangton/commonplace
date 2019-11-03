@@ -2,6 +2,7 @@
 
 class Highlight < ApplicationRecord
   include Authors
+  include ByUser
   include Tags
 
   belongs_to :user
@@ -14,9 +15,6 @@ class Highlight < ApplicationRecord
   validates_with HighlightSourceValidator
   validates_with HighlightTagValidator
   validates_presence_of :highlight, message: "is required"
-
-  # Scope to filter by user ID.
-  scope :by_user, ->(id) { where(user_id: id) }
 
   # Find highlights tagged with the tag.
   def self.tagged_with(titles)
