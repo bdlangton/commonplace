@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-module Authors
+module AuthorsControllerConcern
   extend ActiveSupport::Concern
 
   # Get highlights count for an author.

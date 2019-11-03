@@ -3,7 +3,7 @@
 # Authors controller.
 class AuthorsController < ApplicationController
   require "will_paginate/array"
-  include Authors
+  include AuthorsControllerConcern
 
   # Create a new author.
   def new
