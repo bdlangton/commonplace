@@ -16,4 +16,5 @@ class Source < ApplicationRecord
   validates_presence_of :title, message: "is required"
   validates_presence_of :authors, message: "is required"
   validates_presence_of :source_type, message: "is required"
+  mount_uploader :file, FileUploader
 end

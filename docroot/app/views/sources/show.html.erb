@@ -23,6 +23,13 @@
   </p>
 <% end %>
 
+<% unless @source.file.blank? %>
+  <p>
+    <strong>Image:</strong>
+    <p><%= image_tag(@source.file_url) %></p>
+  </p>
+<% end %>
+
 <p class="favorites-highlights">
   <strong>Favorites / Highlights:</strong>
   <%= @favorites_count %> / <%= @highlights_count %>

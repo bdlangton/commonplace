@@ -58,6 +58,7 @@ ActiveRecord::Schema.define(version: 20190921123436) do
     t.datetime "updated_at", null: false
     t.string "asin"
     t.text "notes"
+    t.string "file"
     t.index ["user_id"], name: "index_sources_on_user_id"
   end
 
