@@ -139,6 +139,9 @@ class ImportController < ApplicationController
       # Create the highlight if it doesn't already exist.
       if Highlight.where(location: hl["location"]["value"], user: current_user, source: @book).empty?
         highlights_count += 1
+        if hl["isNoteOnly"] && hl["text"].empty?
+          hl["text"] = "*Note only*"
+        end
         @highlight = Highlight.new(highlight: hl["text"], note: hl["note"], location: hl["location"]["value"], url: hl["location"]["url"], user: current_user, source: @book)
         @highlight.save!
       else
