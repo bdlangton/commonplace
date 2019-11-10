@@ -21,12 +21,12 @@ cache: bundler
 
 before_script:
   - mysql -e 'create database commonplace_test'
+  - cd docroot
   - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
   - chmod +x ./cc-test-reporter
   - ./cc-test-reporter before-build
 
 script:
-  - cd docroot
   - RAILS_ENV=test bundle exec rake db:test:prepare
   - RAILS_ENV=test bundle exec rspec spec/
 
