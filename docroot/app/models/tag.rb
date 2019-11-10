@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class Tag < ApplicationRecord
+  include ByUser
+
   belongs_to :user
   has_many :taggings, dependent: :delete_all
   has_many :highlights, through: :taggings
@@ -10,14 +12,6 @@ class Tag < ApplicationRecord
   has_many :authors, through: :author_taggings
   validates :user_id, numericality: { only_integer: true }
   validates_presence_of :title, message: "is required"
-
-  # Scope to filter by user ID.
-  scope :by_user, ->(id) { where(user_id: id) }
-
-  # Get a count of how many tags there are for a specific tag.
-  def self.counts
-    self.select("title, count(taggings.tag_id) as count").joins(:taggings).group("taggings.tag_id")
-  end
 
   # Filter tags by sources that have highlights with that tag.
   def self.by_source(id)

@@ -23,6 +23,18 @@
   </p>
 <% end %>
 
+<% unless @source.file.blank? %>
+  <p>
+    <strong>Image:</strong>
+    <p><%= image_tag(@source.file_url) %></p>
+  </p>
+<% end %>
+
+<p class="favorites-highlights">
+  <strong>Favorites / Highlights:</strong>
+  <%= @favorites_count %> / <%= @highlights_count %>
+</p>
+
 <%= link_to 'Edit Source', edit_source_path(@source), class: ['badge', 'badge-pill', 'badge-light'] %>
 <%= link_to 'Add highlight', new_highlight_path(:source => @source.id), class: ['badge', 'badge-pill', 'badge-primary'] %>
 

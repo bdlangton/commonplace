@@ -3,6 +3,7 @@
 # Authors controller.
 class AuthorsController < ApplicationController
   require "will_paginate/array"
+  include AuthorsControllerConcern
 
   # Create a new author.
   def new
@@ -25,6 +26,8 @@ class AuthorsController < ApplicationController
   def show
     @author = current_user.authors.find(params[:id])
     @sources = @author.sources
+    @highlights_count = author_highlights_count(@author)
+    @favorites_count = author_highlights_count(@author, true)
   end
 
   # Edit an existing author.
@@ -72,7 +75,7 @@ class AuthorsController < ApplicationController
     end
   end
 
-  # Delete a author.
+  # Delete an author.
   def destroy
     @author = current_user.authors.find(params[:id])
     @author.destroy

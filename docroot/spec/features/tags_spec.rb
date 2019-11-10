@@ -50,6 +50,17 @@ feature "tags" do
     expect(page).to have_css("table.tags td.title", text: "Edited tag")
   end
 
+  scenario "edits invalid tag" do
+    sign_in_as("user@example.com")
+    visit tags_path
+
+    find("#edit-tag-" + @tag1.id.to_s).click
+    fill_in "tag[title]", with: ""
+    click_on "Save Tag"
+
+    expect(page).to have_css("li", text: "Title is required")
+  end
+
   scenario "deletes tag" do
     pending "have to use selenium but it is running on dev, not test"
     # Capybara.current_driver = :selenium

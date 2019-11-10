@@ -1,14 +1,16 @@
-require_relative 'boot'
+# frozen_string_literal: true
 
-require 'rubygems'
-require 'rails/all'
-require 'kindle_highlights'
-require 'bundler'
-require 'fileutils'
-require 'json'
-require 'cgi'
-require 'mail'
-require 'htmlentities'
+require_relative "boot"
+
+require "rubygems"
+require "rails/all"
+require "kindle_highlights"
+require "bundler"
+require "fileutils"
+require "json"
+require "cgi"
+require "mail"
+require "htmlentities"
 
 # Require the gems listed in Gemfile, including any gems
 # you've limited to :test, :development, or :production.
@@ -23,11 +25,10 @@ module Commonplace
     # Application configuration should go into files in config/initializers
     # -- all .rb files in that directory are automatically loaded.
     config.before_configuration do
-      env_file = File.join(Rails.root, 'config', 'local_env.yml')
+      env_file = File.join(Rails.root, "config", "local_env.yml")
       YAML.load(File.open(env_file)).each do |key, value|
         ENV[key.to_s] = value
-      end if File.exists?(env_file)
+      end if File.exist?(env_file)
     end
-
   end
 end

@@ -30,6 +30,8 @@ class SourcesController < ApplicationController
     @source = current_user.sources.find(params[:id])
     @tags = current_user.tags.by_source(params[:id]).order(:title)
     @highlights = @source.highlights.where(published: true)
+    @highlights_count = @highlights.count
+    @favorites_count = @highlights.where(favorite: true).count
     if params[:favorite].present?
       @highlights = @highlights.where(favorite: true)
     end
@@ -123,6 +125,6 @@ class SourcesController < ApplicationController
   private
     # Define which source fields are required and permitted.
     def source_params
-      params.require(:source).permit(:title, :all_authors, :all_tags, :source_type, :notes, :user_id)
+      params.require(:source).permit(:title, :all_authors, :all_tags, :source_type, :notes, :file, :file_cache, :remove_file, :user_id)
     end
 end

@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class Highlight < ApplicationRecord
+  include Authors
+  include ByUser
   include Tags
 
   belongs_to :user
@@ -13,9 +15,6 @@ class Highlight < ApplicationRecord
   validates_with HighlightSourceValidator
   validates_with HighlightTagValidator
   validates_presence_of :highlight, message: "is required"
-
-  # Scope to filter by user ID.
-  scope :by_user, ->(id) { where(user_id: id) }
 
   # Find highlights tagged with the tag.
   def self.tagged_with(titles)
@@ -31,6 +30,8 @@ class Highlight < ApplicationRecord
       @highlights = Tag.find_by_title!(titles).highlights.to_a
     end
     @highlights.uniq
+  rescue ActiveRecord::RecordNotFound
+    []
   end
 
   # Filter highlights by authors that have sources that have those highlights.
