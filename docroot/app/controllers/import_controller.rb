@@ -10,6 +10,7 @@ class ImportController < ApplicationController
     authors_count = 0
     books_count = 0
     highlights_count = 0
+    highlights_updated = 0
 
     # Get the email and password to use and login.
     @email = params[:email]
@@ -68,7 +69,7 @@ class ImportController < ApplicationController
             # locally, then update the highlight.
             @highlight = Highlight.find_by(location: hl.location, user: current_user, source: @book)
             if @highlight.note.nil?
-              highlights_count += 1
+              highlights_updated += 1
               @highlight.note = hl.note
               @highlight.save!
             end
@@ -77,7 +78,7 @@ class ImportController < ApplicationController
       end
 
       # Redirect to the user's highlights.
-      flash[:notice] = "Import finished. #{authors_count} authors added, #{books_count} books added, and #{highlights_count} highlights added."
+      flash[:notice] = "Import finished. #{authors_count} authors added, #{books_count} books added, #{highlights_count} highlights added, and #{highlights_updated} highlights updated."
       redirect_to highlights_path
     rescue KindleHighlights::Client::CaptchaError => error
       # Reload the page and display the captcha error.
@@ -92,6 +93,7 @@ class ImportController < ApplicationController
     authors_count = 0
     books_count = 0
     highlights_count = 0
+    highlights_updated = 0
 
     # Ensure the JSON file can be parsed.
     begin
@@ -170,14 +172,14 @@ class ImportController < ApplicationController
 
         # Save the highlight if anything was updated.
         if update
-          highlights_count += 1
+          highlights_updated += 1
           @highlight.save!
         end
       end
     end
 
     # Redirect to the user's highlights.
-    flash[:notice] = "Upload finished. #{authors_count} authors added, #{books_count} books added, and #{highlights_count} highlights added."
+    flash[:notice] = "Upload finished. #{authors_count} authors added, #{books_count} books added, #{highlights_count} highlights added, and #{highlights_updated} highlights updated."
     redirect_to highlights_path
   end
 
