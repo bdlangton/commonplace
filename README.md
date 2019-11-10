@@ -1,3 +1,5 @@
+<a href="https://codeclimate.com/github/bdlangton/commonplace/maintainability"><img src="https://api.codeclimate.com/v1/badges/6c23c2ef5a34e3325ea0/maintainability" /></a>
+
 # commonplace
 
 Commonplace app built with Ruby on Rails.
