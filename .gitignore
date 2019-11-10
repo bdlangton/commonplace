@@ -26,3 +26,4 @@ docroot/public/assets
 docroot/public/uploads
 db-backups
 .env
+coverage
