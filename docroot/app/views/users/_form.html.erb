@@ -23,12 +23,12 @@
     </div>
 
     <div class="form-group form-checkbox">
-      <%= form.select :favorite_count, [0, 1, 2, 3, 4, 5], class: 'form-control', id: 'favorites', :selected => User.email_favorite_count(@user) %>
+      <%= form.select :favorite_count, [0, 1, 2, 3, 4, 5], class: 'form-control', id: 'favorites', :selected => User.email_count(@user, 'favorite') %>
       <%= form.label "Number of favorite highlights to receive per email" %>
     </div>
 
     <div class="form-group form-checkbox">
-      <%= form.select :random_count, [0, 1, 2, 3, 4, 5], class: 'form-control', id: 'random', :selected => User.email_random_count(@user) %>
+      <%= form.select :random_count, [0, 1, 2, 3, 4, 5], class: 'form-control', id: 'random', :selected => User.email_count(@user, 'random') %>
       <%= form.label "Number of random highlights to receive per email" %>
     </div>
   </fieldset>
