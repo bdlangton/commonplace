@@ -1,3 +1,5 @@
+# frozen_string_literal: false
+
 require "bundler"
 require "kindle_highlights"
 require "fileutils"
@@ -20,8 +22,8 @@ end
 
 class Kindle
   def random_highlights(user)
-    favorites = User.email_favorite_count(user)
-    any = User.email_random_count(user)
+    favorites = User.email_count(user, "favorite")
+    any = User.email_count(user, "random")
     random = Set[]
     count = 0
     loops = 0

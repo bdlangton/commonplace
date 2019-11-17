@@ -24,23 +24,13 @@ class User < ApplicationRecord
     false
   end
 
-  # Check how many favorite highlights the user wants in their email.
-  def self.email_favorite_count(user)
+  # Check how many highlights the user wants in their email.
+  # Type can be favorites or random.
+  def self.email_count(user, type = "favorite")
     unless user.data.nil?
       data = JSON.parse(user.data)
-      if data.include?("email") && data["email"].include?("favorite_count")
-        return data["email"]["favorite_count"].to_i
-      end
-    end
-    2
-  end
-
-  # Check how many random highlights the user wants in their email.
-  def self.email_random_count(user)
-    unless user.data.nil?
-      data = JSON.parse(user.data)
-      if data.include?("email") && data["email"].include?("random_count")
-        return data["email"]["random_count"].to_i
+      if data.include?("email") && data["email"].include?(type + "_count")
+        return data["email"][type + "_count"].to_i
       end
     end
     1
