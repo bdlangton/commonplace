@@ -61,26 +61,7 @@ class ImportController < ApplicationController
   end
 
   private
-    def split_authors(authors)
-      # Get last author separated by "and" if it exists.
-      last_author = nil
-      if authors.include? " and "
-        split = authors.split(" and ")
-        authors = split[0]
-        last_author = split[1].strip
-      end
-
-      # Split the list of authors separated by a comma.
-      authors_array = authors.split(",").map { |s| s.strip }
-
-      # If there was an author listed after an "and" then add that here.
-      unless last_author.nil?
-        authors_array.push(last_author)
-      end
-
-      authors_array
-    end
-
+    # Import array of books.
     def import_books(type = "kindle")
       @books.each do |bk|
         unless bk.kind_of?(Array) || bk.kind_of?(Hash)
@@ -106,6 +87,7 @@ class ImportController < ApplicationController
       end
     end
 
+    # Import author(s).
     def import_authors(book)
       authors = []
       bk_authors = split_authors(book["authors"])
@@ -123,6 +105,7 @@ class ImportController < ApplicationController
       authors
     end
 
+    # Import a book.
     def import_book(bk, authors)
       existing_source = Source.where(asin: bk["asin"], user: current_user)
       if existing_source.empty?
@@ -135,6 +118,7 @@ class ImportController < ApplicationController
       book
     end
 
+    # Import array of highlights for a book.
     def import_highlights(highlights, book)
       highlights.each do |hl|
         # Convert kindle highlight objects to array like the JSON upload is.
@@ -153,42 +137,73 @@ class ImportController < ApplicationController
 
         # Create the highlight if it doesn't already exist.
         if Highlight.where(location: hl["location"]["value"], user: current_user, source: book).empty?
-          @highlights_count += 1
-          if hl["isNoteOnly"] && hl["text"].empty?
-            hl["text"] = "*Note only*"
-          end
-          highlight = Highlight.new(highlight: hl["text"], note: hl["note"], location: hl["location"]["value"], url: hl["location"]["url"], user: current_user, source: book)
-          highlight.save!
+          add_highlight(hl, book)
         else
-          highlight = Highlight.find_by(location: hl["location"]["value"], user: current_user, source: book)
-
-          # If we need to update the current highlight.
-          update = false
-
-          # If there is a note in the highlight, but we don't have a note saved
-          # locally, then update the highlight.
-          if hl["note"]
-            if highlight.note.nil?
-              update = true
-              highlight.note = hl["note"]
-            end
-          end
-
-          # If there is a kindle URL in the highlight, but we don't have the URL
-          # saved locally, then update the highlight.
-          if hl["location"]["url"]
-            if highlight.url.nil?
-              update = true
-              highlight.url = hl["location"]["url"]
-            end
-          end
-
-          # Save the highlight if anything was updated.
-          if update
-            @highlights_updated += 1
-            highlight.save!
-          end
+          update_highlight(hl, book)
         end
       end
+    end
+
+    # Add a new highlight.
+    def add_highlight(hl, book)
+      @highlights_count += 1
+      if hl["isNoteOnly"] && hl["text"].empty?
+        hl["text"] = "*Note only*"
+      end
+      highlight = Highlight.new(highlight: hl["text"], note: hl["note"], location: hl["location"]["value"], url: hl["location"]["url"], user: current_user, source: book)
+      highlight.save!
+    end
+
+    # Update an existing highlight (if needed).
+    def update_highlight(hl, book)
+      highlight = Highlight.find_by(location: hl["location"]["value"], user: current_user, source: book)
+
+      # If we need to update the current highlight.
+      update = false
+
+      # If there is a note in the highlight, but we don't have a note saved
+      # locally, then update the highlight.
+      if hl["note"]
+        if highlight.note.nil?
+          update = true
+          highlight.note = hl["note"]
+        end
+      end
+
+      # If there is a kindle URL in the highlight, but we don't have the URL
+      # saved locally, then update the highlight.
+      if hl["location"]["url"]
+        if highlight.url.nil?
+          update = true
+          highlight.url = hl["location"]["url"]
+        end
+      end
+
+      # Save the highlight if anything was updated.
+      if update
+        @highlights_updated += 1
+        highlight.save!
+      end
+    end
+
+    # Split string of authors into an array.
+    def split_authors(authors)
+      # Get last author separated by "and" if it exists.
+      last_author = nil
+      if authors.include? " and "
+        split = authors.split(" and ")
+        authors = split[0]
+        last_author = split[1].strip
+      end
+
+      # Split the list of authors separated by a comma.
+      authors_array = authors.split(",").map { |s| s.strip }
+
+      # If there was an author listed after an "and" then add that here.
+      unless last_author.nil?
+        authors_array.push(last_author)
+      end
+
+      authors_array
     end
 end
