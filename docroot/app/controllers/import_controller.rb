@@ -7,10 +7,10 @@ class ImportController < ApplicationController
   # Import highlights from the kindle website.
   def import
     # Keep track of how many books and highlights are imported.
-    authors_count = 0
-    books_count = 0
-    highlights_count = 0
-    highlights_updated = 0
+    @authors_count = 0
+    @books_count = 0
+    @highlights_count = 0
+    @highlights_updated = 0
 
     # Get the email and password to use and login.
     @email = params[:email]
@@ -22,82 +22,32 @@ class ImportController < ApplicationController
 
     begin
       @books = kindle.books
-
-      @books.each do |bk|
-        # Create or load the author(s).
-        @authors = []
-        bk_authors = split_authors(bk.author)
-        bk_authors.each do |bk_author|
-          existing_author = Author.where(name: bk_author, user: current_user)
-          if existing_author.empty?
-            authors_count += 1
-            @author = Author.new(name: bk_author, user: current_user)
-            @author.save!
-          else
-            @author = existing_author.first
-          end
-          @authors.push(@author)
-        end
-
-        # Create or load the book/source.
-        existing_source = Source.where(asin: bk.asin, user: current_user)
-        if existing_source.empty?
-          books_count += 1
-          @book = Source.new(title: bk.title, authors: @authors, source_type: "Book", asin: bk.asin, user: current_user)
-          @book.save!
-        else
-          @book = existing_source.first
-        end
-
-        # Get all highlights from the book.
-        @highlights = kindle.highlights_for(bk.asin)
-        @highlights.each do |hl|
-          # If the highlight says that they are unable to display this kind of
-          # content, then skip it. This happens on non-text content such as
-          # graphs.
-          if hl.text == "Sorry, we’re unable to display this type of content."
-            next
-          end
-
-          # Create the highlight if it doesn't already exist.
-          if Highlight.where(location: hl.location, user: current_user, source: @book).empty?
-            highlights_count += 1
-            @highlight = Highlight.new(highlight: hl.text, note: hl.note, location: hl.location, user: current_user, source: @book)
-            @highlight.save!
-          elsif hl.note
-            # If there is a note in the highlight, but we don't have a note saved
-            # locally, then update the highlight.
-            @highlight = Highlight.find_by(location: hl.location, user: current_user, source: @book)
-            if @highlight.note.nil?
-              highlights_updated += 1
-              @highlight.note = hl.note
-              @highlight.save!
-            end
-          end
-        end
-      end
-
-      # Redirect to the user's highlights.
-      flash[:notice] = "Import finished. #{authors_count} authors added, #{books_count} books added, #{highlights_count} highlights added, and #{highlights_updated} highlights updated."
-      redirect_to highlights_path
+      import_books("kindle")
     rescue KindleHighlights::Client::CaptchaError => error
       # Reload the page and display the captcha error.
       flash[:alert] = error.message
       redirect_to action: "form"
+      return
     end
+
+    # Redirect to the user's highlights.
+    flash[:notice] = "Import finished. #{@authors_count} authors added, #{@books_count} books added, #{@highlights_count} highlights added, and #{@highlights_updated} highlights updated."
+    redirect_to highlights_path
   end
 
   # Upload highlights from a JSON file.
   def upload
     # Keep track of how many books and highlights are imported.
-    authors_count = 0
-    books_count = 0
-    highlights_count = 0
-    highlights_updated = 0
+    @authors_count = 0
+    @books_count = 0
+    @highlights_count = 0
+    @highlights_updated = 0
 
     # Ensure the JSON file can be parsed.
     begin
       bk = JSON(params[:file].read)
+      @books = [bk]
+      import_books("json")
     rescue JSON::ParserError
       # Reload the page and display the error.
       flash[:alert] = "There was a JSON parse error. Please confirm that your file is valid JSON"
@@ -105,81 +55,8 @@ class ImportController < ApplicationController
       return
     end
 
-    # Create or load the author(s).
-    @authors = []
-    bk_authors = split_authors(bk["authors"])
-    for bk_author in bk_authors
-      if Author.where(name: bk_author, user: current_user).empty?
-        authors_count += 1
-        @author = Author.new(name: bk_author, user: current_user)
-        @author.save!
-      else
-        @author = Author.where(name: bk_author, user: current_user).first
-      end
-      @authors.push(@author)
-    end
-
-    # Create or load the book/source.
-    if Source.where(asin: bk["asin"], user: current_user).empty?
-      books_count += 1
-      @book = Source.new(title: bk["title"], authors: @authors, source_type: "Book", asin: bk["asin"], user: current_user)
-      @book.save!
-    else
-      @book = Source.where(asin: bk["asin"], user: current_user).first
-    end
-
-    # Get all highlights from the book.
-    @highlights = bk["highlights"]
-    @highlights.each do |hl|
-      # If the highlight says that they are unable to display this kind of
-      # content, then skip it. This happens on non-text content such as
-      # graphs.
-      if hl["text"] == "Sorry, we’re unable to display this type of content."
-        next
-      end
-
-      # Create the highlight if it doesn't already exist.
-      if Highlight.where(location: hl["location"]["value"], user: current_user, source: @book).empty?
-        highlights_count += 1
-        if hl["isNoteOnly"] && hl["text"].empty?
-          hl["text"] = "*Note only*"
-        end
-        @highlight = Highlight.new(highlight: hl["text"], note: hl["note"], location: hl["location"]["value"], url: hl["location"]["url"], user: current_user, source: @book)
-        @highlight.save!
-      else
-        @highlight = Highlight.find_by(location: hl["location"]["value"], user: current_user, source: @book)
-
-        # If we need to update the current highlight.
-        update = false
-
-        # If there is a note in the highlight, but we don't have a note saved
-        # locally, then update the highlight.
-        if hl["note"]
-          if @highlight.note.nil?
-            update = true
-            @highlight.note = hl["note"]
-          end
-        end
-
-        # If there is a kindle URL in the highlight, but we don't have the URL
-        # saved locally, then update the highlight.
-        if hl["location"]["url"]
-          if @highlight.url.nil?
-            update = true
-            @highlight.url = hl["location"]["url"]
-          end
-        end
-
-        # Save the highlight if anything was updated.
-        if update
-          highlights_updated += 1
-          @highlight.save!
-        end
-      end
-    end
-
     # Redirect to the user's highlights.
-    flash[:notice] = "Upload finished. #{authors_count} authors added, #{books_count} books added, #{highlights_count} highlights added, and #{highlights_updated} highlights updated."
+    flash[:notice] = "Upload finished. #{@authors_count} authors added, #{@books_count} books added, #{@highlights_count} highlights added, and #{@highlights_updated} highlights updated."
     redirect_to highlights_path
   end
 
@@ -202,5 +79,116 @@ class ImportController < ApplicationController
       end
 
       authors_array
+    end
+
+    def import_books(type = "kindle")
+      @books.each do |bk|
+        unless bk.kind_of?(Array) || bk.kind_of?(Hash)
+          bk = bk.to_a
+          bk["authors"] = bk["author"]
+        end
+
+        # Create or load the author(s).
+        authors = import_authors(bk)
+
+        # Create or load the book/source.
+        book = import_book(bk, authors)
+
+        # Get all highlights from the book.
+        if type == "kindle"
+          highlights = kindle.highlights_for(book.asin)
+        else
+          highlights = bk["highlights"]
+        end
+
+        # Import all highlights.
+        import_highlights(highlights, book)
+      end
+    end
+
+    def import_authors(book)
+      authors = []
+      bk_authors = split_authors(book["authors"])
+      bk_authors.each do |bk_author|
+        existing_author = Author.where(name: bk_author, user: current_user)
+        if existing_author.empty?
+          @authors_count += 1
+          author = Author.new(name: bk_author, user: current_user)
+          author.save!
+        else
+          author = existing_author.first
+        end
+        authors.push(author)
+      end
+      authors
+    end
+
+    def import_book(bk, authors)
+      existing_source = Source.where(asin: bk["asin"], user: current_user)
+      if existing_source.empty?
+        @books_count += 1
+        book = Source.new(title: bk["title"], authors: authors, source_type: "Book", asin: bk["asin"], user: current_user)
+        book.save!
+      else
+        book = existing_source.first
+      end
+      book
+    end
+
+    def import_highlights(highlights, book)
+      highlights.each do |hl|
+        # Convert kindle highlight objects to array like the JSON upload is.
+        unless hl.kind_of?(Array) || hl.kind_of?(Hash)
+          hl = hl.to_a
+          hl["location"]["value"] = hl["location"]
+          hl["location"]["url"] = hl["url"]
+        end
+
+        # If the highlight says that they are unable to display this kind of
+        # content, then skip it. This happens on non-text content such as
+        # graphs.
+        if hl["text"] == "Sorry, we’re unable to display this type of content."
+          next
+        end
+
+        # Create the highlight if it doesn't already exist.
+        if Highlight.where(location: hl["location"]["value"], user: current_user, source: book).empty?
+          @highlights_count += 1
+          if hl["isNoteOnly"] && hl["text"].empty?
+            hl["text"] = "*Note only*"
+          end
+          highlight = Highlight.new(highlight: hl["text"], note: hl["note"], location: hl["location"]["value"], url: hl["location"]["url"], user: current_user, source: book)
+          highlight.save!
+        else
+          highlight = Highlight.find_by(location: hl["location"]["value"], user: current_user, source: book)
+
+          # If we need to update the current highlight.
+          update = false
+
+          # If there is a note in the highlight, but we don't have a note saved
+          # locally, then update the highlight.
+          if hl["note"]
+            if highlight.note.nil?
+              update = true
+              highlight.note = hl["note"]
+            end
+          end
+
+          # If there is a kindle URL in the highlight, but we don't have the URL
+          # saved locally, then update the highlight.
+          if hl["location"]["url"]
+            if highlight.url.nil?
+              update = true
+              highlight.url = hl["location"]["url"]
+            end
+          end
+
+          # Save the highlight if anything was updated.
+          if update
+            @highlights_updated += 1
+            highlight.save!
+          end
+        end
+      end
     end
 end

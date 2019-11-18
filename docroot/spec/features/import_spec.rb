@@ -16,21 +16,22 @@ feature "import" do
     sign_in_as("user@example.com")
     visit import_path
 
-    expect(page).to have_css("no")
+    click_button("Import")
+
+    expect(page).to have_css("div.flash.notice", text: "Import finished.")
   end
 
   scenario "uploads JSON file" do
     sign_in_as("user@example.com")
     visit import_path
 
-    expect(page).to have_css("h1", text: "Import Highlights")
     expect(page).to have_css("h1", text: "Upload JSON File")
 
     attach_file("file", File.join(Rails.root, "/spec/support/Sapiens.json"))
     click_button("Upload")
 
-    expect(page).to have_css("div.flash.notice", text: "Upload finished. 1 authors added, 1 books added, 74 highlights added, and 0 highlights updated.")
     expect(page).to have_css("h1", text: "Highlights")
+    expect(page).to have_css("div.flash.notice", text: "Upload finished. 1 authors added, 1 books added, 74 highlights added, and 0 highlights updated.")
   end
 
   scenario "uploads JSON file then updated JSON file" do
@@ -49,8 +50,8 @@ feature "import" do
     attach_file("file", File.join(Rails.root, "/spec/support/Atrocities-2.json"))
     click_button("Upload")
 
-    expect(page).to have_css("div.flash.notice", text: "Upload finished. 0 authors added, 0 books added, 0 highlights added, and 2 highlights updated.")
     expect(page).to have_css("h1", text: "Highlights")
+    expect(page).to have_css("div.flash.notice", text: "Upload finished. 0 authors added, 0 books added, 0 highlights added, and 2 highlights updated.")
   end
 
   scenario "uploads invalid JSON file" do
@@ -62,7 +63,6 @@ feature "import" do
 
     # Still on import page with a flash alert.
     expect(page).to have_css("div.flash.alert", text: "There was a JSON parse error. Please confirm that your file is valid JSON")
-    expect(page).to have_css("h1", text: "Import Highlights")
     expect(page).to have_css("h1", text: "Upload JSON File")
   end
 end
