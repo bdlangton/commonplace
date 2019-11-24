@@ -2,7 +2,33 @@
 
 # Highlights controller.
 class HighlightsController < ApplicationController
+  include TagsControllerConcern
   require "will_paginate/array"
+
+  def search
+    if params["search"].present?
+      search = params["search"]
+      model = params["model"].blank? ? "All" : params["model"]
+      @highlights = @sources = @authors = @tags = []
+
+      if ["All", "Highlights"].include? model
+        @highlights = current_user.highlights.where("highlight LIKE ? OR note LIKE ?", "%#{search}%", "%#{search}%").where(published: true)
+      end
+
+      if ["All", "Sources"].include? model
+        @sources = current_user.sources.where("title LIKE ?", "%#{search}%")
+      end
+
+      if ["All", "Authors"].include? model
+        @authors = current_user.authors.where("name LIKE ?", "%#{search}%")
+      end
+
+      if ["All", "Tags"].include? model
+        @tags = tags_with_count
+        @tags = @tags.where("title LIKE ?", "%#{search}%")
+      end
+    end
+  end
 
   # Create new highlight.
   def new
