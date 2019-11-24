@@ -15,7 +15,7 @@ Rails.application.configure do
   config.consider_all_requests_local = true
 
   # Allow better errors on trusted IP.
-  BetterErrors::Middleware.allow_ip! $_ENV["TRUSTED_IP"] if $_ENV["TRUSTED_IP"]
+  BetterErrors::Middleware.allow_ip! ENV["TRUSTED_IP"] if ENV["TRUSTED_IP"]
 
   # Enable/disable caching. By default caching is disabled.
   if Rails.root.join("tmp/caching-dev.txt").exist?
