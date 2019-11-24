@@ -2,6 +2,7 @@
 
 # Tags controller.
 class TagsController < ApplicationController
+  include TagsControllerConcern
   autocomplete :tags, :title
 
   # Create a new tag.
@@ -11,12 +12,7 @@ class TagsController < ApplicationController
 
   # List tags by user.
   def index
-    @tags = current_user.tags.select("tags.*", "count(*) as count")
-      .left_joins(:taggings)
-      .left_joins(:source_taggings)
-      .left_joins(:author_taggings)
-      .group("tags.id")
-      .order("count(*) DESC")
+    @tags = tags_with_count
   end
 
   # Show a tag.
