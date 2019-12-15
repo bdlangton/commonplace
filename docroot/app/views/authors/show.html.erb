@@ -12,5 +12,6 @@
 </p>
 
 <%= link_to 'Edit Author', edit_author_path(@author), class: ['badge', 'badge-pill', 'badge-light'] %>
+<%= link_to 'Add Source', new_source_path(:author => @author.name), class: ['badge', 'badge-pill', 'badge-primary'] %>
 
 <%= render partial: 'sources/sources', locals: { sources: @sources } %>

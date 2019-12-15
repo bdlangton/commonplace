@@ -7,6 +7,9 @@ class SourcesController < ApplicationController
   # Create a new source.
   def new
     @source = Source.new
+    if params[:author]
+      @author = params[:author]
+    end
   end
 
   # List sources by user.
