@@ -11,7 +11,7 @@
 
     <tbody>
       <% authors.each do |author| %>
-        <tr>
+        <tr class="author-<%= author.id %>">
           <td class="author"><%= link_to author.name, author_path(author.id) %></td>
           <td class="tags"><%= raw tag_links(author.all_tags) %></td>
           <td class="operations">

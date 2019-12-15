@@ -61,7 +61,7 @@ feature "authors" do
     expect(page).to have_css("h1", text: "Edited author")
     expect(page).to have_css("p", text: "Edited tag")
     visit authors_path
-    expect(page).to have_css("table.authors td.author", text: "Edited author")
+    expect(page).to have_css("table.authors tr.author-" + @author1.id.to_s + " td.author", text: "Edited author")
   end
 
   scenario "edits author with autocomplete tags" do

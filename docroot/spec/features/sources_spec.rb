@@ -89,7 +89,7 @@ feature "sources" do
     expect(page).to have_css("p", text: "Edited note")
     expect(page).to have_css("p", text: "Edited tag")
     visit sources_path
-    expect(page).to have_css("table.sources td.title", text: "Edited source")
+    expect(page).to have_css("table.sources tr.source-" + @source1.id.to_s + " td.title", text: "Edited source")
   end
 
   scenario "edits source with autocomplete user" do
