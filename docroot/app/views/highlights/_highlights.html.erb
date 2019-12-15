@@ -23,7 +23,7 @@
 
     <tbody>
       <% highlights.each do |highlight| %>
-        <tr class="highlight-<%= highlight.id %>">
+        <tr id="highlight-<%= highlight.id %>">
           <% if !defined?(hide) || !hide.include?('source') %>
             <td class="source"><%= link_to highlight.source.title, source_path(highlight.source) %></td>
           <% end %>

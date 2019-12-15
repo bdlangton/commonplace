@@ -92,12 +92,14 @@ task email: :environment do
           unless tags.empty?
             tags = "<p>Tags: #{tags}</p>"
           end
+
           text << "<p><b>#{highlight.source.title}</b></p>"
           text << "<p>#{highlight.highlight}</p>"
           if highlight.note.present?
             text << "<p>Note: #{highlight.note}</p>"
           end
           text << "#{tags}"
+          text << "<a href='https://commonplace.langton.dev/sources/" + highlight.source_id.to_s + "#highlight-" + highlight.id.to_s + "'>Go to highlight</a>"
         end
         body text
       end
