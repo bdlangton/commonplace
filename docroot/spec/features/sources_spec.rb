@@ -9,11 +9,11 @@ include Features
 feature "sources" do
   background do
     @user1 = create(:user, email: "user@example.com", password: "123456")
-    @author1 = create(:author, user: @user1)
+    @author1 = create(:author, user: @user1, name: "Author 1")
     @source1 = create(:source, user: @user1, authors: [@author1], title: "A source")
     @source2 = create(:source, user: @user1, authors: [@author1], source_type: "Artist", title: "Second source")
     @user2 = create(:user, email: "user2@example.com", password: "123456")
-    @author2 = create(:author, user: @user2)
+    @author2 = create(:author, user: @user2, name: "Author 2")
     @source3 = create(:source, user: @user2, authors: [@author2], title: "User 2 Source")
     @highlight1 = create(:highlight, highlight: "HL 1", user: @user1, source: @source1, favorite: true)
     @highlight2 = create(:highlight, highlight: "HL 2", user: @user1, source: @source1, favorite: false)
@@ -33,6 +33,23 @@ feature "sources" do
     expect(page).to have_css("h1", text: "My source")
     visit sources_path
     expect(page).to have_css("table.sources td.title", text: "My source")
+  end
+
+  scenario "adds new source from authors page" do
+    sign_in_as("user@example.com")
+    visit authors_path
+
+    click_on "Author 1"
+    click_on "Add Source"
+    fill_in "source[title]", with: "My source from Author 1"
+    fill_in "source[source_type]", with: "Book"
+    fill_in "source[notes]", with: "My notes"
+    click_on "Save Source"
+
+    expect(page).to have_css("h1", text: "My source from Author 1")
+    visit sources_path
+    expect(page).to have_css("table.sources td.title", text: "My source from Author 1")
+    expect(page).to have_css("table.sources td.author", text: "Author 1")
   end
 
   scenario "adds invalid new source" do
@@ -72,7 +89,7 @@ feature "sources" do
     expect(page).to have_css("p", text: "Edited note")
     expect(page).to have_css("p", text: "Edited tag")
     visit sources_path
-    expect(page).to have_css("table.sources td.title", text: "Edited source")
+    expect(page).to have_css("table.sources tr.source-" + @source1.id.to_s + " td.title", text: "Edited source")
   end
 
   scenario "edits source with autocomplete user" do

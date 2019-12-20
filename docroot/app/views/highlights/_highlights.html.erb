@@ -15,6 +15,7 @@
         <% end %>
         <th class="highlight">Highlight</th>
         <th class="note">Note</th>
+        <th class="location">Location</th>
         <th class="tags">Tags</th>
         <th class="operations">Operations</th>
       </tr>
@@ -22,7 +23,7 @@
 
     <tbody>
       <% highlights.each do |highlight| %>
-        <tr class="highlight-<%= highlight.id %>">
+        <tr id="highlight-<%= highlight.id %>">
           <% if !defined?(hide) || !hide.include?('source') %>
             <td class="source"><%= link_to highlight.source.title, source_path(highlight.source) %></td>
           <% end %>
@@ -31,6 +32,7 @@
           <% end %>
           <td class="highlight"><%= simple_format highlight.highlight %></td>
           <td class="note"><%= simple_format highlight.note %></td>
+          <td class="location"><%= highlight.location %></td>
           <td class="tags"><%= raw tag_links(highlight.all_tags) %></td>
           <td class="operations">
             <% id = highlight.id.to_s %>

@@ -21,7 +21,7 @@
 
   <p>
     <%= label_tag(:all_authors, 'Authors') %><br/>
-    <%= form.autocomplete_field :all_authors, '/sources/autocomplete_authors_name', 'data-delimiter' => ', ', 'data-auto-focus' => true, :fields => {:all_authors => '#all_authors'}, class: ['autocomplete', 'form-control'], id: 'all_authors' %>
+    <%= form.autocomplete_field :all_authors, '/sources/autocomplete_authors_name', 'data-delimiter' => ', ', 'data-auto-focus' => true, :fields => {:all_authors => '#all_authors'}, class: ['autocomplete', 'form-control'], id: 'all_authors', value: @author %>
   </p>
 
   <p>

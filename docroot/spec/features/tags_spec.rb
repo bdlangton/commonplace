@@ -47,7 +47,7 @@ feature "tags" do
 
     expect(page).to have_css("h1", text: "Edited tag")
     visit tags_path
-    expect(page).to have_css("table.tags td.title", text: "Edited tag")
+    expect(page).to have_css("table.tags tr.tag-" + @tag1.id.to_s + " td.title", text: "Edited tag")
   end
 
   scenario "edits invalid tag" do

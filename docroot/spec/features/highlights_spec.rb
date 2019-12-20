@@ -52,7 +52,7 @@ feature "highlights" do
     fill_in "highlight[all_tags]", with: "Edited tag"
     click_on "Save Highlight"
 
-    expect(page).to have_css("table.highlights td.highlight", text: "Edited highlight")
+    expect(page).to have_css("table.highlights tr#highlight-" + @highlight1.id.to_s + " td.highlight", text: "Edited highlight")
   end
 
   scenario "edits highlight with autocomplete tags" do

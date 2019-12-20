@@ -36,7 +36,7 @@
 </p>
 
 <%= link_to 'Edit Source', edit_source_path(@source), class: ['badge', 'badge-pill', 'badge-light'] %>
-<%= link_to 'Add highlight', new_highlight_path(:source => @source.id), class: ['badge', 'badge-pill', 'badge-primary'] %>
+<%= link_to 'Add Highlight', new_highlight_path(:source => @source.id), class: ['badge', 'badge-pill', 'badge-primary'] %>
 
 <%= form_tag({}, :method => 'get', :class => 'filter-form') do %>
   <%= label_tag :tag %>

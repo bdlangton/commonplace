@@ -10,7 +10,7 @@
 
     <tbody>
       <% tags.each do |tag| %>
-        <tr>
+        <tr class="tag-<%= tag.id %>">
           <td class="title">
             <%=
               link_to(
