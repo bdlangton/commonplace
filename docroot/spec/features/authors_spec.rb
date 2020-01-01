@@ -9,9 +9,10 @@ include Features
 feature "authors" do
   background do
     @user1 = create(:user, email: "user@example.com", password: "123456")
-    @author1 = create(:author, name: "Mr Author1", user: @user1)
+    @tag1 = create(:tag, user: @user1, title: "Tag1")
+    @author1 = create(:author, name: "Mr Author1", user: @user1, tags: [@tag1])
     @author2 = create(:author, name: "Mr Author2", user: @user1)
-    @source1 = create(:source, title: "Source 1", user: @user1, authors: [@author1])
+    @source1 = create(:source, title: "Source 1", user: @user1, authors: [@author1], tags: [@tag1])
     @highlight1 = create(:highlight, user: @user1, source: @source1, favorite: true)
     @highlight2 = create(:highlight, user: @user1, source: @source1, favorite: false)
   end
@@ -54,6 +55,8 @@ feature "authors" do
     visit authors_path
 
     find("#edit-author-" + @author1.id.to_s).click
+    expect(page).to have_field("name", with: "Mr Author1")
+    expect(page).to have_field("all_tags", with: "Tag1")
     fill_in "author[name]", with: "Edited author"
     fill_in "author[all_tags]", with: "Edited tag"
     click_on "Save Author"
