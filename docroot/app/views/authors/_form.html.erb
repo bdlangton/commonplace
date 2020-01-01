@@ -15,12 +15,12 @@
   <% end %>
 
   <p>
-    <%= label_tag(:name) %><br>
+    <%= label_tag(:name) %><br/>
     <%= form.text_field :name, class: 'form-control', id: 'name' %>
   </p>
 
   <p>
-    <%= label_tag(:tags) %><br>
+    <%= label_tag(:tags) %><br/>
     <%= form.autocomplete_field :all_tags, '/tags/autocomplete_tags_title', 'data-delimiter' => ', ', 'data-auto-focus' => true, :fields => {:all_tags => '#all_tags'}, class: ['autocomplete', 'form-control'], id: 'all_tags' %>
   </p>
 
