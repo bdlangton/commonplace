@@ -42,6 +42,7 @@ feature "tags" do
     visit tags_path
 
     find("#edit-tag-" + @tag1.id.to_s).click
+    expect(page).to have_field("title", with: "Tag1")
     fill_in "tag[title]", with: "Edited tag"
     click_on "Save Tag"
 

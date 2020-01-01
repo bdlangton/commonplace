@@ -10,12 +10,13 @@ feature "highlights" do
   background do
     @user1 = create(:user, email: "user@example.com", password: "123456")
     @author1 = create(:author, user: @user1)
-    @source1 = create(:source, title: "Source 1", user: @user1, authors: [@author1])
+    @tag1 = create(:tag, user: @user1, title: "Tag1")
+    @source1 = create(:source, title: "Source 1", user: @user1, authors: [@author1], tags: [@tag1])
     @user2 = create(:user, email: "user2@example.com", password: "123456")
     @author2 = create(:author, user: @user2)
     @source2 = create(:source, title: "Source 2", user: @user2, authors: [@author2])
-    @highlight1 = create(:highlight, user: @user1, source: @source1, favorite: true)
-    @highlight2 = create(:highlight, user: @user1, source: @source1)
+    @highlight1 = create(:highlight, highlight: "My highlight", user: @user1, source: @source1, tags: [@tag1], note: "My note", favorite: true)
+    @highlight2 = create(:highlight, user: @user1, source: @source1, tags: [@tag1])
     @highlight3 = create(:highlight, user: @user1, source: @source1, published: false)
   end
 
@@ -47,6 +48,10 @@ feature "highlights" do
     visit highlights_path
 
     find("#edit-highlight-" + @highlight1.id.to_s).click
+    expect(page).to have_field("highlight", with: "My highlight")
+    expect(page).to have_field("note", with: "My note")
+    expect(page).to have_field("all_tags", with: "Tag1")
+    expect(page).to have_select("source", selected: "Source 1")
     fill_in "highlight[highlight]", with: "Edited highlight"
     fill_in "highlight[note]", with: "Edited note"
     fill_in "highlight[all_tags]", with: "Edited tag"

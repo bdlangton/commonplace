@@ -3,6 +3,7 @@
 # Sources controller.
 class SourcesController < ApplicationController
   require "will_paginate/array"
+  include SourcesControllerConcern
 
   # Create a new source.
   def new
@@ -47,11 +48,13 @@ class SourcesController < ApplicationController
   # Edit an existing source.
   def edit
     @source = current_user.sources.find(params[:id])
+    @author = authors_comma_separated(@source)
   end
 
   # Update an existing source.
   def update
     @source = current_user.sources.find(params[:id])
+    @author = authors_comma_separated(@source)
 
     # Change all_authors to be an array containing the comma separated list of
     # authors and the current user ID. We need the user ID in order to save the

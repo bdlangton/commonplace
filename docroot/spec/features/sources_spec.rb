@@ -10,7 +10,7 @@ feature "sources" do
   background do
     @user1 = create(:user, email: "user@example.com", password: "123456")
     @author1 = create(:author, user: @user1, name: "Author 1")
-    @source1 = create(:source, user: @user1, authors: [@author1], title: "A source")
+    @source1 = create(:source, user: @user1, authors: [@author1], source_type: "Book", title: "A source")
     @source2 = create(:source, user: @user1, authors: [@author1], source_type: "Artist", title: "Second source")
     @user2 = create(:user, email: "user2@example.com", password: "123456")
     @author2 = create(:author, user: @user2, name: "Author 2")
@@ -41,6 +41,7 @@ feature "sources" do
 
     click_on "Author 1"
     click_on "Add Source"
+    expect(page).to have_field("all_authors", with: "Author 1")
     fill_in "source[title]", with: "My source from Author 1"
     fill_in "source[source_type]", with: "Book"
     fill_in "source[notes]", with: "My notes"
@@ -80,6 +81,9 @@ feature "sources" do
     visit sources_path
 
     find("#edit-source-" + @source1.id.to_s).click
+    expect(page).to have_field("title", with: "A source")
+    expect(page).to have_field("all_authors", with: "Author 1")
+    expect(page).to have_field("source_type", with: "Book")
     fill_in "source[title]", with: "Edited source"
     fill_in "source[notes]", with: "Edited note"
     fill_in "source[all_tags]", with: "Edited tag"
