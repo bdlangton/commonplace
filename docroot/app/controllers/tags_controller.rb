@@ -1,4 +1,8 @@
+# frozen_string_literal: true
+
+# Tags controller.
 class TagsController < ApplicationController
+  include TagsControllerConcern
   autocomplete :tags, :title
 
   # Create a new tag.
@@ -8,12 +12,7 @@ class TagsController < ApplicationController
 
   # List tags by user.
   def index
-    @tags = current_user.tags.select('tags.*', 'count(*) as count')
-      .left_joins(:taggings)
-      .left_joins(:source_taggings)
-      .left_joins(:author_taggings)
-      .group("tags.id")
-      .order("count(*) DESC")
+    @tags = tags_with_count
   end
 
   # Show a tag.
@@ -80,7 +79,7 @@ class TagsController < ApplicationController
     if @tag.update(tag_params)
       redirect_to @tag
     else
-      render 'edit'
+      render "edit"
     end
   end
 
@@ -91,7 +90,7 @@ class TagsController < ApplicationController
     if @tag.save
       redirect_to @tag
     else
-      render 'new'
+      render "new"
     end
   end
 
@@ -108,19 +107,19 @@ class TagsController < ApplicationController
     term = params[:term]
 
     # Get terms already entered to ensure we don't suggest terms already taken.
-    existing_terms = params[:all_tags].split(',')
+    existing_terms = params[:all_tags].split(",")
     existing_terms.pop
     existing_terms = existing_terms.map do |existing_term|
       existing_term.strip
     end
 
     if existing_terms.empty?
-      tags = Tag.where('title LIKE ?', "#{term}%").order(:title).all | Tag.where('title LIKE ?', "%#{term}%").order(:title).all
+      tags = current_user.tags.where("title LIKE ?", "#{term}%").order(:title).all | current_user.tags.where("title LIKE ?", "%#{term}%").order(:title).all
     else
-      tags = Tag.where('title LIKE ?', "#{term}%").where('title NOT IN (?)', Array.wrap(existing_terms)).order(:title).all | Tag.where('title LIKE ?', "%#{term}%").where('title NOT IN (?)', Array.wrap(existing_terms)).order(:title).all
+      tags = current_user.tags.where("title LIKE ?", "#{term}%").where("title NOT IN (?)", Array.wrap(existing_terms)).order(:title).all | current_user.tags.where("title LIKE ?", "%#{term}%").where("title NOT IN (?)", Array.wrap(existing_terms)).order(:title).all
     end
 
-    render :json => tags.map { |tag| {:id => tag.id, :label => tag.title, :value => tag.title} }
+    render json: tags.map { |tag| { id: tag.id, label: tag.title, value: tag.title } }
   end
 
   private

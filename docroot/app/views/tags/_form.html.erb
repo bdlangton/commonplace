@@ -15,8 +15,8 @@
   <% end %>
  
   <p>
-    <%= form.label :title %><br>
-    <%= form.text_field :title, class: 'form-control' %>
+    <%= label_tag(:title) %><br/>
+    <%= form.text_field :title, class: 'form-control', id: 'title' %>
   </p>
 
   <p>

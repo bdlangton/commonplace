@@ -12,7 +12,7 @@
 
   <body>
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
-      <a class="navbar-brand" href="/">Commonplace Books</a>
+      <a class="navbar-brand" href="/">Commonplace Book</a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
@@ -26,7 +26,15 @@
             <li class="nav-item"><%= link_to 'Sources', sources_path, class: 'nav-link' %></li>
             <li class="nav-item"><%= link_to 'Authors', authors_path, class: 'nav-link' %></li>
             <li class="nav-item"><%= link_to 'Import', '/import', class: 'nav-link' %></li>
+            <li class="nav-item"><%= link_to 'Settings', '/settings', class: 'nav-link' %></li>
             <li class="nav-item"><%= link_to 'Logout', '/users/sign_out', method: :delete, class: 'nav-link' %></li>
+            <li class="nav-item search">
+              <%= form_with url: highlights_search_path, method: 'get', local: true, class: 'search-form' do |f| %>
+              <%= f.text_field :search, size: 10, value: params["search"] %>
+              <%= f.select :model, options_for_select(["Highlights", "Sources", "Authors", "Tags"], params["model"]), include_blank: "All" %>
+              <%= f.submit "Search" %>
+            <% end %>
+            </li>
           <% end %>
         </ul>
       </div>

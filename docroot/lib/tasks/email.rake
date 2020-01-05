@@ -1,25 +1,29 @@
-require 'bundler'
-require 'kindle_highlights'
-require 'fileutils'
-require 'json'
-require 'cgi'
-require 'mail'
-require 'htmlentities'
+# frozen_string_literal: false
+
+require "bundler"
+require "kindle_highlights"
+require "fileutils"
+require "json"
+require "cgi"
+require "mail"
+require "htmlentities"
 # require 'config/environment'
 
 Mail.defaults do
   delivery_method :smtp,
-    address: 'smtp.gmail.com',
+    address: "smtp.gmail.com",
     port: 587,
-    domain: 'gmail.com',
-    user_name: ENV['GMAIL_USERNAME'],
-    password: ENV['GMAIL_PASSWORD'],
-    authentication: 'plain',
+    domain: "gmail.com",
+    user_name: ENV["GMAIL_USERNAME"],
+    password: ENV["GMAIL_PASSWORD"],
+    authentication: "plain",
     enable_starttls_auto: true
 end
 
 class Kindle
-  def random_highlights(user, favorites = 2, any = 1)
+  def random_highlights(user)
+    favorites = User.email_count(user, "favorite")
+    any = User.email_count(user, "random")
     random = Set[]
     count = 0
     loops = 0
@@ -53,30 +57,31 @@ class Kindle
         return random
       end
     end
-    return random
+    random
   end
 end
 
-task :email => :environment do
-  users = User.all
+task email: :environment do
+  # Get users that have opted in to receiving email.
+  users = User.all.select { |user| User.receive_email(user) }
 
   for user in users
     data = Kindle.new
-    highlights = data.random_highlights(user, 2, 1)
+    highlights = data.random_highlights(user)
 
     # Skip this user if they have no highlights return.
     if highlights.empty?
       next
     end
 
-    text = ''
+    text = ""
     mail = Mail.new do
-      from 'Commonplace Book <bdlangton@gmail.com>'
+      from "Commonplace Book <barrett@langton.dev>"
 
       to user.email
       subject "Your daily highlights for #{Time.now.strftime("%b %-d")}"
       html_part do
-        content_type 'text/html; charset=UTF-8'
+        content_type "text/html; charset=UTF-8"
 
         highlights.each do |highlight|
           if highlight.blank?
@@ -87,12 +92,14 @@ task :email => :environment do
           unless tags.empty?
             tags = "<p>Tags: #{tags}</p>"
           end
+
           text << "<p><b>#{highlight.source.title}</b></p>"
           text << "<p>#{highlight.highlight}</p>"
           if highlight.note.present?
             text << "<p>Note: #{highlight.note}</p>"
           end
           text << "#{tags}"
+          text << "<a href='https://commonplace.langton.dev/sources/" + highlight.source_id.to_s + "#highlight-" + highlight.id.to_s + "'>Go to highlight</a>"
         end
         body text
       end

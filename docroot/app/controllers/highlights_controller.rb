@@ -1,5 +1,34 @@
+# frozen_string_literal: true
+
+# Highlights controller.
 class HighlightsController < ApplicationController
-  require 'will_paginate/array'
+  include TagsControllerConcern
+  require "will_paginate/array"
+
+  def search
+    if params["search"].present?
+      search = params["search"]
+      model = params["model"].blank? ? "All" : params["model"]
+      @highlights = @sources = @authors = @tags = []
+
+      if ["All", "Highlights"].include? model
+        @highlights = current_user.highlights.where("highlight LIKE ? OR note LIKE ?", "%#{search}%", "%#{search}%").where(published: true)
+      end
+
+      if ["All", "Sources"].include? model
+        @sources = current_user.sources.where("title LIKE ?", "%#{search}%")
+      end
+
+      if ["All", "Authors"].include? model
+        @authors = current_user.authors.where("name LIKE ?", "%#{search}%")
+      end
+
+      if ["All", "Tags"].include? model
+        @tags = tags_with_count
+        @tags = @tags.where("title LIKE ?", "%#{search}%")
+      end
+    end
+  end
 
   # Create new highlight.
   def new
@@ -27,13 +56,13 @@ class HighlightsController < ApplicationController
 
     if params[:author].present?
       @highlights = @highlights.by_author(params[:author])
-      @tags = current_user.tags.by_author(params[:author]).where(highlights: {published: true}).distinct.order(:title)
+      @tags = current_user.tags.by_author(params[:author]).where(highlights: { published: true }).distinct.order(:title)
     else
-      @tags = current_user.tags.joins(:highlights).where(highlights: {published: true}).distinct.order(:title)
+      @tags = current_user.tags.joins(:highlights).where(highlights: { published: true }).distinct.order(:title)
     end
 
     @highlights = @highlights.sort_by(&:created_at).reverse
-    @highlights = @highlights.paginate(:page => params[:page], :per_page => 20)
+    @highlights = @highlights.paginate(page: params[:page], per_page: 20)
   end
 
   # Show favorite highlights by the user.
@@ -47,22 +76,22 @@ class HighlightsController < ApplicationController
 
     if params[:author].present?
       @highlights = @highlights.by_author(params[:author])
-      @tags = current_user.tags.by_author(params[:author]).where(highlights: {favorite: true, published: true}).distinct.order(:title)
+      @tags = current_user.tags.by_author(params[:author]).where(highlights: { favorite: true, published: true }).distinct.order(:title)
     else
-      @tags = current_user.tags.joins(:highlights).where(highlights: {favorite: true, published: true}).distinct.order(:title)
+      @tags = current_user.tags.joins(:highlights).where(highlights: { favorite: true, published: true }).distinct.order(:title)
     end
 
-    @highlights = @highlights.paginate(:page => params[:page], :per_page => 20)
+    @highlights = @highlights.paginate(page: params[:page], per_page: 20)
   end
 
   # Show a list of deleted (unpublished) highlights.
   def deleted
-    @tags = current_user.tags.joins(:highlights).where(highlights: {published: false}).distinct.order(:title)
+    @tags = current_user.tags.joins(:highlights).where(highlights: { published: false }).distinct.order(:title)
     @highlights = current_user.highlights.where(published: false)
     if params[:tag].present?
       @highlights = @highlights.tagged_with(params[:tag])
     end
-    @highlights = @highlights.paginate(:page => params[:page], :per_page => 20)
+    @highlights = @highlights.paginate(page: params[:page], per_page: 20)
   end
 
   # Edit an existing highlight.
@@ -84,14 +113,14 @@ class HighlightsController < ApplicationController
     # the correct user when creating a new highlight, since the highlight
     # doesn't already have the user_id saved.
     params = highlight_params.merge('all_tags': [
-      highlight_params['all_tags'],
-      highlight_params['user_id']
+      highlight_params["all_tags"],
+      highlight_params["user_id"]
     ])
 
     if @highlight.update(params)
       redirect_to session[:return_to]
     else
-      render 'edit'
+      render "edit"
     end
   end
 
@@ -102,8 +131,8 @@ class HighlightsController < ApplicationController
     # the correct user when creating a new highlight, since the highlight
     # doesn't already have the user_id saved.
     params = highlight_params.merge('all_tags': [
-      highlight_params['all_tags'],
-      highlight_params['user_id']
+      highlight_params["all_tags"],
+      highlight_params["user_id"]
     ])
 
     @highlight = Highlight.new(params)
@@ -111,7 +140,7 @@ class HighlightsController < ApplicationController
     if @highlight.save
       redirect_to session[:return_to]
     else
-      render 'new'
+      render "new"
     end
   end
 
@@ -159,6 +188,6 @@ class HighlightsController < ApplicationController
   private
     # Define which highlight fields are required and permitted.
     def highlight_params
-      params.require(:highlight).permit(:highlight, :note, :all_tags, :favorite, :published, :user_id, :source_id)
+      params.require(:highlight).permit(:highlight, :note, :location, :all_tags, :favorite, :published, :user_id, :source_id)
     end
 end

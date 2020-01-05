@@ -23,5 +23,7 @@
 .byebug_history
 docroot/config/local_env.yml
 docroot/public/assets
+docroot/public/uploads
 db-backups
 .env
+coverage

@@ -1,4 +1,4 @@
-<%= form_with model: @source, local: true do |form| %>
+<%= form_with model: @source, multipart: true, local: true do |form| %>
 
   <% if @source.errors.any? %>
     <div id="error_explanation">
@@ -15,28 +15,42 @@
   <% end %>
 
   <p>
-    <%= form.label :title %><br>
-    <%= form.text_field :title, class: 'form-control' %>
+    <%= label_tag(:title) %><br>
+    <%= form.text_field :title, class: 'form-control', id: 'title' %>
   </p>
 
   <p>
-    <%= form.label 'Authors' %><br/>
-    <%= form.autocomplete_field :all_authors, '/sources/autocomplete_authors_name', 'data-delimiter' => ', ', 'data-auto-focus' => true, :fields => {:all_authors => '#all_authors'}, class: ['autocomplete', 'form-control'], id: 'all_authors' %>
+    <%= label_tag(:all_authors, 'Authors') %><br/>
+    <%= form.autocomplete_field :all_authors, '/sources/autocomplete_authors_name', 'data-delimiter' => ', ', 'data-auto-focus' => true, :fields => {:all_authors => '#all_authors'}, class: ['autocomplete', 'form-control'], id: 'all_authors', value: @author %>
   </p>
 
   <p>
-    <%= form.label 'Type' %><br>
-    <%= form.text_field :source_type, :size => '20', :maxlength => '20', class: 'form-control' %>
+    <%= label_tag(:source_type, 'Type') %><br>
+    <%= form.text_field :source_type, :size => '20', :maxlength => '20', class: 'form-control', id: 'source_type' %>
   </p>
 
   <p>
-    <%= form.label 'Notes' %><br>
-    <%= form.text_area :notes, size: '80x3', class: 'form-control' %>
+    <%= label_tag(:notes, 'Notes') %><br>
+    <%= form.text_area :notes, size: '80x3', class: 'form-control', id: 'notes' %>
   </p>
 
   <p>
-    <%= form.label 'Tags' %><br/>
+    <%= label_tag(:all_tags, 'Tags') %><br/>
     <%= form.autocomplete_field :all_tags, '/tags/autocomplete_tags_title', 'data-delimiter' => ', ', 'data-auto-focus' => true, :fields => {:all_tags => '#all_tags'}, class: ['autocomplete', 'form-control'], id: 'all_tags' %>
+  </p>
+
+  <p>
+    <%= label_tag(:file, 'Image') %><br/>
+    <%= image_tag(@source.file_url) if @source.file? %>
+    <%= form.file_field :file, id: 'file' %>
+    <%= form.hidden_field :file_cache %>
+  </p>
+
+  <p>
+    <label>
+      <%= form.check_box :remove_file %>
+      Remove image
+    </label>
   </p>
 
   <p>

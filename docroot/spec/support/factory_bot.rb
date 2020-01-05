@@ -1,7 +1,9 @@
-require 'active_record'
-require 'database_cleaner'
-require 'factory_bot'
-require 'rspec-rails'
+# frozen_string_literal: true
+
+require "active_record"
+require "database_cleaner"
+require "factory_bot"
+require "rspec-rails"
 
 RSpec.configure do |config|
   config.include FactoryBot::Syntax::Methods
