@@ -1,7 +1,42 @@
 # frozen_string_literal: true
 
 Rails.application.routes.draw do
-  devise_for :users
+  devise_for :users, defaults: { format: :html },
+             path: "",
+             path_names: { sign_up: "register" },
+             controllers: {
+               sessions: "sessions",
+               registrations: "registrations"
+             }
+
+  devise_scope :user do
+    get "users/sign_in", to: "devise/sessions#new"
+    get "users/register", to: "devise/registrations#new"
+    post "users/register", to: "devise/registrations#create"
+    delete "users/sign_out", to: "devise/sessions#destroy"
+  end
+
+  # API namespace, for JSON requests at /api/v1/sign_[in|out]
+  namespace :api, constraints: { format: "json" } do
+    namespace :v1, constraints: { format: "json" } do
+      devise_for :users,
+        defaults: { format: :json },
+        class_name: "ApiUser",
+        skip: [:registrations, :invitations,
+          :passwords, :confirmations,
+          :unlocks],
+        path: "",
+        path_names: {
+          sign_in: "login",
+          sign_out: "logout"
+        }
+
+      devise_scope :user do
+        get "login", to: "/devise/sessions#new"
+        delete "logout", to: "/devise/sessions#destroy"
+      end
+    end
+  end
 
   # Deleted/unpublished routes.
   get "highlights/:id/publish", to: "highlights#publish"

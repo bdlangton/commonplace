@@ -2,6 +2,8 @@
 
 # Import controller.
 class ImportController < ApplicationController
+  before_action :authenticate_user!
+
   def form; end
 
   # Import highlights from the kindle website.

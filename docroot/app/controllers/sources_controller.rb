@@ -2,6 +2,7 @@
 
 # Sources controller.
 class SourcesController < ApplicationController
+  # before_action :authenticate_user!
   require "will_paginate/array"
   include SourcesControllerConcern
 

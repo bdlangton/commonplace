@@ -2,6 +2,8 @@
 
 # Users controller.
 class UsersController < ApplicationController
+  # before_action :authenticate_user!
+
   # User settings.
   def settings
     @user = current_user

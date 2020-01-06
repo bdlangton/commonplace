@@ -2,6 +2,7 @@
 
 # Authors controller.
 class AuthorsController < ApplicationController
+  before_action :authenticate_user!
   require "will_paginate/array"
   include AuthorsControllerConcern
 

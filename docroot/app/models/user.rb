@@ -13,6 +13,15 @@ class User < ApplicationRecord
   validates_presence_of :email, message: "is required"
   validates_uniqueness_of :email, message: "There is already an account with that email."
 
+  before_create :add_jti
+
+  def jwt_subject
+  end
+
+  def add_jti
+    self.jti ||= SecureRandom.uuid
+  end
+
   # Check if the user should receive daily emails.
   def self.receive_email(user)
     unless user.data.nil?
