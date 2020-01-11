@@ -289,5 +289,20 @@ Devise.setup do |config|
   # end
   config.jwt do |jwt|
     jwt.secret = ENV["DEVISE_JWT_SECRET_KEY"]
+    jwt.dispatch_requests = [
+      ["POST", %r{^/login$}],
+      ["POST", %r{^/login.json$}]
+    ]
+    jwt.revocation_requests = [
+      ["DELETE", %r{^/logout$}],
+      ["DELETE", %r{^/logout.json$}]
+    ]
+    jwt.expiration_time = 1.day.to_i
+    jwt.request_formats = {
+      user: [:json],
+    }
   end
+
+  # Prevent devise from using flash messages which are not present in API mode.
+  config.navigational_formats = []
 end

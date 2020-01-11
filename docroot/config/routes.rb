@@ -1,7 +1,19 @@
 # frozen_string_literal: true
 
 Rails.application.routes.draw do
-  devise_for :users
+  devise_for :users,
+             defaults: { format: :json },
+             class_name: "User",
+             path: "",
+             path_names: {
+               sign_in: "login",
+               sign_out: "logout",
+               registration: "signup"
+             }
+  # controllers: {
+  #   sessions: "sessions",
+  #   registrations: "registrations"
+  # }
 
   # Deleted/unpublished routes.
   get "highlights/:id/publish", to: "highlights#publish"

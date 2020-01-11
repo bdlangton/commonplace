@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class User < ApplicationRecord
+  include Devise::JWT::RevocationStrategies::JTIMatcher
+
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
   devise :database_authenticatable, :registerable,
@@ -12,8 +14,15 @@ class User < ApplicationRecord
   has_many :highlights, dependent: :destroy
   has_many :sources, dependent: :destroy
   has_many :tags, dependent: :destroy
+  validates :jti, presence: true
   validates_presence_of :email, message: "is required"
   validates_uniqueness_of :email, message: "There is already an account with that email."
+
+  before_create :add_jti
+
+  def add_jti
+    self.jti ||= SecureRandom.uuid
+  end
 
   def jwt_payload
     super.merge("foo" => "bar")
