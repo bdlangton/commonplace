@@ -1,8 +1,11 @@
+# frozen_string_literal: true
+
 class Api::V1::SourcesController < ApplicationController
-  require 'will_paginate/array'
+  require "will_paginate/array"
 
   def index
-    render json: Source.all
+    @sources = current_user.sources
+    render json: @sources
   end
 
   def create

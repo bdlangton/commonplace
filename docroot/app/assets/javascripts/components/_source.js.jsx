@@ -1,6 +1,6 @@
-class Source extends React.Component{
+class Source extends React.Component {
 
-  constructor(props){
+  constructor(props) {
     super(props);
     this.state = {
       editable: false
@@ -8,7 +8,7 @@ class Source extends React.Component{
     this.handleEdit = this.handleEdit.bind(this)
   }
 
-  handleEdit(){
+  handleEdit() {
     if(this.state.editable){
       let title = this.title.value
       let source_type = this.source_type.value
@@ -21,7 +21,7 @@ class Source extends React.Component{
     })
   }
 
-  render(){
+  render() {
     let title = this.state.editable ? <input type='text' ref={input => this.title = input} defaultValue={this.props.source.title}/>:<h3>{this.props.source.title}</h3>
     let source_type = this.state.editable ? <input type='text' ref={input => this.source_type = input} defaultValue={this.props.source.source_type}/>:<p>{this.props.source.source_type}</p>
     return(

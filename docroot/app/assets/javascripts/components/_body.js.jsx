@@ -13,29 +13,29 @@ class Body extends React.Component {
     this.updateSource = this.updateSource.bind(this)
   }
 
-  handleFormSubmit(title, source_type){
+  handleFormSubmit(title, source_type) {
     let body = JSON.stringify({source: {title: title, source_type: source_type}})
 
-    fetch('http://localhost:3000/api/v1/sources', {
+    fetch('/api/v1/sources', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
       },
       body: body,
     })
-    .then((source)=>{
+    .then((source) => {
       this.addNewSource(source)
     })
   }
 
-  addNewSource(source){
+  addNewSource(source) {
     this.setState({
       sources: this.state.sources.concat(source)
     })
   }
 
-  handleDelete(id){
-    fetch(`http://localhost:3000/api/v1/sources/${id}`,
+  handleDelete(id) {
+    fetch('/api/v1/sources/${id}',
     {
       method: 'DELETE',
       headers: {
@@ -46,15 +46,15 @@ class Body extends React.Component {
       })
   }
 
-  deleteSource(id){
+  deleteSource(id) {
     newSources = this.state.sources.filter((source) => source.id !== id)
     this.setState({
       sources: newSources
     })
   }
 
-  handleUpdate(source){
-    fetch(`http://localhost:3000/api/v1/sources/${source.id}`,
+  handleUpdate(source) {
+    fetch('/api/v1/sources/${source.id}',
     {
       method: 'PUT',
       body: JSON.stringify({source: source}),
@@ -64,7 +64,7 @@ class Body extends React.Component {
     }).then((response) => {
         this.updateSource(source)
       })
-  }  updateSource(source){
+  }  updateSource(source) {
     let newSources = this.state.sources.filter((f) => f.id !== source.id)
     newSources.push(source)
     this.setState({
@@ -72,7 +72,7 @@ class Body extends React.Component {
     })
   }
 
-  componentDidMount(){
+  componentDidMount() {
     fetch('/api/v1/sources.json')
       .then((response) => {return response.json()})
       .then((data) => {this.setState({ sources: data }) });
@@ -82,7 +82,7 @@ class Body extends React.Component {
     return(
      <div>
        <NewSource handleFormSubmit={this.handleFormSubmit}/>
-       <AllSources sources={this.state.sources} handleDelete={this.handleDelete} handleUpdate = {this.handleUpdate}/>
+       <AllSources sources={this.state.sources} handleDelete={this.handleDelete} handleUpdate={this.handleUpdate}/>
      </div>
     )
   }
