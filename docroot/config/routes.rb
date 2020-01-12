@@ -1,19 +1,42 @@
 # frozen_string_literal: true
 
 Rails.application.routes.draw do
-  devise_for :users,
-             defaults: { format: :json },
-             class_name: "User",
-             path: "",
-             path_names: {
-               sign_in: "login",
-               sign_out: "logout",
-               registration: "signup"
-             }
+  devise_for :users
+
   # controllers: {
   #   sessions: "sessions",
   #   registrations: "registrations"
   # }
+
+  namespace :api do
+    namespace :v1 do
+      resources :sources, only: [:index, :create, :destroy, :update]
+      devise_for :users,
+             defaults: { format: :json },
+             class_name: "ApiUser",
+             path: "",
+             path_names: {
+               sign_in: "api/v1/login",
+               sign_out: "api/v1/logout",
+               registration: "api/v1/signup"
+             }
+
+      devise_scope :user do
+        get "api/v1/login", to: "devise/sessions#new"
+        delete "api/v1/logout", to: "devise/sessions#destroy"
+      end
+    end
+  end
+
+  devise_scope :admin do
+    authenticated :admin do
+      root "highlights#index", as: :authenticated_root
+    end
+
+    unauthenticated do
+      root "devise/sessions#new", as: :unauthenticated_root
+    end
+  end
 
   # Deleted/unpublished routes.
   get "highlights/:id/publish", to: "highlights#publish"
@@ -57,4 +80,6 @@ Rails.application.routes.draw do
 
   # Root page.
   root "highlights#index"
+
+  get "react", to: "react#index"
 end

@@ -6,9 +6,7 @@ class User < ApplicationRecord
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
   devise :database_authenticatable, :registerable,
-         :recoverable, :rememberable, :validatable,
-         :jwt_authenticatable, jwt_revocation_strategy: self
-  self.skip_session_storage = [:http_auth, :params_auth]
+         :recoverable, :rememberable, :validatable
 
   has_many :authors, dependent: :destroy
   has_many :highlights, dependent: :destroy
@@ -17,16 +15,6 @@ class User < ApplicationRecord
   validates :jti, presence: true
   validates_presence_of :email, message: "is required"
   validates_uniqueness_of :email, message: "There is already an account with that email."
-
-  before_create :add_jti
-
-  def add_jti
-    self.jti ||= SecureRandom.uuid
-  end
-
-  def jwt_payload
-    super.merge("foo" => "bar")
-  end
 
   # Check if the user should receive daily emails.
   def self.receive_email(user)

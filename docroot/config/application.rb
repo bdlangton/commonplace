@@ -19,7 +19,7 @@ Bundler.require(*Rails.groups)
 module Commonplace
   class Application < Rails::Application
     # Running Rails in API only mode.
-    config.api_only = true
+    # config.api_only = true
 
     # Initialize configuration defaults for originally generated Rails version.
     config.load_defaults 5.1
