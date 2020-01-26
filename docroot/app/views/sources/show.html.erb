@@ -11,33 +11,33 @@
   <%= @favorites_count %> / <%= @highlights_count %>
 </p>
 
-<p>
+<p class="author">
   <strong>Author(s):</strong>
   <%= print_authors(@source) %>
 </p>
 
-<p>
+<p class="tags">
   <strong>Tags:</strong>
   <%= raw tag_links(@source.tags) %>
 </p>
 
-<p>
+<p class="type">
   <strong>Type:</strong>
   <%= @source.source_type %>
 </p>
 
 <% if @source.notes %>
-  <p>
+  <p class="notes">
     <strong>Notes:</strong>
     <p><%= simple_format @source.notes %></p>
   </p>
 <% end %>
 
 <% unless @source.file.blank? %>
-  <p>
+  <div class="image">
     <strong>Image:</strong>
     <p><%= image_tag(@source.file_url) %></p>
-  </p>
+  </div>
 <% end %>
 
 <%= form_tag({}, :method => 'get', :class => 'filter-form') do %>
