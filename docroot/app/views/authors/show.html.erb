@@ -2,8 +2,8 @@
 <h1><%= @author.name %></h1>
 
 <p>
-  <strong>Tags:</strong>
-  <%= raw tag_links(@author.tags) %>
+  <%= link_to 'Edit Author', edit_author_path(@author), class: ['badge', 'badge-pill', 'badge-light'] %>
+  <%= link_to 'Add Source', new_source_path(:author => @author.name), class: ['badge', 'badge-pill', 'badge-primary'] %>
 </p>
 
 <p class="favorites-highlights">
@@ -11,7 +11,9 @@
   <%= @favorites_count %> / <%= @highlights_count %>
 </p>
 
-<%= link_to 'Edit Author', edit_author_path(@author), class: ['badge', 'badge-pill', 'badge-light'] %>
-<%= link_to 'Add Source', new_source_path(:author => @author.name), class: ['badge', 'badge-pill', 'badge-primary'] %>
+<p>
+  <strong>Tags:</strong>
+  <%= raw tag_links(@author.tags) %>
+</p>
 
 <%= render partial: 'sources/sources', locals: { sources: @sources } %>

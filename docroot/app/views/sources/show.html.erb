@@ -2,6 +2,16 @@
 <h1><%= @source.title %></h1>
 
 <p>
+  <%= link_to 'Edit Source', edit_source_path(@source), class: ['badge', 'badge-pill', 'badge-light'] %>
+  <%= link_to 'Add Highlight', new_highlight_path(:source => @source.id), class: ['badge', 'badge-pill', 'badge-primary'] %>
+</p>
+
+<p class="favorites-highlights">
+  <strong>Favorites / Highlights:</strong>
+  <%= @favorites_count %> / <%= @highlights_count %>
+</p>
+
+<p>
   <strong>Author(s):</strong>
   <%= print_authors(@source) %>
 </p>
@@ -29,14 +39,6 @@
     <p><%= image_tag(@source.file_url) %></p>
   </p>
 <% end %>
-
-<p class="favorites-highlights">
-  <strong>Favorites / Highlights:</strong>
-  <%= @favorites_count %> / <%= @highlights_count %>
-</p>
-
-<%= link_to 'Edit Source', edit_source_path(@source), class: ['badge', 'badge-pill', 'badge-light'] %>
-<%= link_to 'Add Highlight', new_highlight_path(:source => @source.id), class: ['badge', 'badge-pill', 'badge-primary'] %>
 
 <%= form_tag({}, :method => 'get', :class => 'filter-form') do %>
   <%= label_tag :tag %>
