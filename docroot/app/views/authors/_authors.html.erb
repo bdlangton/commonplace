@@ -11,8 +11,14 @@
 
     <tbody>
       <% authors.each do |author| %>
+        <% 
+          # Bold matching search text.
+          unless @search.blank?
+            author.name = author.name.gsub(/#{@search}/i, '<b>\0</b>')
+          end
+        %>
         <tr class="author-<%= author.id %>">
-          <td class="author"><%= link_to author.name, author_path(author.id) %></td>
+          <td class="author"><%= link_to author.name.html_safe, author_path(author.id) %></td>
           <td class="tags"><%= raw tag_links(author.all_tags) %></td>
           <td class="operations">
             <%= link_to fa_icon('pencil'), edit_author_path(author), id: 'edit-author-' + author.id.to_s, class: ['edit'] %>

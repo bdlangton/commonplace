@@ -13,8 +13,14 @@
 
     <tbody>
       <% sources.each do |source| %>
+        <% 
+          # Bold matching search text.
+          unless @search.blank?
+            source.title = raw source.title.gsub(/#{@search}/i, '<b>\0</b>')
+          end
+        %>
         <tr class="source-<%= source.id %>">
-          <td class="title"><%= link_to source.title, source_path(source) %></td>
+          <td class="title"><%= link_to source.title.html_safe, source_path(source) %></td>
           <td class="author"><%= print_authors(source) %></td>
           <td class="source_type"><%= source.source_type %></td>
           <td class="tags"><%= raw tag_links(source.all_tags) %></td>

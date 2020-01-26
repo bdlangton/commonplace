@@ -5,7 +5,7 @@
   No results found.
 <% end %>
 
-<%= render partial: 'highlights', locals: { highlights: @highlights } %>
-<%= render partial: 'sources/sources', locals: { sources: @sources } %>
-<%= render partial: 'authors/authors', locals: { authors: @authors } %>
-<%= render partial: 'tags/tags', locals: { tags: @tags } %>
+<%= render partial: 'highlights', locals: { highlights: @highlights, '@search': params['search'] } %>
+<%= render partial: 'sources/sources', locals: { sources: @sources, '@search': params['search'] } %>
+<%= render partial: 'authors/authors', locals: { authors: @authors, '@search': params['search'] } %>
+<%= render partial: 'tags/tags', locals: { tags: @tags, '@search': params['search'] } %>
