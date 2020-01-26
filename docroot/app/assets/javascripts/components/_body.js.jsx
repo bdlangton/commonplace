@@ -1,10 +1,9 @@
 class Body extends React.Component {
-
   constructor(props) {
-    super(props);
+    super(props)
     this.state = {
-      sources: []
-    };
+      sources: [],
+    }
     this.handleFormSubmit = this.handleFormSubmit.bind(this)
     this.addNewSource = this.addNewSource.bind(this)
     this.handleDelete = this.handleDelete.bind(this)
@@ -14,76 +13,86 @@ class Body extends React.Component {
   }
 
   handleFormSubmit(title, source_type) {
-    let body = JSON.stringify({source: {title: title, source_type: source_type}})
+    let body = JSON.stringify({
+      source: { title: title, source_type: source_type },
+    })
 
     fetch('/api/v1/sources', {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
       },
       body: body,
-    })
-    .then((source) => {
+    }).then(source => {
       this.addNewSource(source)
     })
   }
 
   addNewSource(source) {
     this.setState({
-      sources: this.state.sources.concat(source)
+      sources: this.state.sources.concat(source),
     })
   }
 
   handleDelete(id) {
-    fetch('/api/v1/sources/${id}',
-    {
+    fetch('/api/v1/sources/${id}', {
       method: 'DELETE',
       headers: {
-        'Content-Type': 'application/json'
-      }
-    }).then((response) => {
-        console.log('Item was deleted!')
-      })
+        'Content-Type': 'application/json',
+      },
+    }).then(response => {
+      console.log('Item was deleted!')
+    })
   }
 
   deleteSource(id) {
-    newSources = this.state.sources.filter((source) => source.id !== id)
+    newSources = this.state.sources.filter(source => source.id !== id)
     this.setState({
-      sources: newSources
+      sources: newSources,
     })
   }
 
   handleUpdate(source) {
-    fetch('/api/v1/sources/${source.id}',
-    {
+    fetch('/api/v1/sources/${source.id}', {
       method: 'PUT',
-      body: JSON.stringify({source: source}),
+      body: JSON.stringify({ source: source }),
       headers: {
-        'Content-Type': 'application/json'
-      }
-    }).then((response) => {
-        this.updateSource(source)
-      })
-  }  updateSource(source) {
-    let newSources = this.state.sources.filter((f) => f.id !== source.id)
+        'Content-Type': 'application/json',
+      },
+    }).then(response => {
+      this.updateSource(source)
+    })
+  }
+
+  updateSource(source) {
+    let newSources = this.state.sources.filter(f => f.id !== source.id)
     newSources.push(source)
+    newSources.sort((a, b) => a.id > b.id)
     this.setState({
-      sources: newSources
+      sources: newSources,
     })
   }
 
   componentDidMount() {
     fetch('/api/v1/sources.json')
-      .then((response) => {return response.json()})
-      .then((data) => {this.setState({ sources: data }) });
+      .then(response => {
+        return response.json()
+      })
+      .then(data => {
+        this.setState({ sources: data })
+      })
   }
 
   render() {
-    return(
-     <div>
-       <NewSource handleFormSubmit={this.handleFormSubmit}/>
-       <AllSources sources={this.state.sources} handleDelete={this.handleDelete} handleUpdate={this.handleUpdate}/>
-     </div>
+    return (
+      <div>
+        <NewSource handleFormSubmit={this.handleFormSubmit} />
+        <AllSources
+          sources={this.state.sources}
+          handleDelete={this.handleDelete}
+          handleUpdate={this.handleUpdate}
+        />
+      </div>
     )
   }
 }
