@@ -11,7 +11,7 @@
 
     <tbody>
       <% authors.each do |author| %>
-        <% 
+        <%
           # Bold matching search text.
           unless @search.blank?
             author.name = author.name.gsub(/#{@search}/i, '<b>\0</b>')

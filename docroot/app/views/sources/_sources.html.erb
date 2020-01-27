@@ -13,7 +13,7 @@
 
     <tbody>
       <% sources.each do |source| %>
-        <% 
+        <%
           # Bold matching search text.
           unless @search.blank?
             source.title = raw source.title.gsub(/#{@search}/i, '<b>\0</b>')
