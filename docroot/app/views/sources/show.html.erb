@@ -2,41 +2,43 @@
 <h1><%= @source.title %></h1>
 
 <p>
-  <strong>Author(s):</strong>
-  <%= print_authors(@source) %>
+  <%= link_to 'Edit Source', edit_source_path(@source), class: ['badge', 'badge-pill', 'badge-light'] %>
+  <%= link_to 'Add Highlight', new_highlight_path(:source => @source.id), class: ['badge', 'badge-pill', 'badge-primary'] %>
 </p>
-
-<p>
-  <strong>Tags:</strong>
-  <%= raw tag_links(@source.tags) %>
-</p>
-
-<p>
-  <strong>Type:</strong>
-  <%= @source.source_type %>
-</p>
-
-<% if @source.notes %>
-  <p>
-    <strong>Notes:</strong>
-    <p><%= simple_format @source.notes %></p>
-  </p>
-<% end %>
-
-<% unless @source.file.blank? %>
-  <p>
-    <strong>Image:</strong>
-    <p><%= image_tag(@source.file_url) %></p>
-  </p>
-<% end %>
 
 <p class="favorites-highlights">
   <strong>Favorites / Highlights:</strong>
   <%= @favorites_count %> / <%= @highlights_count %>
 </p>
 
-<%= link_to 'Edit Source', edit_source_path(@source), class: ['badge', 'badge-pill', 'badge-light'] %>
-<%= link_to 'Add Highlight', new_highlight_path(:source => @source.id), class: ['badge', 'badge-pill', 'badge-primary'] %>
+<p class="author">
+  <strong>Author(s):</strong>
+  <%= print_authors(@source) %>
+</p>
+
+<p class="tags">
+  <strong>Tags:</strong>
+  <%= raw tag_links(@source.tags) %>
+</p>
+
+<p class="type">
+  <strong>Type:</strong>
+  <%= @source.source_type %>
+</p>
+
+<% if @source.notes %>
+  <p class="notes">
+    <strong>Notes:</strong>
+    <p><%= simple_format @source.notes %></p>
+  </p>
+<% end %>
+
+<% unless @source.file.blank? %>
+  <div class="image">
+    <strong>Image:</strong>
+    <p><%= image_tag(@source.file_url) %></p>
+  </div>
+<% end %>
 
 <%= form_tag({}, :method => 'get', :class => 'filter-form') do %>
   <%= label_tag :tag %>

@@ -23,6 +23,15 @@
 
     <tbody>
       <% highlights.each do |highlight| %>
+        <%
+          # Bold matching search text.
+          unless @search.blank?
+            highlight.highlight = highlight.highlight.gsub(/#{@search}/i, '<b>\0</b>')
+            if highlight.note
+              highlight.note = highlight.note.gsub(/#{@search}/i, '<b>\0</b>')
+            end
+          end
+        %>
         <tr id="highlight-<%= highlight.id %>">
           <% if !defined?(hide) || !hide.include?('source') %>
             <td class="source"><%= link_to highlight.source.title, source_path(highlight.source) %></td>

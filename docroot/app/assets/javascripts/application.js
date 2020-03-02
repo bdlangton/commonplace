@@ -19,21 +19,30 @@
 //= require bootstrap
 //= require_tree .
 
-document.addEventListener("DOMContentLoaded", function(event) {
+document.addEventListener('DOMContentLoaded', function(event) {
   // TODO: Move this JS to only show on pages that it needs to be on.
-  $('a.favorite').bind('ajax:success', favoriteHighlight);
-  $('a.publish').bind('ajax:success', publishHighlight);
+  $('a.favorite').bind('ajax:success', favoriteHighlight)
+  $('a.publish').bind('ajax:success', publishHighlight)
 
   // Favorite or unfavorite a highlight.
   function favoriteHighlight(event, data) {
     // TODO: Why is data null?
     if (event.detail[0].favorite) {
-      $('#favorite-' + event.detail[0].id).removeClass('gray').addClass('red');
-      $('#favorite-' + event.detail[0].id).attr('href', '/highlights/' + event.detail[0].id + '/unfavorite');
-    }
-    else {
-      $('#favorite-' + event.detail[0].id).removeClass('red').addClass('gray');
-      $('#favorite-' + event.detail[0].id).attr('href', '/highlights/' + event.detail[0].id + '/favorite');
+      $('#favorite-' + event.detail[0].id)
+        .removeClass('gray')
+        .addClass('red')
+      $('#favorite-' + event.detail[0].id).attr(
+        'href',
+        '/highlights/' + event.detail[0].id + '/unfavorite'
+      )
+    } else {
+      $('#favorite-' + event.detail[0].id)
+        .removeClass('red')
+        .addClass('gray')
+      $('#favorite-' + event.detail[0].id).attr(
+        'href',
+        '/highlights/' + event.detail[0].id + '/favorite'
+      )
     }
   }
 
@@ -41,76 +50,77 @@ document.addEventListener("DOMContentLoaded", function(event) {
   function publishHighlight(event, data) {
     // TODO: Why is data null?
     if (event.detail[0].published) {
-      $('#publish-' + event.detail[0].id).removeClass('red').addClass('gray');
-      $('#publish-' + event.detail[0].id).attr('href', '/highlights/' + event.detail[0].id + '/unpublish');
-    }
-    else {
-      $('#publish-' + event.detail[0].id).removeClass('gray').addClass('red');
-      $('#publish-' + event.detail[0].id).attr('href', '/highlights/' + event.detail[0].id + '/publish');
+      $('#publish-' + event.detail[0].id)
+        .removeClass('red')
+        .addClass('gray')
+      $('#publish-' + event.detail[0].id).attr(
+        'href',
+        '/highlights/' + event.detail[0].id + '/unpublish'
+      )
+    } else {
+      $('#publish-' + event.detail[0].id)
+        .removeClass('gray')
+        .addClass('red')
+      $('#publish-' + event.detail[0].id).attr(
+        'href',
+        '/highlights/' + event.detail[0].id + '/publish'
+      )
     }
   }
 
   // Update tag colors based on the first letter of each tag.
-  $('.tag.badge').each(function () {
-    var first_char = $(this).html().substring(0, 1).toLowerCase();
+  $('.tag.badge').each(function() {
+    var first_char = $(this)
+      .html()
+      .substring(0, 1)
+      .toLowerCase()
     if ($.inArray(first_char, ['a', 'q']) > -1) {
-      $(this).css('background-color', 'navy');
+      $(this).css('background-color', 'navy')
+    } else if ($.inArray(first_char, ['b', 'r']) > -1) {
+      $(this).css('background-color', 'blue')
+    } else if ($.inArray(first_char, ['c', 's']) > -1) {
+      $(this).css('color', 'black')
+      $(this).css('background-color', 'aqua')
+    } else if ($.inArray(first_char, ['d', 't']) > -1) {
+      $(this).css('background-color', 'teal')
+    } else if ($.inArray(first_char, ['e', 'u']) > -1) {
+      $(this).css('background-color', 'olive')
+    } else if ($.inArray(first_char, ['f', 'v']) > -1) {
+      $(this).css('background-color', 'green')
+    } else if ($.inArray(first_char, ['g', 'w']) > -1) {
+      $(this).css('color', 'black')
+      $(this).css('background-color', 'lime')
+    } else if ($.inArray(first_char, ['h', 'x']) > -1) {
+      $(this).css('color', 'black')
+      $(this).css('background-color', 'yellow')
+    } else if ($.inArray(first_char, ['i', 'y']) > -1) {
+      $(this).css('background-color', 'orange')
+    } else if ($.inArray(first_char, ['j', 'z']) > -1) {
+      $(this).css('background-color', 'red')
+    } else if (first_char == 'k') {
+      $(this).css('background-color', 'maroon')
+    } else if (first_char == 'l') {
+      $(this).css('background-color', 'fuchsia')
+    } else if (first_char == 'm') {
+      $(this).css('background-color', 'purple')
+    } else if (first_char == 'n') {
+      $(this).css('background-color', 'black')
+    } else if (first_char == 'o') {
+      $(this).css('background-color', 'gray')
+    } else if (first_char == 'p') {
+      $(this).css('color', 'black')
+      $(this).css('background-color', 'silver')
     }
-    else if ($.inArray(first_char, ['b', 'r']) > -1) {
-      $(this).css('background-color', 'blue');
-    }
-    else if ($.inArray(first_char, ['c', 's']) > -1) {
-      $(this).css('color', 'black');
-      $(this).css('background-color', 'aqua');
-    }
-    else if ($.inArray(first_char, ['d', 't']) > -1) {
-      $(this).css('background-color', 'teal');
-    }
-    else if ($.inArray(first_char, ['e', 'u']) > -1) {
-      $(this).css('background-color', 'olive');
-    }
-    else if ($.inArray(first_char, ['f', 'v']) > -1) {
-      $(this).css('background-color', 'green');
-    }
-    else if ($.inArray(first_char, ['g', 'w']) > -1) {
-      $(this).css('color', 'black');
-      $(this).css('background-color', 'lime');
-    }
-    else if ($.inArray(first_char, ['h', 'x']) > -1) {
-      $(this).css('color', 'black');
-      $(this).css('background-color', 'yellow');
-    }
-    else if ($.inArray(first_char, ['i', 'y']) > -1) {
-      $(this).css('background-color', 'orange');
-    }
-    else if ($.inArray(first_char, ['j', 'z']) > -1) {
-      $(this).css('background-color', 'red');
-    }
-    else if (first_char == 'k') {
-      $(this).css('background-color', 'maroon');
-    }
-    else if (first_char == 'l') {
-      $(this).css('background-color', 'fuchsia');
-    }
-    else if (first_char == 'm') {
-      $(this).css('background-color', 'purple');
-    }
-    else if (first_char == 'n') {
-      $(this).css('background-color', 'black');
-    }
-    else if (first_char == 'o') {
-      $(this).css('background-color', 'gray');
-    }
-    else if (first_char == 'p') {
-      $(this).css('color', 'black');
-      $(this).css('background-color', 'silver');
-    }
-  });
+  })
 
   // Hide flash notices after a few seconds.
-  $('.flash.notice').fadeOut(3000);
+  $('.flash.notice').fadeOut(3000)
 
   // Don't show no matches on autocomplete.
-  $.railsAutocomplete.options.showNoMatches = false;
-});
+  $.railsAutocomplete.options.showNoMatches = false
 
+  // Toggle image when clicked.
+  $('div.image').click(function() {
+    $(this).find('p').toggleClass('hide');
+  })
+})

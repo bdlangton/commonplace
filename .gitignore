@@ -27,3 +27,5 @@ docroot/public/uploads
 db-backups
 .env
 coverage
+.vimrc
+README.local*
