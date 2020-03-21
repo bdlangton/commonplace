@@ -88,8 +88,11 @@ task email: :environment do
             next
           end
 
-          tags = highlight.all_tags
+          tags = highlight.tags
           unless tags.empty?
+            tags = tags.map { |tag|
+              "<a href='https://commonplace.langton.dev/tags/" + tag.id.to_s + "'>" + tag.title + "</a>"
+            }.join(", ")
             tags = "<p>Tags: #{tags}</p>"
           end
 
