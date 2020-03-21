@@ -9,6 +9,6 @@ module TagsControllerConcern
       .left_joins(:source_taggings)
       .left_joins(:author_taggings)
       .group("tags.id")
-      .order("count(*) DESC")
+      .order(Arel.sql("count(*) DESC"))
   end
 end
