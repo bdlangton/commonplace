@@ -47,7 +47,7 @@ feature "sources" do
     click_on "Save Source"
 
     expect(page).to have_css("h1", text: "My markdown source")
-    expect(page).to have_css("p.notes h1", text: "My notes")
+    expect(page).to have_css("div.notes h1", text: "My notes")
     visit sources_path
     expect(page).to have_css("table.sources td.title", text: "My markdown source")
   end
@@ -90,7 +90,7 @@ feature "sources" do
     click_on "A source"
     expect(page).to have_css("table.highlights td.highlight", text: "HL 1")
     expect(page).to have_css("table.highlights td.highlight", text: "HL 2")
-    expect(page).to have_css("p.favorites-highlights", text: "1 / 2")
+    expect(page).to have_css("div.favorites-highlights", text: "1 / 2")
   end
 
   scenario "edits source" do
@@ -107,8 +107,8 @@ feature "sources" do
     click_on "Save Source"
 
     expect(page).to have_css("h1", text: "Edited source")
-    expect(page).to have_css("p", text: "Edited note")
-    expect(page).to have_css("p", text: "Edited tag")
+    expect(page).to have_css("div.notes", text: "Edited note")
+    expect(page).to have_css("div.tags", text: "Edited tag")
     visit sources_path
     expect(page).to have_css("table.sources tr.source-" + @source1.id.to_s + " td.title", text: "Edited source")
   end

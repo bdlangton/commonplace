@@ -20,8 +20,12 @@
 
 // Global.
 
-div.container {
-  margin-top: 20px;
+div {
+  margin: 20px 0;
+}
+
+div#navbarSupportedContent {
+  margin: auto;
 }
 
 // Nav.

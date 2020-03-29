@@ -14,23 +14,23 @@
     </div>
   <% end %>
 
-  <p>
+  <div>
     <%= label_tag(:name) %><br/>
     <%= form.text_field :name, class: 'form-control', id: 'name' %>
-  </p>
+  </div>
 
-  <p>
+  <div>
     <%= label_tag(:tags) %><br/>
     <%= form.autocomplete_field :all_tags, '/tags/autocomplete_tags_title', 'data-delimiter' => ', ', 'data-auto-focus' => true, :fields => {:all_tags => '#all_tags'}, class: ['autocomplete', 'form-control'], id: 'all_tags' %>
-  </p>
+  </div>
 
-  <p>
+  <div>
     <%= form.hidden_field :user_id, :value => current_user.id %>
-  </p>
+  </div>
 
-  <p>
+  <div>
     <%= form.submit 'Save Author', {class: ['btn', 'btn-primary']} %>
     <%= form.button 'Back', {class: ['btn']} %>
-  </p>
+  </div>
 
 <% end %>
