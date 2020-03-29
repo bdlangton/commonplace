@@ -1,19 +1,19 @@
 <%= content_for(:title, @author.name) %>
 <h1><%= @author.name %></h1>
 
-<p>
+<div>
   <%= link_to 'Edit Author', edit_author_path(@author), class: ['badge', 'badge-pill', 'badge-light'] %>
   <%= link_to 'Add Source', new_source_path(:author => @author.name), class: ['badge', 'badge-pill', 'badge-primary'] %>
-</p>
+</div>
 
-<p class="favorites-highlights">
+<div class="favorites-highlights">
   <strong>Favorites / Highlights:</strong>
   <%= @favorites_count %> / <%= @highlights_count %>
-</p>
+</div>
 
-<p>
+<div class="tags">
   <strong>Tags:</strong>
   <%= raw tag_links(@author.tags) %>
-</p>
+</div>
 
 <%= render partial: 'sources/sources', locals: { sources: @sources } %>

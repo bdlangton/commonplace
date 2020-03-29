@@ -6,6 +6,7 @@ class HighlightsController < ApplicationController
   require "will_paginate/array"
 
   def search
+    @markdown = Redcarpet::Markdown.new(Redcarpet::Render::HTML, :autolink => true, :space_after_headers => true)
     if params["search"].present?
       search = params["search"]
       model = params["model"].blank? ? "All" : params["model"]
@@ -43,6 +44,7 @@ class HighlightsController < ApplicationController
 
   # Show a list of highlights by the user.
   def index
+    @markdown = Redcarpet::Markdown.new(Redcarpet::Render::HTML, :autolink => true, :space_after_headers => true)
     @authors = current_user.authors.order(:name)
     @highlights = current_user.highlights.where(published: true)
 
@@ -67,6 +69,7 @@ class HighlightsController < ApplicationController
 
   # Show favorite highlights by the user.
   def favorites
+    @markdown = Redcarpet::Markdown.new(Redcarpet::Render::HTML, :autolink => true, :space_after_headers => true)
     @authors = current_user.authors.order(:name)
     @highlights = current_user.highlights.where(favorite: true, published: true)
 
@@ -86,6 +89,7 @@ class HighlightsController < ApplicationController
 
   # Show a list of deleted (unpublished) highlights.
   def deleted
+    @markdown = Redcarpet::Markdown.new(Redcarpet::Render::HTML, :autolink => true, :space_after_headers => true)
     @tags = current_user.tags.joins(:highlights).where(highlights: { published: false }).distinct.order(:title)
     @highlights = current_user.highlights.where(published: false)
     if params[:tag].present?

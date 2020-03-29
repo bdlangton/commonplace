@@ -47,7 +47,7 @@ feature "authors" do
 
     click_on "Mr Author1"
     expect(page).to have_css("table.sources td.title", text: "Source 1")
-    expect(page).to have_css("p.favorites-highlights", text: "1 / 2")
+    expect(page).to have_css("div.favorites-highlights", text: "1 / 2")
   end
 
   scenario "edits author" do
@@ -62,7 +62,7 @@ feature "authors" do
     click_on "Save Author"
 
     expect(page).to have_css("h1", text: "Edited author")
-    expect(page).to have_css("p", text: "Edited tag")
+    expect(page).to have_css("div.tags", text: "Edited tag")
     visit authors_path
     expect(page).to have_css("table.authors tr.author-" + @author1.id.to_s + " td.author", text: "Edited author")
   end

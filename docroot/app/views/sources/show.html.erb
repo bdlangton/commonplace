@@ -1,36 +1,36 @@
 <%= content_for(:title, @source.title) %>
 <h1><%= @source.title %></h1>
 
-<p>
+<div>
   <%= link_to 'Edit Source', edit_source_path(@source), class: ['badge', 'badge-pill', 'badge-light'] %>
   <%= link_to 'Add Highlight', new_highlight_path(:source => @source.id), class: ['badge', 'badge-pill', 'badge-primary'] %>
-</p>
+</div>
 
-<p class="favorites-highlights">
+<div class="favorites-highlights">
   <strong>Favorites / Highlights:</strong>
   <%= @favorites_count %> / <%= @highlights_count %>
-</p>
+</div>
 
-<p class="author">
+<div class="author">
   <strong>Author(s):</strong>
   <%= print_authors(@source) %>
-</p>
+</div>
 
-<p class="tags">
+<div class="tags">
   <strong>Tags:</strong>
   <%= raw tag_links(@source.tags) %>
-</p>
+</div>
 
-<p class="type">
+<div class="type">
   <strong>Type:</strong>
   <%= @source.source_type %>
-</p>
+</div>
 
 <% if @source.notes %>
-  <p class="notes">
+  <div class="notes">
     <strong>Notes:</strong>
-    <p><%= simple_format @source.notes %></p>
-  </p>
+    <%= simple_format @markdown.render(@source.notes || '') %>
+  </div>
 <% end %>
 
 <% unless @source.file.blank? %>

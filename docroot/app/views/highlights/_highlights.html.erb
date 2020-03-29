@@ -39,8 +39,8 @@
           <% if !defined?(hide) || !hide.include?('author') %>
             <td class="author"><%= print_authors(highlight.source) %></td>
           <% end %>
-          <td class="highlight"><%= simple_format highlight.highlight %></td>
-          <td class="note"><%= simple_format highlight.note %></td>
+          <td class="highlight"><%= simple_format @markdown.render(highlight.highlight || '') %></td>
+          <td class="note"><%= simple_format @markdown.render(highlight.note || '') %></td>
           <td class="location"><%= highlight.location %></td>
           <td class="tags"><%= raw tag_links(highlight.all_tags) %></td>
           <td class="operations">

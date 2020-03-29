@@ -14,18 +14,18 @@
     </div>
   <% end %>
  
-  <p>
+  <div>
     <%= label_tag(:title) %><br/>
     <%= form.text_field :title, class: 'form-control', id: 'title' %>
-  </p>
+  </div>
 
-  <p>
+  <div>
     <%= form.hidden_field :user_id, :value => current_user.id %>
-  </p>
+  </div>
 
-  <p>
+  <div>
     <%= form.submit 'Save Tag', {class: ['btn', 'btn-primary']} %>
     <%= form.button 'Back', {class: ['btn']} %>
-  </p>
+  </div>
  
 <% end %>

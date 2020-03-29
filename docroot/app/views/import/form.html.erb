@@ -3,13 +3,14 @@
 <h1>Upload JSON File</h1>
 
 <%= form_tag("/upload", multipart: true, method: "post") do %>
-  <p>Upload a JSON file. You can grab your highlights using Readwise's <a href="https://readwise.io/bookcision" target="_blank">Bookcision snippet</a> and then uploading that file here.</p>
-  <p>
+  <div>Upload a JSON file. You can grab your highlights using Readwise's <a href="https://readwise.io/bookcision" target="_blank">Bookcision snippet</a> and then uploading that file here.</div>
+
+  <div>
     <%= label_tag(:file, 'File:') %>
     <%= file_field_tag(:file, :accept => 'application/json') %>
-  </p>
+  </div>
 
-  <p>
+  <div>
     <%= submit_tag('Upload') %>
-  </p>
+  </div>
 <% end %>
