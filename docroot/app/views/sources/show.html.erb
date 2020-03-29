@@ -29,7 +29,7 @@
 <% if @source.notes %>
   <p class="notes">
     <strong>Notes:</strong>
-    <p><%= simple_format @source.notes %></p>
+    <p><%= simple_format @markdown.render(@source.notes || '') %></p>
   </p>
 <% end %>
 

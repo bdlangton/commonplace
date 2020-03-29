@@ -31,6 +31,7 @@ class SourcesController < ApplicationController
 
   # Show a source.
   def show
+    @markdown = Redcarpet::Markdown.new(Redcarpet::Render::HTML, :autolink => true, :space_after_headers => true)
     @source = current_user.sources.find(params[:id])
     @tags = current_user.tags.by_source(params[:id]).order(:title)
     @highlights = @source.highlights.where(published: true)

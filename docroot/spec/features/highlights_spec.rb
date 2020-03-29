@@ -30,7 +30,21 @@ feature "highlights" do
     fill_in "highlight[note]", with: "My note"
     click_on "Save Highlight"
 
-    expect(page).to have_css("table.highlights td", text: "My highlight")
+    expect(page).to have_css("table.highlights td.highlight", text: "My highlight")
+  end
+
+  scenario "adds new highlight with markdown" do
+    sign_in_as("user@example.com")
+    visit highlights_path
+
+    click_on "New highlight"
+    fill_in "highlight[highlight]", with: "# My highlight"
+    select @source1.title, from: "source"
+    fill_in "highlight[note]", with: "* My note"
+    click_on "Save Highlight"
+
+    expect(page).to have_css("table.highlights td.highlight h1", text: "My highlight")
+    expect(page).to have_css("table.highlights td.note li", text: "My note")
   end
 
   scenario "adds invalid new highlight" do

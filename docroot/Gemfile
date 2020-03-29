@@ -49,6 +49,8 @@ gem "chosen-rails"
 gem "actionview", ">= 5.2.4.2"
 gem "nokogiri", ">= 1.10.4"
 gem "carrierwave", "~> 2.0"
+# Markdown processing.
+gem "redcarpet"
 
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
