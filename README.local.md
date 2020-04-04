@@ -9,6 +9,12 @@ docker-compose up -d
 docker-compose stop
 ```
 
+When first starting up, you'll need to login to docker and bundle install:
+
+```
+docker exec -i commonplace-web sh -c "bundle install"
+```
+
 # Running tests
 
 ```

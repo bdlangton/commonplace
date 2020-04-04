@@ -19,8 +19,10 @@ kindle highlights are Books, but you can add podcasts, lectures, artists, etc
 
 The following environment variables are needed in the .env file:
 RAILS_ENV
+PASSENGER_APP_ENV
 SECRET_KEY_BASE
 MYSQL_ROOT_PASSWORD
+MYSQL_HOST
 MYSQL_DATABASE
 MYSQL_USER
 MYSQL_PASSWORD
