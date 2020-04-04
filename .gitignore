@@ -28,4 +28,3 @@ db-backups
 .env
 coverage
 .vimrc
-README.local*
