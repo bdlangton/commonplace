@@ -1,6 +1,6 @@
 FROM phusion/passenger-ruby26
 
-RUN apt-get update -qq && apt-get install -y build-essential
+RUN apt-get update -qq && apt-get install -y build-essential rbenv
 
 # Set correct environment variables.
 ENV APP_HOME /home/app/docroot
