@@ -36,6 +36,12 @@ Three databases will be installed and a backup DB needs to be installed in
 `commonplace_dev` for regular development and `commonplace_test` for running
 rspec tests. The `composer` database is just for production.
 
+# Sending emails
+
+```
+docker exec -i commonplace-web sh -c "bundle exec rake email"
+```
+
 # Running tests
 
 ```

@@ -23,6 +23,11 @@
     </div>
 
     <div class="form-group form-checkbox">
+      <%= form.select :summary_count, [0, 1, 2, 3, 4, 5], class: 'form-control', id: 'summaries', :selected => User.email_count(@user, 'summary') %>
+      <%= form.label "Number of book summaries (notes filled for the source) to receive per email" %>
+    </div>
+
+    <div class="form-group form-checkbox">
       <%= form.select :favorite_count, [0, 1, 2, 3, 4, 5], class: 'form-control', id: 'favorites', :selected => User.email_count(@user, 'favorite') %>
       <%= form.label "Number of favorite highlights to receive per email" %>
     </div>
