@@ -14,17 +14,3 @@ notes. In addition to importing book highlights, you can create your own
 highlights (or tidbits worth noting) by adding your own "sources". Sources from
 kindle highlights are Books, but you can add podcasts, lectures, artists, etc
 (it's open ended).
-
-# environment variables
-
-The following environment variables are needed in the .env file:
-RAILS_ENV
-PASSENGER_APP_ENV
-SECRET_KEY_BASE
-MYSQL_ROOT_PASSWORD
-MYSQL_HOST
-MYSQL_DATABASE
-MYSQL_USER
-MYSQL_PASSWORD
-GMAIL_USERNAME
-GMAIL_PASSWORD
