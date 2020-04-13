@@ -18,6 +18,7 @@ class TagsController < ApplicationController
   # Show a tag.
   def show
     @tag = current_user.tags.find(params[:id])
+    @markdown = Redcarpet::Markdown.new(Redcarpet::Render::HTML, autolink: true, space_after_headers: true)
 
     # Get highlights w/the tag.
     @highlights = @tag.highlights
