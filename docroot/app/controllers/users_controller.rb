@@ -12,6 +12,7 @@ class UsersController < ApplicationController
     current_user.data = {
       "email" => {
         "receive" => params[:user][:receive] ? true : false,
+        "summary_count" => params[:user][:summary_count],
         "favorite_count" => params[:user][:favorite_count],
         "random_count" => params[:user][:random_count]
       }

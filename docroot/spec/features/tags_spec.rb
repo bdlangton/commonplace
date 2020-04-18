@@ -10,8 +10,20 @@ feature "tags" do
   background do
     @user1 = create(:user, email: "user@example.com", password: "123456")
     @tag1 = create(:tag, user: @user1, title: "Tag1")
+    @author1 = create(:author, user: @user1)
+    @source1 = create(:source, title: "Source 1", user: @user1, authors: [@author1], tags: [@tag1])
+    @highlight1 = create(:highlight, highlight: "My highlight", user: @user1, source: @source1, tags: [@tag1], note: "My note", favorite: true)
     @user2 = create(:user, email: "user2@example.com", password: "123456")
     @tag2 = create(:tag, user: @user2, title: "Tag2")
+  end
+
+  scenario "views tag" do
+    sign_in_as("user@example.com")
+    visit tags_path
+
+    click_on "Tag1"
+
+    expect(page).to have_css("h1", text: "Tag1")
   end
 
   scenario "adds new tag" do

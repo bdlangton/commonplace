@@ -1,5 +1,11 @@
 {
   "name": "commonplace",
   "private": true,
-  "dependencies": {}
+  "dependencies": {},
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "description": "Commonplace app built with Ruby on Rails.",
+  "repository": "https://github.com/bdlangton/commonplace/",
+  "author": "Barrett Langton"
 }
