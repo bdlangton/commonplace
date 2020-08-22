@@ -2,8 +2,10 @@
 <h1>Search Results</h1>
 
 <% if @highlights.empty? && @sources.empty? && @authors.empty? && @tags.empty? %>
-  No results found.
+  <div>No results found.</div>
 <% end %>
+
+<div>Try searching <%= link_to 'Bear App', 'bear://x-callback-url/search?term=' + params['search'] %>.</div>
 
 <%= render partial: 'highlights', locals: { highlights: @highlights, '@search': params['search'] } %>
 <%= render partial: 'sources/sources', locals: { sources: @sources, '@search': params['search'] } %>
