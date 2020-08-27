@@ -12,7 +12,7 @@ services:
 
 branches:
   only:
-    - master
+    - main
     - staging
 
 gemfile: docroot/Gemfile
