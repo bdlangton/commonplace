@@ -46,7 +46,8 @@ feature "user" do
     visit highlights_path
 
     expect(page).to have_css ".badge-primary", text: "New highlight"
-    expect(page).to have_css ".badge-secondary", text: "See Deleted Highlights"
+    expect(page).to have_css ".badge-secondary", text: "Untagged Highlights"
+    expect(page).to have_css ".badge-secondary", text: "Deleted Highlights"
     expect(page).to have_css "table.highlights tbody tr", count: 2
   end
 

@@ -18,6 +18,7 @@ feature "highlights" do
     @highlight1 = create(:highlight, highlight: "My highlight", user: @user1, source: @source1, tags: [@tag1], note: "My note", favorite: true)
     @highlight2 = create(:highlight, user: @user1, source: @source1, tags: [@tag1])
     @highlight3 = create(:highlight, user: @user1, source: @source1, published: false)
+    @highlight4 = create(:highlight, user: @user1, source: @source1)
   end
 
   scenario "adds new highlight" do
@@ -97,7 +98,7 @@ feature "highlights" do
   scenario "views highlights filtered by favorites" do
     sign_in_as("user@example.com")
     visit highlights_path
-    expect(page).to have_css "table.highlights tbody tr", count: 2
+    expect(page).to have_css "table.highlights tbody tr", count: 3
 
     check "Favorite"
     click_on "Filter"
@@ -122,7 +123,7 @@ feature "highlights" do
   scenario "unfavorites highlight" do
     sign_in_as("user@example.com")
     visit highlights_path
-    expect(page).to have_css "table.highlights tbody tr", count: 2
+    expect(page).to have_css "table.highlights tbody tr", count: 3
 
     check "Favorite"
     click_on "Filter"
@@ -165,18 +166,24 @@ feature "highlights" do
   scenario "unpublishes highlight" do
     sign_in_as("user@example.com")
     visit highlights_path
-    expect(page).to have_css "table.highlights tbody tr", count: 2
+    expect(page).to have_css "table.highlights tbody tr", count: 3
 
-    click_on "See Deleted Highlights"
+    click_on "Deleted Highlights"
     expect(page).to have_css "table.highlights tbody tr", count: 1
 
     visit highlights_path
     click_link "publish-" + @highlight1.id.to_s
     visit highlights_path
-    expect(page).to have_css "table.highlights tbody tr", count: 1
-
-    click_on "See Deleted Highlights"
     expect(page).to have_css "table.highlights tbody tr", count: 2
+
+    click_on "Deleted Highlights"
+    expect(page).to have_css "table.highlights tbody tr", count: 2
+  end
+
+  scenario "views untagged highlights" do
+    sign_in_as("user@example.com")
+    visit highlights_untagged_path
+    expect(page).to have_css "table.highlights tbody tr", count: 1
   end
 
   scenario "views deleted highlights" do

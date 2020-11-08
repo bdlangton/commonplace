@@ -87,6 +87,12 @@ class HighlightsController < ApplicationController
     @highlights = @highlights.paginate(page: params[:page], per_page: 20)
   end
 
+  # Show a list of untagged highlights.
+  def untagged
+    @markdown = Redcarpet::Markdown.new(Redcarpet::Render::HTML, :autolink => true, :space_after_headers => true)
+    @highlights = current_user.highlights.not_tagged.paginate(page: params[:page], per_page: 20)
+  end
+
   # Show a list of deleted (unpublished) highlights.
   def deleted
     @markdown = Redcarpet::Markdown.new(Redcarpet::Render::HTML, :autolink => true, :space_after_headers => true)

@@ -7,6 +7,7 @@ Rails.application.routes.draw do
   get "highlights/:id/publish", to: "highlights#publish"
   get "highlights/:id/unpublish", to: "highlights#unpublish"
   get "highlights/deleted", to: "highlights#deleted"
+  get "highlights/untagged", to: "highlights#untagged"
 
   # Favorites routes.
   get "highlights/:id/favorite", to: "highlights#favorite"

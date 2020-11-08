@@ -37,4 +37,9 @@ class Highlight < ApplicationRecord
   def self.by_author(id)
     self.joins("JOIN sources ON highlights.source_id = sources.id JOIN sources_authors ON sources.id = sources_authors.source_id").where(highlights: { published: true }, sources_authors: { author_id: id }).distinct
   end
+
+  # Get highlights that aren't tagged with any tag.
+  def self.not_tagged
+    self.joins("LEFT JOIN taggings ON taggings.highlight_id = highlights.id").where(highlights: { published: true }, taggings: { id: nil }).distinct
+  end
 end
