@@ -26,6 +26,7 @@
           <td class="tags"><%= raw tag_links(source.all_tags) %></td>
           <td class="operations">
             <%= link_to fa_icon('pencil'), edit_source_path(source), id: 'edit-source-' + source.id.to_s, class: ['edit'] %>
+            <%= link_to fa_icon('book'), 'bear://x-callback-url/search?term=' + source.title, class: ['bear-source', 'gray'] %>
             <%= link_to fa_icon('ban'), source_path(source),
                   method: :delete,
                   data: { confirm: 'Are you sure that you want to delete ' + source.title + '? This will also delete any highlights from this source.' },
