@@ -2,6 +2,7 @@
 <h1><%= @author.name %></h1>
 
 <div>
+  <%= link_to 'Search Bear', 'bear://x-callback-url/search?term=' + @author.name, class: ['badge', 'badge-pill', 'badge-secondary'] %>
   <%= link_to 'Edit Author', edit_author_path(@author), class: ['badge', 'badge-pill', 'badge-light'] %>
   <%= link_to 'Add Source', new_source_path(:author => @author.name), class: ['badge', 'badge-pill', 'badge-primary'] %>
 </div>

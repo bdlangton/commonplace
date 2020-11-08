@@ -1,7 +1,10 @@
 <%= content_for(:title, 'Tag: ' + @tag.title) %>
 <h1><%= @tag.title %></h1>
 
-<%= link_to 'Edit Tag', edit_tag_path(@tag), class: ['badge', 'badge-pill', 'badge-light'] %>
+<div>
+  <%= link_to 'Search Bear', 'bear://x-callback-url/search?term=' + @tag.title, class: ['badge', 'badge-pill', 'badge-secondary'] %>
+  <%= link_to 'Edit Tag', edit_tag_path(@tag), class: ['badge', 'badge-pill', 'badge-light'] %>
+</div>
 
 <%= form_tag({}, :method => 'get', :class => 'filter-form') do %>
   <%= label_tag :favorite %>

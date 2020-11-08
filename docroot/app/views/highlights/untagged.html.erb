@@ -1,0 +1,6 @@
+
+<%= content_for(:title, 'Untagged Highlights') %>
+<h1>Untagged Highlights</h1>
+
+<%= render partial: 'highlights', locals: { highlights: @highlights } %>
+<%= will_paginate @highlights, renderer: WillPaginate::ActionView::BootstrapLinkRenderer %>

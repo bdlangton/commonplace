@@ -22,6 +22,7 @@
           <td class="tags"><%= raw tag_links(author.all_tags) %></td>
           <td class="operations">
             <%= link_to fa_icon('pencil'), edit_author_path(author), id: 'edit-author-' + author.id.to_s, class: ['edit'] %>
+            <%= link_to fa_icon('book'), 'bear://x-callback-url/search?term=' + author.name, class: ['bear-author', 'gray'] %>
             <%= link_to fa_icon('ban'), author_path(author),
                   method: :delete,
                   data: { confirm: 'Are you sure that you want to delete ' + author.name + '?' },

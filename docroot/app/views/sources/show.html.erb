@@ -2,6 +2,7 @@
 <h1><%= @source.title %></h1>
 
 <div>
+  <%= link_to 'Search Bear', 'bear://x-callback-url/search?term=' + @source.title, class: ['badge', 'badge-pill', 'badge-secondary'] %>
   <%= link_to 'Edit Source', edit_source_path(@source), class: ['badge', 'badge-pill', 'badge-light'] %>
   <%= link_to 'Add Highlight', new_highlight_path(:source => @source.id), class: ['badge', 'badge-pill', 'badge-primary'] %>
 </div>

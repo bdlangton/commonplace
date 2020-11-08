@@ -2,7 +2,8 @@
 <h1>Highlights</h1>
 
 <%= link_to 'New highlight', new_highlight_path, class: ['badge', 'badge-pill', 'badge-primary'] %>
-<%= link_to 'See Deleted Highlights', highlights_deleted_path, class: ['badge', 'badge-pill', 'badge-secondary'] %>
+<%= link_to 'Untagged Highlights', highlights_untagged_path, class: ['badge', 'badge-pill', 'badge-secondary'] %>
+<%= link_to 'Deleted Highlights', highlights_deleted_path, class: ['badge', 'badge-pill', 'badge-secondary'] %>
 
 <%= form_tag({}, :method => 'get', :class => 'filter-form') do %>
   <%= label_tag :author %>

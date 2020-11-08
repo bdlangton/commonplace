@@ -23,6 +23,7 @@
           </td>
           <td class="operations">
             <%= link_to fa_icon('pencil'), edit_tag_path(tag), id: 'edit-tag-' + tag.id.to_s, class: ['edit'] %>
+            <%= link_to fa_icon('book'), 'bear://x-callback-url/search?term=' + tag.title, class: ['bear-tag', 'gray'] %>
             <%= link_to fa_icon('ban'), tag_path(tag),
                   method: :delete,
                   data: { confirm: 'Are you sure?' },
