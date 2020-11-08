@@ -108,6 +108,11 @@ task email: :environment do
       html_part do
         content_type "text/html; charset=UTF-8"
 
+        # Add header for summaries section.
+        if !summaries.empty?
+          text << markdown.render("# Sources")
+        end
+
         # Go through each summary.
         summaries.each do |summary|
           if summary.blank?
@@ -128,6 +133,11 @@ task email: :environment do
           text << "<p>#{markdown.render(summary.notes || '')}</p>"
           text << "#{tags}"
           text << "<a href='https://commonplace.langton.dev/sources/" + summary.id.to_s + "'>Go to source</a>"
+        end
+
+        # Add header for highlights section.
+        if !highlights.empty?
+          text << markdown.render("# Highlights")
         end
 
         # Go through each highlight.
