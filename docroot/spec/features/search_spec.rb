@@ -47,6 +47,11 @@ feature "search" do
     click_on "Search"
 
     expect(page).to have_css("div.container", text: "No results found.")
+
+    fill_in "search", with: ""
+    click_on "Search"
+
+    expect(page).to have_css("div.container", text: "Please enter a search term.")
   end
 
   scenario "search highlights" do
