@@ -27,8 +27,8 @@ MYSQL_HOST
 MYSQL_DATABASE
 MYSQL_USER
 MYSQL_PASSWORD
-GMAIL_USERNAME (if sending emails)
-GMAIL_PASSWORD (if sending emails)
+MAIL_USERNAME (if sending emails)
+MAIL_PASSWORD (if sending emails)
 
 # Databases
 

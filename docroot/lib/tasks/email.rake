@@ -11,11 +11,11 @@ require "htmlentities"
 
 Mail.defaults do
   delivery_method :smtp,
-    address: "smtp.gmail.com",
+    address: "smtp.fastmail.com",
     port: 587,
-    domain: "gmail.com",
-    user_name: ENV["GMAIL_USERNAME"],
-    password: ENV["GMAIL_PASSWORD"],
+    domain: "fastmail.com",
+    user_name: ENV["MAIL_USERNAME"],
+    password: ENV["MAIL_PASSWORD"],
     authentication: "plain",
     enable_starttls_auto: true
 end
