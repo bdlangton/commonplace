@@ -1,4 +1,4 @@
-version: "3.1"
+version: "2.4"
 
 services:
   db:
@@ -6,6 +6,9 @@ services:
     container_name: commonplace-db
     working_dir: /home/app/docroot
     restart: always
+    mem_limit: 1g
+    cpu_percent: 50
+    pids_limit: 10
     volumes:
       - ./docroot:/home/app/docroot:cached
       - ./db-backups:/var/mysql/backups:delegated
@@ -13,17 +16,20 @@ services:
     environment:
       - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
     ports:
-      - "3311:3306"
+      - "127.0.0.1:3311:3306"
 
   web:
     build: .
     working_dir: /home/app/docroot
     container_name: commonplace-web
     restart: always
+    mem_limit: 1g
+    cpu_percent: 50
+    pids_limit: 10
     env_file:
       - .env
     ports:
-      - "8085:80"
+      - "127.0.0.1:8085:80"
     links:
       - db
     volumes:
