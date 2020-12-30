@@ -1,0 +1,84 @@
+version: 2.1
+orbs:
+  ruby: circleci/ruby@0.1.2 
+
+jobs:
+  build:
+    docker:
+      - image: circleci/ruby:2.6.3-stretch-node
+        environment:
+          MYSQL_HOST: 127.0.0.1
+          MYSQL_DB: commonplace_test
+          MYSQL_ROOT_PASSWORD: rootpw
+          MYSQL_USER: db
+          MYSQL_PASSWORD: db
+          RAILS_ENV: 'test'
+      
+      # Specify service dependencies here if necessary
+      # CircleCI maintains a library of pre-built images
+      # documented at https://circleci.com/docs/2.0/circleci-images/
+      # Using the RAM variation mitigates I/O contention
+      # for database intensive operations.
+      - image: circleci/mysql:5.7
+        auth:
+          username: bdlangton
+          password: $DOCKERHUB_PASSWORD  # context / project UI env-var reference
+        environment:
+          MYSQL_ROOT_PASSWORD: rootpw
+          MYSQL_DATABASE: commonplace_test
+          MYSQL_USER: db
+          MYSQL_PASSWORD: db
+      
+    executor: ruby/default
+        
+    steps:
+      - checkout
+      
+      - run:
+          name: Install bundler 2
+          command: |
+            cd docroot
+            gem install bundler
+          
+      - run:
+          name: Which bundler?
+          command: bundle -v
+          
+      - run:
+          name: Bundle install
+          command: |
+            cd docroot
+            bundle install
+            
+      - run:
+          name: Set up code climate test reporter
+          command: |
+            cd docroot
+            curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
+            chmod +x ./cc-test-reporter
+
+      - run:
+          name: Waiting for MySQL to be ready
+          command: |
+            for i in `seq 1 10`;
+            do
+              nc -z 127.0.0.1 3306 && echo Success && exit 0
+              echo -n .
+              sleep 1
+            done
+            echo Failed waiting for MySQL && exit 1
+
+      - run:
+          name: Prepare the database
+          command: |
+            cd docroot
+            bundle exec rake db:test:prepare
+
+      - run:
+          name: Run tests
+          command: |
+            cd docroot
+            ./cc-test-reporter before-build
+            bundle exec rspec spec/
+            ./cc-test-reporter format-coverage -t simplecov -o "coverage/codeclimate.$CIRCLE_NODE_INDEX.json"
+            ./cc-test-reporter sum-coverage --output - coverage/codeclimate.*.json | ./cc-test-reporter upload-coverage --debug --input -
