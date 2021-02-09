@@ -10,7 +10,7 @@ RSpec.configure do |config|
 
   # Delete everything from the database before the suite runs.
   config.before(:suite) do
-    DatabaseCleaner.clean_with(:deletion)
+    DatabaseCleaner.clean_with :deletion, except: %w(ar_internal_metadata)
   end
 
   # Before each test run, run everything as a transaction and then rollback.

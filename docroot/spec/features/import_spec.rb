@@ -11,16 +11,6 @@ feature "import" do
     @user1 = create(:user, email: "user@example.com", password: "123456")
   end
 
-  scenario "imports from Kindle" do
-    pending "get working"
-    sign_in_as("user@example.com")
-    visit import_path
-
-    click_button("Import")
-
-    expect(page).to have_css("div.flash.notice", text: "Import finished.")
-  end
-
   scenario "uploads JSON file" do
     sign_in_as("user@example.com")
     visit import_path
